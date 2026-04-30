@@ -4,6 +4,7 @@ import {
   listStudents,
   registerStudentDevice,
 } from "../../../lib/server/student-store";
+import { sendWelcomeEmail } from "../../../lib/server/email";
 import {
   createSessionCookieValue,
   getDeviceCookieName,
@@ -65,6 +66,16 @@ export async function POST(request: Request) {
         deviceId,
         userAgent: request.headers.get("user-agent") ?? "Navegador web",
       })) ?? student;
+
+    try {
+      await sendWelcomeEmail({
+        to: updatedStudent.email,
+        fullName: updatedStudent.fullName,
+      });
+    } catch (emailError) {
+      console.error("Welcome email failed", emailError);
+    }
+
     const response = NextResponse.json({ student: updatedStudent }, { status: 201 });
 
     response.cookies.set({
