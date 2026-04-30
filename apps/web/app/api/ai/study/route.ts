@@ -17,6 +17,32 @@ type StudyRequest = {
   difficulty?: "basico" | "intermedio" | "avanzado" | "residente";
 };
 
+type FlashcardsPayload = {
+  title: string;
+  module: string | null;
+  cards: Array<{
+    question: string;
+    answer: string;
+  }>;
+};
+
+type QuizPayload = {
+  title: string;
+  module: string | null;
+  questions: Array<{
+    prompt: string;
+    level: string;
+    options: string[];
+    correctOption: string;
+    explanation: string;
+  }>;
+};
+
+type AskPayload = {
+  title: string;
+  answer: string;
+};
+
 function getCourseContext(courseSlug: string, lessonId?: string) {
   const course = courses.find((item) => item.slug === courseSlug) ?? null;
   const courseLesson = lessonId
@@ -29,140 +55,273 @@ function getCourseContext(courseSlug: string, lessonId?: string) {
   return { course, courseLesson, courseModule };
 }
 
-function buildLessonFacts(course: Course, lesson: Lesson) {
+function buildContextBlock(course: Course, lesson: Lesson | null, moduleTitle: string | null) {
   return [
-    `${lesson.title} pertenece al curso ${course.title}.`,
-    `Es una leccion de tipo ${lesson.contentType === "video" ? "video" : "lectura"}.`,
-    `Su enfoque principal es: ${lesson.summary}`,
-    `La duracion aproximada del estudio es de ${lesson.durationMinutes} minutos.`,
-  ];
+    `Curso: ${course.title}.`,
+    `Resumen del curso: ${course.summary}.`,
+    lesson ? `Leccion: ${lesson.title}.` : "Leccion no especificada.",
+    moduleTitle ? `Modulo: ${moduleTitle}.` : "Modulo no especificado.",
+    lesson ? `Tipo de contenido: ${lesson.contentType === "video" ? "video" : "lectura"}.` : null,
+    lesson ? `Resumen de la leccion: ${lesson.summary}.` : null,
+    lesson ? `Duracion estimada: ${lesson.durationMinutes} minutos.` : null,
+  ]
+    .filter(Boolean)
+    .join("\n");
 }
 
-function createFlashcards(course: Course, lesson: Lesson) {
-  const facts = buildLessonFacts(course, lesson);
+async function createOpenAIResponse({
+  instructions,
+  input,
+  schemaName,
+  schema,
+}: {
+  instructions: string;
+  input: string;
+  schemaName: string;
+  schema: Record<string, unknown>;
+}) {
+  const apiKey = process.env.OPENAI_API_KEY;
 
-  return facts.map((fact, index) => ({
-    question: `Flashcard ${index + 1}`,
-    answer: fact,
-  }));
-}
+  if (!apiKey) {
+    throw new Error("Falta OPENAI_API_KEY en el servidor.");
+  }
 
-function createQuiz(course: Course, lesson: Lesson, difficulty: string) {
-  return [
-    {
-      prompt: `¿Cual es el objetivo central de la leccion "${lesson.title}" dentro de ${course.title}?`,
-      level: difficulty,
-    },
-    {
-      prompt: `Explica como aplicarías "${lesson.summary}" en un escenario clinico breve.`,
-      level: difficulty,
-    },
-    {
-      prompt: `¿Que punto no deberia olvidar un estudiante despues de esta leccion de ${lesson.contentType === "video" ? "video" : "lectura"}?`,
-      level: difficulty,
-    },
-  ];
-}
+  const model = process.env.OPENAI_MODEL || "gpt-5.5";
 
-function createExamGuide(course: Course, lesson: Lesson) {
-  return {
-    format: "Modo residente",
-    focus: [
-      `Integrar conceptos clave del curso ${course.title}.`,
-      `Usar el tema "${lesson.title}" para preguntas con contexto clinico.`,
-      "Priorizar razonamiento y no memorizacion literal.",
-    ],
+  const response = await fetch("https://api.openai.com/v1/responses", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${apiKey}`,
+    },
+    body: JSON.stringify({
+      model,
+      input,
+      instructions,
+      max_output_tokens: 1800,
+      text: {
+        format: {
+          type: "json_schema",
+          name: schemaName,
+          strict: true,
+          schema,
+        },
+      },
+    }),
+  });
+
+  const payload = (await response.json()) as {
+    output_text?: string;
+    error?: { message?: string };
   };
+
+  if (!response.ok) {
+    throw new Error(payload.error?.message ?? "OpenAI devolvio un error.");
+  }
+
+  if (!payload.output_text) {
+    throw new Error("OpenAI no devolvio contenido util.");
+  }
+
+  return JSON.parse(payload.output_text) as unknown;
 }
 
-function answerQuestion(course: Course, lesson: Lesson | null, question: string) {
-  const prompt = question.trim().toLowerCase();
+async function generateAskPayload(course: Course, lesson: Lesson | null, moduleTitle: string | null, question: string) {
+  const result = await createOpenAIResponse({
+    instructions:
+      "Eres el tutor IA de Study by EAPA. Explicas medicina de forma clara, amable, segura y educativa. No inventes datos concretos si el contexto es insuficiente. Responde en espanol sencillo para estudiantes de medicina.",
+    input: [
+      buildContextBlock(course, lesson, moduleTitle),
+      `Pregunta del estudiante: ${question || "Dame un resumen util de esta leccion."}`,
+      "Devuelve una respuesta corta, clara y enfocada en aprendizaje.",
+    ].join("\n\n"),
+    schemaName: "study_answer",
+    schema: {
+      type: "object",
+      additionalProperties: false,
+      properties: {
+        title: { type: "string" },
+        answer: { type: "string" },
+      },
+      required: ["title", "answer"],
+    },
+  });
 
-  if (!prompt) {
-    return "Escribe una pregunta concreta sobre el tema y te ayudare a resumirlo o repasarlo.";
-  }
+  return result as AskPayload;
+}
 
-  if (prompt.includes("resumen")) {
-    return lesson
-      ? `Resumen de ${lesson.title}: ${lesson.summary} Esta leccion forma parte de ${course.title} y conviene repasarla con una pregunta corta, una flashcard y un mini quiz al final.`
-      : `Resumen del curso ${course.title}: ${course.summary} Te recomiendo entrar a una leccion especifica para darte un repaso mas puntual.`;
-  }
+async function generateFlashcardsPayload(course: Course, lesson: Lesson, moduleTitle: string | null) {
+  const result = await createOpenAIResponse({
+    instructions:
+      "Eres el tutor IA de Study by EAPA. Genera flashcards medicas de alta utilidad para repaso. Cada tarjeta debe tener una pregunta clave al frente y una respuesta corta y precisa al reverso.",
+    input: [
+      buildContextBlock(course, lesson, moduleTitle),
+      "Genera 6 flashcards basadas en ideas clave, definiciones, relaciones clinicas y datos de examen.",
+    ].join("\n\n"),
+    schemaName: "study_flashcards",
+    schema: {
+      type: "object",
+      additionalProperties: false,
+      properties: {
+        title: { type: "string" },
+        module: { type: ["string", "null"] },
+        cards: {
+          type: "array",
+          items: {
+            type: "object",
+            additionalProperties: false,
+            properties: {
+              question: { type: "string" },
+              answer: { type: "string" },
+            },
+            required: ["question", "answer"],
+          },
+        },
+      },
+      required: ["title", "module", "cards"],
+    },
+  });
 
-  if (prompt.includes("flashcard")) {
-    return lesson
-      ? `Puedo convertir ${lesson.title} en flashcards de forma inmediata. Usa el boton "Crear flashcards" para generar tarjetas de repaso de este tema.`
-      : `Selecciona una leccion concreta y te genero flashcards mas utiles.`;
-  }
+  return result as FlashcardsPayload;
+}
 
-  if (prompt.includes("quiz")) {
-    return lesson
-      ? `Para ${lesson.title}, lo mejor es practicar con un quiz progresivo: 1. concepto base, 2. aplicacion, 3. pregunta estilo residente.`
-      : `Puedo prepararte un quiz por dificultad, pero necesito una leccion concreta para enfocarlo bien.`;
-  }
+async function generateQuizPayload({
+  course,
+  lesson,
+  moduleTitle,
+  difficulty,
+  residentMode,
+}: {
+  course: Course;
+  lesson: Lesson;
+  moduleTitle: string | null;
+  difficulty: string;
+  residentMode: boolean;
+}) {
+  const result = await createOpenAIResponse({
+    instructions:
+      "Eres el tutor IA de Study by EAPA. Genera preguntas de seleccion multiple en espanol. Siempre incluye 4 opciones plausibles, indica la correcta y da una explicacion breve. Si el modo es residente, eleva claramente la dificultad y el razonamiento clinico.",
+    input: [
+      buildContextBlock(course, lesson, moduleTitle),
+      residentMode
+        ? "Genera 5 preguntas muy dificiles, complejas, estilo residente, con razonamiento clinico."
+        : `Genera 5 preguntas de seleccion multiple nivel ${difficulty}.`,
+      "Cada pregunta debe tener 4 opciones, una opcion correcta exacta y una explicacion corta por la IA.",
+    ].join("\n\n"),
+    schemaName: residentMode ? "study_resident_quiz" : "study_quiz",
+    schema: {
+      type: "object",
+      additionalProperties: false,
+      properties: {
+        title: { type: "string" },
+        module: { type: ["string", "null"] },
+        questions: {
+          type: "array",
+          items: {
+            type: "object",
+            additionalProperties: false,
+            properties: {
+              prompt: { type: "string" },
+              level: { type: "string" },
+              options: {
+                type: "array",
+                items: { type: "string" },
+                minItems: 4,
+                maxItems: 4,
+              },
+              correctOption: { type: "string" },
+              explanation: { type: "string" },
+            },
+            required: ["prompt", "level", "options", "correctOption", "explanation"],
+          },
+        },
+      },
+      required: ["title", "module", "questions"],
+    },
+  });
 
-  return lesson
-    ? `Sobre ${lesson.title}: ${lesson.summary} Si quieres, formula la duda en modo clinico, por ejemplo "explicame este tema", "hazme un resumen" o "crea un quiz residente".`
-    : `Estas dentro de ${course.title}. Dime que modulo o leccion quieres repasar y te ayudo con un resumen, flashcards o quiz.`;
+  return result as QuizPayload;
 }
 
 export async function POST(request: Request) {
-  const body = (await request.json()) as StudyRequest;
-  const courseSlug = body.courseSlug?.trim() ?? "";
-  const action = body.action ?? "ask";
-  const difficulty = body.difficulty ?? "intermedio";
+  try {
+    const body = (await request.json()) as StudyRequest;
+    const courseSlug = body.courseSlug?.trim() ?? "";
+    const action = body.action ?? "ask";
+    const difficulty = body.difficulty ?? "intermedio";
 
-  if (!courseSlug) {
-    return NextResponse.json(
-      { message: "Falta el curso para usar el asistente." },
-      { status: 400 },
+    if (!courseSlug) {
+      return NextResponse.json(
+        { message: "Falta el curso para usar el asistente." },
+        { status: 400 },
+      );
+    }
+
+    const { course, courseLesson, courseModule } = getCourseContext(
+      courseSlug,
+      body.lessonId,
     );
-  }
 
-  const { course, courseLesson, courseModule } = getCourseContext(
-    courseSlug,
-    body.lessonId,
-  );
+    if (!course) {
+      return NextResponse.json(
+        { message: "No encontramos el curso solicitado." },
+        { status: 404 },
+      );
+    }
 
-  if (!course) {
-    return NextResponse.json(
-      { message: "No encontramos el curso solicitado." },
-      { status: 404 },
+    if (action !== "ask" && !courseLesson) {
+      return NextResponse.json(
+        { message: "Selecciona una leccion para generar contenido de estudio." },
+        { status: 400 },
+      );
+    }
+
+    if (action === "flashcards" && courseLesson) {
+      const result = await generateFlashcardsPayload(
+        course,
+        courseLesson,
+        courseModule?.title ?? null,
+      );
+
+      return NextResponse.json(result);
+    }
+
+    if (action === "quiz" && courseLesson) {
+      const result = await generateQuizPayload({
+        course,
+        lesson: courseLesson,
+        moduleTitle: courseModule?.title ?? null,
+        difficulty,
+        residentMode: false,
+      });
+
+      return NextResponse.json(result);
+    }
+
+    if (action === "exam" && courseLesson) {
+      const result = await generateQuizPayload({
+        course,
+        lesson: courseLesson,
+        moduleTitle: courseModule?.title ?? null,
+        difficulty: "residente",
+        residentMode: true,
+      });
+
+      return NextResponse.json(result);
+    }
+
+    const result = await generateAskPayload(
+      course,
+      courseLesson,
+      courseModule?.title ?? null,
+      body.question ?? "",
     );
-  }
 
-  if (action !== "ask" && !courseLesson) {
-    return NextResponse.json(
-      { message: "Selecciona una leccion para generar contenido de estudio." },
-      { status: 400 },
-    );
-  }
+    return NextResponse.json(result);
+  } catch (error) {
+    const message =
+      error instanceof Error ? error.message : "No se pudo usar la IA en este momento.";
 
-  if (action === "flashcards" && courseLesson) {
-    return NextResponse.json({
-      title: `Flashcards de ${courseLesson.title}`,
-      module: courseModule?.title ?? null,
-      cards: createFlashcards(course, courseLesson),
-    });
+    return NextResponse.json({ message }, { status: 500 });
   }
-
-  if (action === "quiz" && courseLesson) {
-    return NextResponse.json({
-      title: `Quiz ${difficulty} de ${courseLesson.title}`,
-      module: courseModule?.title ?? null,
-      questions: createQuiz(course, courseLesson, difficulty),
-    });
-  }
-
-  if (action === "exam" && courseLesson) {
-    return NextResponse.json({
-      title: `Guia de examen para ${courseLesson.title}`,
-      module: courseModule?.title ?? null,
-      exam: createExamGuide(course, courseLesson),
-    });
-  }
-
-  return NextResponse.json({
-    title: `Asistente de ${course.title}`,
-    answer: answerQuestion(course, courseLesson, body.question ?? ""),
-  });
 }

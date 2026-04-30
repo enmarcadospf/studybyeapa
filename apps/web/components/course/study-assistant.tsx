@@ -3,57 +3,51 @@
 import type { Lesson } from "@academia/shared";
 import { useMemo, useState } from "react";
 
-type AssistantResponse =
-  | {
-      title: string;
-      answer: string;
-    }
-  | {
-      title: string;
-      module: string | null;
-      cards: Array<{
-        question: string;
-        answer: string;
-      }>;
-    }
-  | {
-      title: string;
-      module: string | null;
-      questions: Array<{
-        prompt: string;
-        level: string;
-      }>;
-    }
-  | {
-      title: string;
-      module: string | null;
-      exam: {
-        format: string;
-        focus: string[];
-      };
-    };
+type AskResponse = {
+  title: string;
+  answer: string;
+};
+
+type FlashcardsResponse = {
+  title: string;
+  module: string | null;
+  cards: Array<{
+    question: string;
+    answer: string;
+  }>;
+};
+
+type QuizQuestion = {
+  prompt: string;
+  level: string;
+  options: string[];
+  correctOption: string;
+  explanation: string;
+};
+
+type QuizResponse = {
+  title: string;
+  module: string | null;
+  questions: QuizQuestion[];
+};
+
+type AssistantResponse = AskResponse | FlashcardsResponse | QuizResponse;
 
 type StudyAssistantProps = {
   courseSlug: string;
   lessons: Lesson[];
 };
 
-function isCardsResponse(
+function isFlashcardsResponse(
   payload: AssistantResponse,
-): payload is Extract<AssistantResponse, { cards: { question: string; answer: string }[] }> {
+): payload is FlashcardsResponse {
   return "cards" in payload;
 }
 
 function isQuizResponse(
   payload: AssistantResponse,
-): payload is Extract<AssistantResponse, { questions: { prompt: string; level: string }[] }> {
+): payload is QuizResponse {
   return "questions" in payload;
-}
-
-function isExamResponse(
-  payload: AssistantResponse,
-): payload is Extract<AssistantResponse, { exam: { format: string; focus: string[] } }> {
-  return "exam" in payload;
 }
 
 export function StudyAssistant({
@@ -66,6 +60,8 @@ export function StudyAssistant({
   const [response, setResponse] = useState<AssistantResponse | null>(null);
   const [loadingAction, setLoadingAction] = useState("");
   const [error, setError] = useState("");
+  const [flippedCards, setFlippedCards] = useState<Record<number, boolean>>({});
+  const [selectedOptions, setSelectedOptions] = useState<Record<number, string>>({});
 
   const selectedLesson = useMemo(
     () => lessons.find((lesson) => lesson.id === selectedLessonId) ?? null,
@@ -75,6 +71,8 @@ export function StudyAssistant({
   async function sendAction(action: "ask" | "flashcards" | "quiz" | "exam") {
     setLoadingAction(action);
     setError("");
+    setFlippedCards({});
+    setSelectedOptions({});
 
     const result = await fetch("/api/ai/study", {
       method: "POST",
@@ -102,13 +100,27 @@ export function StudyAssistant({
     setLoadingAction("");
   }
 
+  function toggleCard(index: number) {
+    setFlippedCards((current) => ({
+      ...current,
+      [index]: !current[index],
+    }));
+  }
+
+  function chooseOption(questionIndex: number, option: string) {
+    setSelectedOptions((current) => ({
+      ...current,
+      [questionIndex]: option,
+    }));
+  }
+
   return (
     <section className="study-assistant-card">
       <div className="study-assistant-grid">
         <div className="study-assistant-controls">
           <div className="section-heading">
             <span>IA del curso</span>
-            <h2>Pregunta, repasa y genera contenido</h2>
+            <h2>Pregunta, repasa y genera contenido real</h2>
           </div>
 
           <label className="assistant-label">
@@ -127,7 +139,7 @@ export function StudyAssistant({
           </label>
 
           <label className="assistant-label">
-            Dificultad del quiz
+            Dificultad del banco de preguntas
             <select
               className="assistant-select"
               onChange={(event) => setDifficulty(event.target.value)}
@@ -141,11 +153,11 @@ export function StudyAssistant({
           </label>
 
           <label className="assistant-label">
-            Escribe tu duda
+            Pregunta o instruccion
             <textarea
               className="assistant-textarea"
               onChange={(event) => setQuestion(event.target.value)}
-              placeholder="Ejemplo: hazme un resumen de esta leccion y luego un quiz residente."
+              placeholder="Ejemplo: resumeme este tema, genera flashcards o crea preguntas estilo residente."
               rows={6}
               value={question}
             />
@@ -164,14 +176,14 @@ export function StudyAssistant({
               onClick={() => sendAction("flashcards")}
               type="button"
             >
-              {loadingAction === "flashcards" ? "Generando..." : "Crear flashcards"}
+              {loadingAction === "flashcards" ? "Generando..." : "Generar flashcards"}
             </button>
             <button
               className="eapa-button eapa-button-secondary"
               onClick={() => sendAction("quiz")}
               type="button"
             >
-              {loadingAction === "quiz" ? "Preparando..." : "Crear quiz"}
+              {loadingAction === "quiz" ? "Creando..." : "Banco de preguntas"}
             </button>
             <button
               className="eapa-button eapa-button-ghost"
@@ -194,50 +206,96 @@ export function StudyAssistant({
           {response ? (
             <article className="assistant-result-card">
               <p className="course-category">{response.title}</p>
-              {"answer" in response ? <p>{response.answer}</p> : null}
 
-              {isCardsResponse(response) ? (
-                <div className="assistant-list">
-                  {response.cards.map((card) => (
-                    <article className="assistant-list-item" key={card.question}>
-                      <strong>{card.question}</strong>
-                      <p>{card.answer}</p>
-                    </article>
-                  ))}
+              {"answer" in response ? (
+                <div className="assistant-answer-block">
+                  <p>{response.answer}</p>
+                </div>
+              ) : null}
+
+              {isFlashcardsResponse(response) ? (
+                <div className="flashcards-grid">
+                  {response.cards.map((card, index) => {
+                    const isFlipped = flippedCards[index] ?? false;
+
+                    return (
+                      <button
+                        className={isFlipped ? "flashcard-item is-flipped" : "flashcard-item"}
+                        key={`${card.question}-${index}`}
+                        onClick={() => toggleCard(index)}
+                        type="button"
+                      >
+                        <span className="flashcard-face-label">
+                          {isFlipped ? "Respuesta" : "Pregunta"}
+                        </span>
+                        <strong>{isFlipped ? card.answer : card.question}</strong>
+                        <small>Toca para girar</small>
+                      </button>
+                    );
+                  })}
                 </div>
               ) : null}
 
               {isQuizResponse(response) ? (
                 <div className="assistant-list">
-                  {response.questions.map((item, index) => (
-                    <article className="assistant-list-item" key={item.prompt}>
-                      <strong>
-                        {index + 1}. {item.prompt}
-                      </strong>
-                      <p>Nivel: {item.level}</p>
-                    </article>
-                  ))}
-                </div>
-              ) : null}
+                  {response.questions.map((item, index) => {
+                    const selectedOption = selectedOptions[index];
+                    const reveal = Boolean(selectedOption);
+                    const correct = selectedOption === item.correctOption;
 
-              {isExamResponse(response) ? (
-                <div className="assistant-list">
-                  <article className="assistant-list-item">
-                    <strong>{response.exam.format}</strong>
-                    {response.exam.focus.map((item) => (
-                      <p key={item}>{item}</p>
-                    ))}
-                  </article>
+                    return (
+                      <article className="assistant-list-item assistant-question-card" key={`${item.prompt}-${index}`}>
+                        <strong>
+                          {index + 1}. {item.prompt}
+                        </strong>
+                        <p>Nivel: {item.level}</p>
+                        <div className="question-options-grid">
+                          {item.options.map((option) => {
+                            const isCorrectOption = option === item.correctOption;
+                            const isChosen = selectedOption === option;
+                            const className = reveal
+                              ? isCorrectOption
+                                ? "question-option is-correct"
+                                : isChosen
+                                  ? "question-option is-wrong"
+                                  : "question-option"
+                              : "question-option";
+
+                            return (
+                              <button
+                                className={className}
+                                disabled={reveal}
+                                key={option}
+                                onClick={() => chooseOption(index, option)}
+                                type="button"
+                              >
+                                {option}
+                              </button>
+                            );
+                          })}
+                        </div>
+                        {reveal ? (
+                          <div className={correct ? "question-feedback is-correct" : "question-feedback is-wrong"}>
+                            <p>
+                              <strong>Correcta:</strong> {item.correctOption}
+                            </p>
+                            <p>{item.explanation}</p>
+                          </div>
+                        ) : null}
+                      </article>
+                    );
+                  })}
                 </div>
               ) : null}
             </article>
           ) : (
             <article className="assistant-result-card assistant-result-card-empty">
               <p className="course-category">Asistente listo</p>
-              <h3>Usa la IA del curso desde aqui</h3>
+              <h3>Usa OpenAI dentro del curso</h3>
               <p>
-                Puedes escribir una pregunta, pedir un resumen, generar
-                flashcards o crear un quiz desde la leccion seleccionada.
+                Puedes hacer preguntas, generar flashcards que se voltean,
+                crear bancos de preguntas con opciones y usar modo residente
+                con preguntas mas complejas.
               </p>
             </article>
           )}
