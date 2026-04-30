@@ -6,6 +6,7 @@ import {
   studyToolCards,
 } from "@academia/shared";
 import { notFound } from "next/navigation";
+import { StudyAssistant } from "../../../components/course/study-assistant";
 import {
   getCourseBySlug,
   getCourses,
@@ -18,12 +19,7 @@ type CourseDetailPageProps = {
   }>;
 };
 
-export async function generateStaticParams() {
-  const courses = await getCourses();
-  return courses.map((course) => ({
-    slug: course.slug,
-  }));
-}
+export const dynamic = "force-dynamic";
 
 export default async function CourseDetailPage({
   params,
@@ -204,6 +200,7 @@ export default async function CourseDetailPage({
             </p>
           </article>
         </div>
+        <StudyAssistant courseSlug={course.slug} lessons={courseLessons} />
       </section>
     </main>
   );

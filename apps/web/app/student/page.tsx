@@ -7,6 +7,8 @@ import { PageHeader } from "../../components/ui/page-header";
 import { ProgressCard } from "../../components/ui/progress-card";
 import { getCurrentStudentSession } from "../../lib/server/session";
 
+export const dynamic = "force-dynamic";
+
 export default async function StudentPage() {
   const student = await getCurrentStudentSession();
 

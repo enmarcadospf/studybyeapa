@@ -5,6 +5,8 @@ import { PageHeader } from "../../components/ui/page-header";
 import { getCourses } from "../../lib/api";
 import { getCurrentStudentSession } from "../../lib/server/session";
 
+export const dynamic = "force-dynamic";
+
 export default async function SettingsPage() {
   const student = await getCurrentStudentSession();
 

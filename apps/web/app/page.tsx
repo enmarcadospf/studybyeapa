@@ -12,6 +12,8 @@ import { ProgressCard } from "../components/ui/progress-card";
 import { CourseCard } from "../components/ui/course-card";
 import { courseFocusAreas } from "@academia/shared";
 
+export const dynamic = "force-dynamic";
+
 export default async function HomePage() {
   const [stats, courses] = await Promise.all([
     getPlatformStats(),

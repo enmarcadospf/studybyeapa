@@ -6,6 +6,8 @@ import { MascotIllustration } from "../../components/ui/mascot-illustration";
 import { PageHeader } from "../../components/ui/page-header";
 import { AppButton } from "../../components/ui/app-button";
 
+export const dynamic = "force-dynamic";
+
 export default async function CoursesPage() {
   const courses = await getCourses();
 

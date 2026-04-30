@@ -1,6 +1,8 @@
 import { getAdminAlerts } from "../../lib/api";
 import { listStudents } from "../../lib/server/student-store";
 
+export const dynamic = "force-dynamic";
+
 export default async function AdminPage() {
   const [alerts, students] = await Promise.all([getAdminAlerts(), listStudents()]);
 
