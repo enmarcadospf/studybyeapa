@@ -1,4 +1,9 @@
-export function SiteHeader() {
+import { getCurrentStudentSession } from "../lib/server/session";
+
+export async function SiteHeader() {
+  const student = await getCurrentStudentSession();
+  const firstName = student?.fullName.split(" ")[0] ?? null;
+
   return (
     <header className="site-header">
       <a className="brand-mark" href="/">
@@ -19,10 +24,23 @@ export function SiteHeader() {
         <a href="/courses">Cursos</a>
         <a href="/student">Estudiante</a>
         <a href="/admin">Gestion</a>
-        <a href="/auth/login">Entrar</a>
-        <a className="nav-cta" href="/auth/register">
-          Inscribirme
-        </a>
+        {student ? (
+          <>
+            <span className="session-pill">Hola, {firstName}</span>
+            <form action="/api/auth/logout" method="post">
+              <button className="nav-text-button" type="submit">
+                Salir
+              </button>
+            </form>
+          </>
+        ) : (
+          <>
+            <a href="/auth/login">Entrar</a>
+            <a className="nav-cta" href="/auth/register">
+              Inscribirme
+            </a>
+          </>
+        )}
       </nav>
     </header>
   );

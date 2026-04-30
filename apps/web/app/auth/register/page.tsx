@@ -1,4 +1,14 @@
-export default function RegisterPage() {
+import { redirect } from "next/navigation";
+import { RegisterForm } from "../../../components/auth/register-form";
+import { getCurrentStudentSession } from "../../../lib/server/session";
+
+export default async function RegisterPage() {
+  const student = await getCurrentStudentSession();
+
+  if (student) {
+    redirect("/student");
+  }
+
   return (
     <main className="auth-shell">
       <section className="auth-card">
@@ -11,31 +21,7 @@ export default function RegisterPage() {
           </p>
         </div>
 
-        <form className="auth-form">
-          <label>
-            Nombre completo
-            <input name="fullName" placeholder="Tu nombre" type="text" />
-          </label>
-          <label>
-            Correo
-            <input name="email" placeholder="tu@correo.com" type="email" />
-          </label>
-          <label>
-            Contrasena
-            <input name="password" placeholder="********" type="password" />
-          </label>
-          <label>
-            Confirmar contrasena
-            <input
-              name="passwordConfirmation"
-              placeholder="********"
-              type="password"
-            />
-          </label>
-          <button className="primary-action" type="submit">
-            Crear cuenta
-          </button>
-        </form>
+        <RegisterForm />
 
         <p className="auth-footer">
           El acceso de administrador y creador se gestiona internamente.

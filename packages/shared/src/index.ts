@@ -3,9 +3,10 @@ export const APP_TAGLINE =
   "Una plataforma web para que el estudiante de medicina aprenda mejor con video, lectura, flashcards, quiz y examenes finales guiados por IA.";
 
 export const BRAND = {
-  primary: "#0d5bd7",
-  primaryDark: "#083b8a",
-  primarySoft: "#e9f1ff",
+  primary: "#2D6CC4",
+  primaryDark: "#0D2B5E",
+  primarySoft: "#A9C7E8",
+  graySoft: "#E6EBF1",
   text: "#10233f",
 } as const;
 
@@ -131,6 +132,15 @@ export type TeacherTask = {
   title: string;
   dueLabel: string;
   courseTitle: string;
+};
+
+export type StudentAccount = {
+  id: string;
+  fullName: string;
+  email: string;
+  createdAt: string;
+  status: "active";
+  enrolledCourseSlugs: string[];
 };
 
 export const features = [

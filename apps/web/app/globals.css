@@ -5,12 +5,12 @@
   --surface-alt: #f8fbff;
   --text: #10233f;
   --muted: #5f7190;
-  --line: #d7e3f4;
-  --primary: #0d5bd7;
-  --primary-dark: #083b8a;
-  --primary-soft: #e9f1ff;
-  --gray-soft: #f2f5fa;
-  --shadow: 0 16px 40px rgba(15, 55, 130, 0.08);
+  --line: #dbe4ef;
+  --primary: #2d6cc4;
+  --primary-dark: #0d2b5e;
+  --primary-soft: #a9c7e8;
+  --gray-soft: #e6ebf1;
+  --shadow: 0 18px 40px rgba(13, 43, 94, 0.08);
 }
 
 * {
@@ -26,7 +26,7 @@ body {
   color: var(--text);
   font-family: "Trebuchet MS", "Segoe UI", sans-serif;
   background:
-    radial-gradient(circle at top left, rgba(13, 91, 215, 0.13), transparent 28%),
+    radial-gradient(circle at top left, rgba(45, 108, 196, 0.12), transparent 28%),
     linear-gradient(180deg, #fbfdff 0%, #f3f7fd 100%);
 }
 
@@ -107,6 +107,10 @@ img {
   color: var(--muted);
 }
 
+.site-nav form {
+  margin: 0;
+}
+
 .site-nav a:hover {
   background: var(--surface);
 }
@@ -115,12 +119,36 @@ img {
 .primary-action,
 .install-button {
   color: white;
-  background: linear-gradient(135deg, var(--primary), #2576f4);
-  box-shadow: 0 14px 30px rgba(13, 91, 215, 0.18);
+  background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+  box-shadow: 0 14px 30px rgba(13, 43, 94, 0.18);
 }
 
 .nav-cta {
   color: white !important;
+}
+
+.session-pill,
+.nav-text-button {
+  display: inline-flex;
+  align-items: center;
+  min-height: 42px;
+  padding: 0.7rem 0.95rem;
+  border-radius: 999px;
+  font-size: 0.92rem;
+}
+
+.session-pill {
+  background: rgba(169, 199, 232, 0.22);
+  color: var(--primary-dark);
+  border: 1px solid rgba(169, 199, 232, 0.45);
+  font-weight: 700;
+}
+
+.nav-text-button {
+  border: 1px solid var(--line);
+  background: white;
+  color: var(--primary-dark);
+  cursor: pointer;
 }
 
 .page-shell,
@@ -237,7 +265,7 @@ img {
 .hero-chip {
   padding: 0.55rem 0.8rem;
   border-radius: 999px;
-  background: var(--primary-soft);
+  background: rgba(169, 199, 232, 0.24);
   color: var(--primary-dark);
   font-size: 0.88rem;
   font-weight: 700;
@@ -619,7 +647,7 @@ img {
   display: block;
   height: 100%;
   border-radius: inherit;
-  background: linear-gradient(90deg, var(--primary), #57a0ff);
+  background: linear-gradient(90deg, var(--primary-dark), var(--primary));
 }
 
 .dashboard-card {
@@ -671,6 +699,82 @@ img {
   color: var(--muted);
 }
 
+.form-message {
+  margin: 0;
+  padding: 0.85rem 1rem;
+  border-radius: 16px;
+  border: 1px solid transparent;
+  font-size: 0.95rem;
+}
+
+.form-message-error {
+  color: #8a2334;
+  background: #fff3f5;
+  border-color: #f2c7d0;
+}
+
+.account-summary-row,
+.management-two-column {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.account-summary-row {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.management-two-column {
+  grid-template-columns: 1.2fr 0.8fr;
+  align-items: start;
+}
+
+.management-list {
+  display: grid;
+  gap: 0.85rem;
+  margin-top: 1rem;
+}
+
+.management-list-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: var(--surface-alt);
+}
+
+.management-list-item h3 {
+  margin: 0 0 0.35rem;
+}
+
+.management-list-item p,
+.management-list-meta small,
+.empty-copy {
+  margin: 0;
+  color: var(--muted);
+}
+
+.management-list-meta {
+  display: grid;
+  justify-items: end;
+  gap: 0.35rem;
+  text-align: right;
+}
+
+.management-list-meta span {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.35rem 0.65rem;
+  border-radius: 999px;
+  background: rgba(169, 199, 232, 0.22);
+  color: var(--primary-dark);
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
 .install-box {
   margin-top: 1rem;
 }
@@ -710,7 +814,9 @@ img {
   .lesson-row,
   .catalog-hero-grid,
   .subscription-panel,
-  .payment-grid {
+  .payment-grid,
+  .account-summary-row,
+  .management-two-column {
     grid-template-columns: 1fr;
   }
 

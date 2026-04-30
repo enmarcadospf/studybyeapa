@@ -19,7 +19,7 @@ export default async function HomePage() {
       <section className="hero">
         <div className="hero-copy">
           <span className="eyebrow">Plataforma web de estudio medico</span>
-          <h1>{APP_NAME}</h1>
+          <h1>Aprende medicina facil y feliz</h1>
           <p className="lead">{APP_TAGLINE}</p>
           <div className="hero-chip-row">
             <span className="hero-chip">Video + lectura</span>
