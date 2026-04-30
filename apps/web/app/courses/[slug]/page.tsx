@@ -38,51 +38,53 @@ export default async function CourseDetailPage({
 
   return (
     <main className="course-detail-shell">
-      <section className="course-detail-hero">
-        <div className="course-detail-copy">
-          <p className="course-category">{course.category}</p>
-          <h1>{course.title}</h1>
-          <p className="course-detail-summary">{course.summary}</p>
-          <p className="course-support-line">
-            Video, lectura, IA, flashcards y quiz desde una sola vista.
-          </p>
-          <div className="course-topic-row">
-            {(courseFocusAreas[course.slug] ?? []).map((topic) => (
-              <span className="topic-chip" key={topic}>
-                {topic}
-              </span>
-            ))}
+      <section className="mock-course-layout">
+        <aside className="mock-course-sidebar">
+          <div className="mock-course-sidebar-head">
+            <strong>{course.title}</strong>
+            <span>{courseModules.length} modulos</span>
           </div>
-          <div className="course-meta">
-            <span>Nivel {course.level}</span>
-            <span>{course.lessons} lecciones</span>
-            <span>{course.durationHours} horas</span>
-            <span>USD {course.priceUsd}</span>
+          <div className="progress-bar" aria-hidden="true">
+            <span style={{ width: "70%" }} />
           </div>
-          <div className="hero-actions">
-            <a className="primary-action" href="/auth/register">
-              Inscribirme
-            </a>
-            <Link className="secondary-action" href="/courses">
-              Volver al catalogo
-            </Link>
-          </div>
-        </div>
-
-        <aside className="course-outline">
-          <p className="card-title">Herramientas del modulo</p>
-          <div className="tools-stack">
-            {studyToolCards.map((tool) => (
-              <div className="tool-mini-card" key={tool.id}>
-                <strong>{tool.title}</strong>
-                <p>{tool.description}</p>
-                <button className="ghost-action" type="button">
-                  {tool.actionLabel}
-                </button>
-              </div>
+          <div className="mock-course-module-list">
+            {courseModules.map((module, index) => (
+              <a
+                className={index === 1 ? "mock-course-module is-active" : "mock-course-module"}
+                href={`#${module.id}`}
+                key={module.id}
+              >
+                {index + 1}. {module.title}
+              </a>
             ))}
           </div>
         </aside>
+
+        <section className="mock-course-main">
+          <p className="course-category">2. {courseModules[1]?.title ?? "Sistema oseo"}</p>
+          <h1>{courseModules[1]?.title ?? course.title}</h1>
+          <p className="course-detail-summary">
+            Aprende sobre el tema con contenido humano, claro, estructurado y enfocado en comprension real.
+          </p>
+          <div className="mock-course-body">
+            <div className="mock-course-figure">🦴</div>
+            <div className="mock-course-points">
+              <strong>Puntos clave</strong>
+              <ul>
+                <li>Soporte del cuerpo</li>
+                <li>Proteccion de organos</li>
+                <li>Movimiento</li>
+                <li>Produccion de celulas sanguineas</li>
+                <li>Almacenamiento de minerales</li>
+              </ul>
+            </div>
+          </div>
+          <div className="mock-course-footer">
+            <button className="ghost-action" type="button">Anterior</button>
+            <span>2 / {courseModules.length || 12}</span>
+            <button className="primary-action" type="button">Siguiente</button>
+          </div>
+        </section>
       </section>
 
       <section className="subscription-panel">

@@ -1,14 +1,9 @@
 import {
-  APP_NAME,
-  APP_TAGLINE,
-  LEARNING_LOOP,
   features,
-  roles,
 } from "@academia/shared";
 import { getCourses, getPlatformStats } from "../lib/api";
 import { AppButton } from "../components/ui/app-button";
 import { MascotIllustration } from "../components/ui/mascot-illustration";
-import { ProgressCard } from "../components/ui/progress-card";
 import { CourseCard } from "../components/ui/course-card";
 import { courseFocusAreas } from "@academia/shared";
 
@@ -22,45 +17,40 @@ export default async function HomePage() {
 
   return (
     <main className="page-shell">
-      <section className="hero hero-home">
-        <div className="hero-copy">
-          <span className="eyebrow">Medicina simple, organizada y feliz</span>
-          <h1>Aprende medicina facil y feliz</h1>
-          <p className="lead">{APP_TAGLINE}</p>
-          <div className="hero-chip-row">
-            <span className="hero-chip">Video + lectura</span>
-            <span className="hero-chip">Flashcards automaticas</span>
-            <span className="hero-chip">Quiz por dificultad</span>
-          </div>
-          <div className="stats-strip">
-            <div>
-              <strong>{stats.students}+</strong>
-              <span>estudiantes</span>
-            </div>
-            <div>
-              <strong>{stats.courses}</strong>
-              <span>cursos base</span>
-            </div>
-            <div>
-              <strong>{stats.completionRate}%</strong>
-              <span>finalizacion</span>
-            </div>
-          </div>
+      <section className="mock-home-hero">
+        <div className="mock-home-copy">
+          <h1>
+            Aprende medicina
+            <span> facil y feliz</span>
+          </h1>
+          <p className="lead">
+            Metodo simple, organizado y efectivo para que estudiar sea mas facil
+            y disfrutable.
+          </p>
           <div className="hero-actions">
             <AppButton href="/auth/register">Comienza ahora</AppButton>
-            <AppButton href="/courses" variant="secondary">Ver cursos</AppButton>
           </div>
         </div>
-        <div className="hero-card">
+        <div className="mock-home-visual">
           <MascotIllustration />
         </div>
       </section>
 
-      <section className="content-section">
-        <div className="feature-grid feature-grid-metrics">
-          <ProgressCard helper="Contenido claro y estructurado." label="Metodo comprobado" value="01" />
-          <ProgressCard helper="Avanza segun tu propio plan." label="Estudia a tu ritmo" value="02" />
-          <ProgressCard helper="No estudias solo en el proceso." label="Acompanamiento" value="03" />
+      <section className="mock-feature-strip">
+        <div className="mock-feature-card">
+          <div className="mock-feature-icon">□</div>
+          <h3>Metodo comprobado</h3>
+          <p>Contenido claro y estructurado para entender mejor.</p>
+        </div>
+        <div className="mock-feature-card">
+          <div className="mock-feature-icon">◔</div>
+          <h3>Estudia a tu ritmo</h3>
+          <p>Organiza tu tiempo y avanza segun tu plan.</p>
+        </div>
+        <div className="mock-feature-card">
+          <div className="mock-feature-icon">⌂</div>
+          <h3>Acompanamiento</h3>
+          <p>No estas solo, estamos contigo en cada paso.</p>
         </div>
       </section>
 
@@ -81,31 +71,22 @@ export default async function HomePage() {
 
       <section className="content-section">
         <div className="section-heading">
-          <span>Ruta de aprendizaje</span>
-          <h2>El estudiante sabe exactamente que hacer despues de cada tema</h2>
+          <span>Plataforma</span>
+          <h2>Una base lista para cursos, repaso, progreso y acceso por estudiante</h2>
         </div>
-        <div className="feature-grid">
-          {LEARNING_LOOP.map((item) => (
-            <article className="feature-card" key={item.title}>
-              <h3>{item.title}</h3>
-              <p>{item.description}</p>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section id="roles" className="content-section">
-        <div className="section-heading">
-          <span>Vista del producto</span>
-          <h2>Solo dos frentes reales: estudiantes y tu configuracion interna</h2>
-        </div>
-        <div className="role-grid">
-          {roles.map((role) => (
-            <article className="role-card" key={role.name}>
-              <p className="role-name">{role.name}</p>
-              <p>{role.description}</p>
-            </article>
-          ))}
+        <div className="stats-strip">
+          <div>
+            <strong>{stats.students}+</strong>
+            <span>estudiantes</span>
+          </div>
+          <div>
+            <strong>{stats.courses}</strong>
+            <span>cursos base</span>
+          </div>
+          <div>
+            <strong>{stats.completionRate}%</strong>
+            <span>finalizacion</span>
+          </div>
         </div>
       </section>
 

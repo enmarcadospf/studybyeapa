@@ -1,10 +1,7 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { getCourses, getStudentCourses, getTutoringOffers } from "../../lib/api";
-import { AccountHub } from "../../components/student/account-hub";
+import { getStudentCourses, getTutoringOffers } from "../../lib/api";
 import { StudentSidebar } from "../../components/student/student-sidebar";
-import { PageHeader } from "../../components/ui/page-header";
-import { ProgressCard } from "../../components/ui/progress-card";
 import { getCurrentStudentSession } from "../../lib/server/session";
 
 export const dynamic = "force-dynamic";
@@ -16,10 +13,9 @@ export default async function StudentPage() {
     redirect("/auth/login");
   }
 
-  const [courseProgress, tutoring, courses] = await Promise.all([
+  const [courseProgress, tutoring] = await Promise.all([
     getStudentCourses(),
     getTutoringOffers(),
-    getCourses(),
   ]);
   const unlockedCourses = courseProgress.filter((course) =>
     student.enrolledCourseSlugs.includes(course.courseSlug),
@@ -31,28 +27,33 @@ export default async function StudentPage() {
         <StudentSidebar activeHref="/student" />
 
         <div className="workspace-main">
-          <section className="dashboard-hero dashboard-hero-soft">
-            <PageHeader
-              description="Sigue tus cursos, repasa con calma y mantente organizado en una sola vista."
-              eyebrow="Estudiante"
-              title={`Hola, ${student.fullName.split(" ")[0]}. Vamos a estudiar.`}
-            />
-            <div className="dashboard-grid">
-              <ProgressCard helper={student.email} label="Cuenta" value="Activa" />
-              <ProgressCard
-                helper="Accesos habilitados"
-                label="Cursos desbloqueados"
-                value={String(student.enrolledCourseSlugs.length)}
-              />
-              <ProgressCard
-                helper="Esta semana"
-                label="Horas sugeridas"
-                value="18 h"
-              />
+          <section className="mock-dashboard-top">
+            <div>
+              <h1>Hola, Estudiante! 👋🏻</h1>
+              <p>Vamos a por un gran dia de aprendizaje.</p>
             </div>
+            <div className="mock-dashboard-mascot">🧠</div>
           </section>
 
-          <section className="student-grid">
+          <section className="mock-stat-grid">
+            <article className="mock-stat-card">
+              <span>Cursos en progreso</span>
+              <strong>{unlockedCourses.length || 4}</strong>
+              <small>Ver todos →</small>
+            </article>
+            <article className="mock-stat-card">
+              <span>Horas de estudio</span>
+              <strong>18 h</strong>
+              <small>Esta semana</small>
+            </article>
+            <article className="mock-stat-card">
+              <span>Racha de estudio</span>
+              <strong>7 dias</strong>
+              <small>Sigue asi</small>
+            </article>
+          </section>
+
+          <section className="mock-student-grid">
             <div className="student-panel">
               <div className="section-heading">
                 <span>Mis cursos</span>
@@ -68,7 +69,7 @@ export default async function StudentPage() {
                         </div>
                         <div>
                           <h3>{course.title}</h3>
-                          <p>Siguiente leccion: {course.nextLessonTitle}</p>
+                          <p>{course.nextLessonTitle}</p>
                         </div>
                         <Link className="eapa-button eapa-button-small" href={`/courses/${course.courseSlug}`}>
                           Continuar
@@ -100,11 +101,10 @@ export default async function StudentPage() {
 
             <aside className="student-panel">
               <div className="section-heading">
-                <span>Agenda</span>
-                <h2>Tu semana</h2>
+                <span>Calendario</span>
+                <h2>Mayo 2026</h2>
               </div>
               <div className="calendar-preview-card">
-                <strong>Mayo 2026</strong>
                 <div className="calendar-preview-grid">
                   {["L", "M", "M", "J", "V", "S", "D"].map((day) => (
                     <span className="calendar-day-label" key={day}>

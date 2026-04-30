@@ -1,5 +1,4 @@
 import { StudentSidebar } from "../../components/student/student-sidebar";
-import { PageHeader } from "../../components/ui/page-header";
 
 const agenda = [
   ["Repaso Anatomia", "07:00 - 08:00"],
@@ -14,12 +13,12 @@ export default function CalendarPage() {
       <section className="workspace-layout">
         <StudentSidebar activeHref="/calendar" />
         <div className="workspace-main">
-          <section className="dashboard-hero dashboard-hero-soft">
-            <PageHeader
-              description="Organiza tus repasos, clases y simulacros en un calendario simple."
-              eyebrow="Calendario"
-              title="Tu tiempo de estudio"
-            />
+          <section className="mock-simple-header">
+            <div>
+              <h1>Calendario</h1>
+              <p>Organiza tu tiempo y no te pierdas ninguna actividad.</p>
+            </div>
+            <div className="mock-dashboard-mascot">🗓</div>
           </section>
 
           <section className="sim-grid">

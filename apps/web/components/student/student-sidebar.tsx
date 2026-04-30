@@ -2,7 +2,10 @@ const studentLinks = [
   { href: "/student", label: "Inicio" },
   { href: "/courses", label: "Mis cursos" },
   { href: "/calendar", label: "Calendario" },
+  { href: "#", label: "Mis apuntes" },
   { href: "/simulacros", label: "Simulacros" },
+  { href: "#", label: "Progreso" },
+  { href: "#", label: "Mensajes" },
   { href: "/settings", label: "Configuracion" },
 ];
 
@@ -14,8 +17,8 @@ export function StudentSidebar({ activeHref }: StudentSidebarProps) {
   return (
     <aside className="student-sidebar">
       <div className="student-sidebar-head">
-        <span>Panel del estudiante</span>
-        <strong>Study by EAPA</strong>
+        <span>Study by EAPA</span>
+        <strong>Panel del estudiante</strong>
       </div>
       <nav className="student-sidebar-nav">
         {studentLinks.map((link) => (

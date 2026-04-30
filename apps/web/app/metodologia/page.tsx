@@ -5,17 +5,31 @@ import { PageHeader } from "../../components/ui/page-header";
 export default function MetodologiaPage() {
   return (
     <main className="page-shell">
-      <section className="catalog-hero catalog-hero-grid">
+      <section className="mock-method-grid">
         <div>
           <PageHeader
-            description="Una ruta clara para estudiar por lecciones, repasar con apoyo visual y terminar cada modulo con seguridad."
+            description="Un metodo simple y efectivo para que aprender medicina sea mas facil y feliz."
             eyebrow="Metodologia"
-            title="Aprender medicina puede sentirse mas claro"
+            title="Nuestra Metodologia"
           />
         </div>
-        <div className="catalog-side-card">
+        <div className="mock-method-visual">
           <MascotIllustration compact />
         </div>
+      </section>
+
+      <section className="mock-method-cards">
+          {LEARNING_LOOP.map((item, index) => (
+            <article className="mock-step-card" key={item.title}>
+              <div className="mock-step-badge">{index + 1}</div>
+              <h3>{item.title}</h3>
+              <p>{item.description}</p>
+            </article>
+          ))}
+      </section>
+
+      <section className="mock-quote-banner">
+        <strong>No se trata de estudiar mas, se trata de estudiar mejor.</strong>
       </section>
 
       <section className="content-section">
@@ -24,22 +38,6 @@ export default function MetodologiaPage() {
             <article className="feature-card" key={feature.title}>
               <h3>{feature.title}</h3>
               <p>{feature.description}</p>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section className="content-section">
-        <div className="section-heading">
-          <span>Ruta</span>
-          <h2>Entiende, practica y retiene sin perderte</h2>
-        </div>
-        <div className="feature-grid">
-          {LEARNING_LOOP.map((item, index) => (
-            <article className="feature-card feature-card-numbered" key={item.title}>
-              <div className="feature-step-badge">{index + 1}</div>
-              <h3>{item.title}</h3>
-              <p>{item.description}</p>
             </article>
           ))}
         </div>

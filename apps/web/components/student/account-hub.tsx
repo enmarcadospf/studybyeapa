@@ -121,6 +121,17 @@ export function AccountHub({ student, courses }: AccountHubProps) {
 
   return (
     <section className="account-hub">
+      <section className="mock-profile-strip">
+        <div className="mock-profile-avatar">🧠</div>
+        <div className="mock-profile-copy">
+          <strong>{student.fullName}</strong>
+          <span>{student.email}</span>
+        </div>
+        <button className="ghost-action" type="button">
+          Editar perfil
+        </button>
+      </section>
+
       <div className="account-hub-grid">
         <section className="student-panel">
           <div className="section-heading">
@@ -173,8 +184,8 @@ export function AccountHub({ student, courses }: AccountHubProps) {
 
         <section className="student-panel">
           <div className="section-heading">
-            <span>Seguridad</span>
-            <h2>Cambio de contrasena</h2>
+            <span>Cuenta</span>
+            <h2>Cambiar contrasena</h2>
           </div>
           <form className="account-form" onSubmit={handlePasswordSubmit}>
             <label>
@@ -211,7 +222,7 @@ export function AccountHub({ student, courses }: AccountHubProps) {
         <section className="student-panel">
           <div className="section-heading">
             <span>Suscripcion</span>
-            <h2>Configuracion de cursos y vigencia</h2>
+            <h2>Gestion de cursos y vigencia</h2>
           </div>
           <div className="subscription-policy-card">
             <strong>Cada curso se activa por 3 meses.</strong>
