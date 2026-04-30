@@ -1,0 +1,12 @@
+node_modules
+.DS_Store
+.env
+.env.*
+dist
+build
+.next
+coverage
+*.log
+*.tsbuildinfo
+node-v*.tar.gz
+node-v*/

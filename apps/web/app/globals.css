@@ -1,0 +1,581 @@
+:root {
+  --bg: #f5efe4;
+  --surface: rgba(255, 250, 242, 0.84);
+  --surface-strong: #fffaf2;
+  --text: #1f2937;
+  --muted: #5b6470;
+  --line: rgba(31, 41, 55, 0.1);
+  --primary: #d97706;
+  --primary-dark: #92400e;
+  --secondary: #0f766e;
+  --shadow: 0 20px 60px rgba(49, 35, 17, 0.12);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  color: var(--text);
+  font-family: Georgia, "Times New Roman", serif;
+  background:
+    radial-gradient(circle at top left, rgba(217, 119, 6, 0.2), transparent 30%),
+    radial-gradient(circle at top right, rgba(15, 118, 110, 0.18), transparent 28%),
+    linear-gradient(180deg, #f8f2e8 0%, #efe4d0 100%);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+input,
+select,
+button {
+  font: inherit;
+}
+
+.site-header {
+  width: min(1160px, calc(100% - 2rem));
+  margin: 0 auto;
+  padding: 1.2rem 0 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.brand-mark {
+  font-family: "Trebuchet MS", sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.82rem;
+  color: var(--primary-dark);
+}
+
+.site-nav {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  flex-wrap: wrap;
+}
+
+.site-nav a {
+  padding: 0.7rem 1rem;
+  border-radius: 999px;
+}
+
+.nav-cta {
+  background: var(--secondary);
+  color: white;
+}
+
+.page-shell {
+  width: min(1160px, calc(100% - 2rem));
+  margin: 0 auto;
+  padding: 2rem 0 5rem;
+}
+
+.auth-shell,
+.dashboard-shell,
+.catalog-shell,
+.course-detail-shell,
+.student-shell,
+.management-shell {
+  width: min(1160px, calc(100% - 2rem));
+  margin: 0 auto;
+  padding: 2rem 0 5rem;
+}
+
+.catalog-hero,
+.course-detail-hero,
+.detail-card {
+  border: 1px solid var(--line);
+  border-radius: 28px;
+  background: var(--surface);
+  backdrop-filter: blur(12px);
+  box-shadow: var(--shadow);
+}
+
+.hero {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 1.5rem;
+  align-items: stretch;
+  min-height: 78vh;
+}
+
+.hero-copy,
+.hero-card,
+.feature-card,
+.role-card {
+  border: 1px solid var(--line);
+  border-radius: 28px;
+  background: var(--surface);
+  backdrop-filter: blur(12px);
+  box-shadow: var(--shadow);
+}
+
+.hero-copy {
+  padding: 3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.eyebrow,
+.section-heading span {
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 0.78rem;
+  color: var(--secondary);
+  font-family: "Trebuchet MS", sans-serif;
+}
+
+.hero-copy h1,
+.section-heading h2 {
+  margin: 0.8rem 0 1rem;
+  line-height: 0.95;
+}
+
+.hero-copy h1 {
+  font-size: clamp(3rem, 8vw, 6.4rem);
+}
+
+.lead {
+  max-width: 36rem;
+  font-size: 1.2rem;
+  line-height: 1.7;
+  color: var(--muted);
+}
+
+.hero-actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+}
+
+.stats-strip {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.8rem;
+  margin: 1.5rem 0 0.4rem;
+}
+
+.stats-strip div,
+.course-card,
+.tutoring-card {
+  padding: 1rem;
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.4);
+}
+
+.stats-strip strong {
+  display: block;
+  font-size: 1.6rem;
+}
+
+.stats-strip span {
+  color: var(--muted);
+  font-family: "Trebuchet MS", sans-serif;
+}
+
+.primary-action,
+.secondary-action,
+.install-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 0.85rem 1.25rem;
+  border-radius: 999px;
+  font-family: "Trebuchet MS", sans-serif;
+  transition: transform 160ms ease, background-color 160ms ease;
+}
+
+.primary-action,
+.install-button {
+  color: white;
+  background: var(--primary);
+}
+
+.secondary-action {
+  border: 1px solid var(--line);
+  background: var(--surface-strong);
+}
+
+.primary-action:hover,
+.secondary-action:hover,
+.install-button:hover {
+  transform: translateY(-2px);
+}
+
+.hero-card {
+  padding: 2rem;
+  align-self: center;
+}
+
+.card-title {
+  margin: 0 0 0.75rem;
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
+.hero-card ul {
+  margin: 0;
+  padding-left: 1.2rem;
+  color: var(--muted);
+  line-height: 1.8;
+}
+
+.install-box {
+  margin-top: 1.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--line);
+}
+
+.install-box p {
+  margin: 0 0 0.9rem;
+  color: var(--muted);
+}
+
+.install-help {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.content-section {
+  margin-top: 2rem;
+  padding: 1rem 0;
+}
+
+.section-heading h2 {
+  font-size: clamp(2.2rem, 5vw, 4rem);
+}
+
+.feature-grid,
+.role-grid,
+.course-grid,
+.tutoring-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.feature-card,
+.role-card,
+.course-card,
+.tutoring-card {
+  padding: 1.4rem;
+}
+
+.feature-card h3,
+.role-name,
+.course-card h3 {
+  margin: 0 0 0.7rem;
+  font-size: 1.2rem;
+}
+
+.feature-card p,
+.role-card p,
+.course-card p,
+.tutoring-card p {
+  margin: 0;
+  line-height: 1.7;
+  color: var(--muted);
+}
+
+.course-category {
+  margin-bottom: 0.5rem;
+  color: var(--secondary);
+  font-family: "Trebuchet MS", sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.76rem;
+}
+
+.course-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 1rem;
+  color: var(--primary-dark);
+  font-family: "Trebuchet MS", sans-serif;
+}
+
+.text-link {
+  display: inline-flex;
+  margin-top: 1rem;
+  color: var(--secondary);
+  font-family: "Trebuchet MS", sans-serif;
+}
+
+.catalog-hero {
+  padding: 2rem;
+}
+
+.catalog-hero h1,
+.course-detail-copy h1 {
+  margin: 0.5rem 0 1rem;
+  font-size: clamp(2.2rem, 5vw, 4rem);
+  line-height: 0.95;
+}
+
+.catalog-copy,
+.course-detail-summary {
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.catalog-grid,
+.detail-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.course-card-large h2,
+.detail-card h3 {
+  margin: 0 0 0.8rem;
+}
+
+.course-actions {
+  margin-top: 1rem;
+}
+
+.course-detail-hero {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 1rem;
+  padding: 2rem;
+}
+
+.course-outline {
+  padding: 1.5rem;
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.45);
+  border: 1px solid var(--line);
+}
+
+.course-outline ul {
+  margin: 0;
+  padding-left: 1.1rem;
+  color: var(--muted);
+  line-height: 1.9;
+}
+
+.detail-card {
+  padding: 1.4rem;
+}
+
+.student-grid {
+  display: grid;
+  grid-template-columns: 1.25fr 0.75fr;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.student-panel {
+  border: 1px solid var(--line);
+  border-radius: 28px;
+  background: var(--surface);
+  backdrop-filter: blur(12px);
+  box-shadow: var(--shadow);
+  padding: 1.5rem;
+}
+
+.student-stack,
+.management-grid {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.student-course-card {
+  padding: 1.2rem;
+  border-radius: 22px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.45);
+}
+
+.student-course-card h3 {
+  margin: 0 0 0.7rem;
+}
+
+.student-course-card p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 12px;
+  margin-top: 1rem;
+  border-radius: 999px;
+  overflow: hidden;
+  background: rgba(15, 23, 42, 0.08);
+}
+
+.progress-bar span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--secondary), var(--primary));
+}
+
+.auth-card,
+.dashboard-hero,
+.dashboard-panel {
+  border: 1px solid var(--line);
+  border-radius: 28px;
+  background: var(--surface);
+  backdrop-filter: blur(12px);
+  box-shadow: var(--shadow);
+}
+
+.auth-card {
+  width: min(680px, 100%);
+  margin: 2rem auto 0;
+  padding: 2rem;
+}
+
+.auth-card h1,
+.dashboard-hero h1 {
+  margin: 0.5rem 0 1rem;
+  font-size: clamp(2.2rem, 5vw, 4rem);
+  line-height: 0.95;
+}
+
+.auth-copy,
+.dashboard-copy {
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.auth-form {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.auth-form label {
+  display: grid;
+  gap: 0.45rem;
+  font-family: "Trebuchet MS", sans-serif;
+}
+
+.auth-form input,
+.auth-form select {
+  min-height: 48px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 0.8rem 1rem;
+  background: rgba(255, 255, 255, 0.65);
+}
+
+.auth-footer {
+  margin: 1rem 0 0;
+  color: var(--muted);
+}
+
+.auth-footer a {
+  color: var(--primary-dark);
+}
+
+.dashboard-hero {
+  padding: 2rem;
+}
+
+.dashboard-stack {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.dashboard-panel {
+  padding: 1.5rem;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.dashboard-card {
+  padding: 1.2rem;
+  border-radius: 22px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.45);
+}
+
+.dashboard-card strong {
+  display: block;
+  margin: 0.35rem 0;
+  font-size: 1.5rem;
+}
+
+.dashboard-card span,
+.dashboard-label {
+  color: var(--muted);
+  font-family: "Trebuchet MS", sans-serif;
+}
+
+.dashboard-label {
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.76rem;
+}
+
+@media (max-width: 900px) {
+  .hero,
+  .feature-grid,
+  .role-grid,
+  .course-grid,
+  .tutoring-grid,
+  .stats-strip,
+  .dashboard-grid,
+  .catalog-grid,
+  .detail-grid,
+  .course-detail-hero,
+  .student-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .page-shell {
+    width: min(100% - 1rem, 1160px);
+    padding-top: 1rem;
+  }
+
+  .site-header,
+  .auth-shell,
+  .dashboard-shell,
+  .catalog-shell,
+  .course-detail-shell,
+  .student-shell,
+  .management-shell {
+    width: min(100% - 1rem, 1160px);
+  }
+
+  .hero-copy,
+  .hero-card {
+    padding: 1.5rem;
+  }
+
+  .site-header {
+    padding-top: 1rem;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
