@@ -7,8 +7,8 @@ export default async function AdminPage() {
   return (
     <main className="management-shell">
       <section className="dashboard-hero">
-        <p className="eyebrow">Area administrativa</p>
-        <h1>Gestiona estudiantes, contenido y operacion</h1>
+        <p className="eyebrow">Configuracion interna</p>
+        <h1>Configura estudiantes, contenido y operacion</h1>
         <p className="auth-copy">
           Esta vista ya te deja ver cuentas creadas de verdad dentro de la
           plataforma, ademas de alertas internas para seguir construyendo.

@@ -108,7 +108,7 @@ export default async function HomePage() {
       <section id="roles" className="content-section">
         <div className="section-heading">
           <span>Vista del producto</span>
-          <h2>Solo dos frentes reales: estudiantes y tu gestion interna</h2>
+          <h2>Solo dos frentes reales: estudiantes y tu configuracion interna</h2>
         </div>
         <div className="role-grid">
           {roles.map((role) => (

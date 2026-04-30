@@ -211,7 +211,7 @@ export function AccountHub({ student, courses }: AccountHubProps) {
         <section className="student-panel">
           <div className="section-heading">
             <span>Suscripcion</span>
-            <h2>Gestion de cursos y vigencia</h2>
+            <h2>Configuracion de cursos y vigencia</h2>
           </div>
           <div className="subscription-policy-card">
             <strong>Cada curso se activa por 3 meses.</strong>

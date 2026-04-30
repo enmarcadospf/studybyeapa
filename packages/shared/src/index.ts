@@ -196,7 +196,7 @@ export const roles = [
   },
   {
     key: "admin" as UserRole,
-    name: "Tu gestion interna",
+    name: "Tu configuracion interna",
     description:
       "Tu controlas contenido, precios, ofertas, estructura, examenes y el estilo de las preguntas generadas.",
   },

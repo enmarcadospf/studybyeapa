@@ -23,7 +23,7 @@ export async function SiteHeader() {
         <a href="/#metodologia">Metodologia</a>
         <a href="/courses">Cursos</a>
         <a href="/student">Estudiante</a>
-        <a href="/admin">Gestion</a>
+        <a href="/admin">Configuracion</a>
         {student ? (
           <>
             <span className="session-pill">Hola, {firstName}</span>
