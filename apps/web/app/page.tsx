@@ -1,12 +1,16 @@
 import {
   APP_NAME,
   APP_TAGLINE,
-  BRAND,
   LEARNING_LOOP,
   features,
   roles,
 } from "@academia/shared";
 import { getCourses, getPlatformStats } from "../lib/api";
+import { AppButton } from "../components/ui/app-button";
+import { MascotIllustration } from "../components/ui/mascot-illustration";
+import { ProgressCard } from "../components/ui/progress-card";
+import { CourseCard } from "../components/ui/course-card";
+import { courseFocusAreas } from "@academia/shared";
 
 export default async function HomePage() {
   const [stats, courses] = await Promise.all([
@@ -16,9 +20,9 @@ export default async function HomePage() {
 
   return (
     <main className="page-shell">
-      <section className="hero">
+      <section className="hero hero-home">
         <div className="hero-copy">
-          <span className="eyebrow">Plataforma web de estudio medico</span>
+          <span className="eyebrow">Medicina simple, organizada y feliz</span>
           <h1>Aprende medicina facil y feliz</h1>
           <p className="lead">{APP_TAGLINE}</p>
           <div className="hero-chip-row">
@@ -41,37 +45,20 @@ export default async function HomePage() {
             </div>
           </div>
           <div className="hero-actions">
-            <a className="primary-action" href="#metodologia">
-              Ver metodologia
-            </a>
-            <a className="secondary-action" href="/courses">
-              Explorar cursos
-            </a>
+            <AppButton href="/auth/register">Comienza ahora</AppButton>
+            <AppButton href="/courses" variant="secondary">Ver cursos</AppButton>
           </div>
         </div>
         <div className="hero-card">
-          <div className="brand-preview">
-            <img
-              alt="Study by EAPA"
-              className="brand-preview-logo"
-              src="/studybyeapa-logo.svg"
-            />
-            <div>
-              <p className="card-title">Un estudio mas claro y minimalista</p>
-              <p className="hero-note">
-                Azul, blanco y gris claro para que el contenido se sienta limpio
-                y serio desde la primera vista.
-              </p>
-            </div>
-          </div>
-          <div className="ai-box">
-            <p className="ai-label">IA integrada</p>
-            <h3>Escribe preguntas, pide resumenes y genera repaso.</h3>
-            <p>
-              La IA sera una herramienta visible dentro de cada modulo, no un
-              detalle escondido.
-            </p>
-          </div>
+          <MascotIllustration />
+        </div>
+      </section>
+
+      <section className="content-section">
+        <div className="feature-grid feature-grid-metrics">
+          <ProgressCard helper="Contenido claro y estructurado." label="Metodo comprobado" value="01" />
+          <ProgressCard helper="Avanza segun tu propio plan." label="Estudia a tu ritmo" value="02" />
+          <ProgressCard helper="No estudias solo en el proceso." label="Acompanamiento" value="03" />
         </div>
       </section>
 
@@ -127,22 +114,11 @@ export default async function HomePage() {
         </div>
         <div className="course-grid">
           {courses.map((course) => (
-            <article
-              className={`course-card ${course.featured ? "course-card-featured" : ""}`}
+            <CourseCard
+              course={course}
               key={course.id}
-            >
-              <p className="course-category">{course.category}</p>
-              <h3>{course.title}</h3>
-              <p>{course.summary}</p>
-              <div className="course-meta">
-                <span>{course.lessons} lecciones</span>
-                <span>{course.durationHours} horas</span>
-                <span>USD {course.priceUsd}</span>
-              </div>
-              <a className="text-link" href={`/courses/${course.slug}`}>
-                Ver curso
-              </a>
-            </article>
+              topics={courseFocusAreas[course.slug] ?? []}
+            />
           ))}
         </div>
       </section>
@@ -187,13 +163,7 @@ export default async function HomePage() {
               acceso claro, limpio y directo a sus cursos.
             </p>
           </div>
-          <a
-            className="primary-action"
-            href="/auth/register"
-            style={{ backgroundColor: BRAND.primary }}
-          >
-            Crear cuenta de estudiante
-          </a>
+          <AppButton href="/auth/register">Crear cuenta de estudiante</AppButton>
         </div>
       </section>
     </main>

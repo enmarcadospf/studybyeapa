@@ -1,6 +1,10 @@
 import Link from "next/link";
 import { courseFocusAreas } from "@academia/shared";
 import { getCourses } from "../../lib/api";
+import { CourseCard } from "../../components/ui/course-card";
+import { MascotIllustration } from "../../components/ui/mascot-illustration";
+import { PageHeader } from "../../components/ui/page-header";
+import { AppButton } from "../../components/ui/app-button";
 
 export default async function CoursesPage() {
   const courses = await getCourses();
@@ -9,60 +13,39 @@ export default async function CoursesPage() {
     <main className="catalog-shell">
       <section className="catalog-hero catalog-hero-grid">
         <div>
-          <p className="eyebrow">Explorar cursos</p>
-          <h1>Estudia por materias, sistemas y modulos bien organizados</h1>
-          <p className="catalog-copy">
-            La plataforma se divide de forma clara: primero eliges la materia,
-            luego entras al curso y dentro encuentras modulos, lecciones y
-            repaso guiado.
-          </p>
+          <PageHeader
+            description="Elige una materia, entra por modulos y repasa con una experiencia clara y suave."
+            eyebrow="Cursos"
+            title="Explora tus cursos"
+          />
         </div>
         <div className="catalog-side-card">
+          <MascotIllustration compact />
           <h2>Empieza como estudiante</h2>
-          <p>
-            Crea tu cuenta, elige un curso y desbloquea acceso completo con tu
-            suscripcion.
-          </p>
+          <p>Crea tu cuenta y desbloquea cada curso por periodos de 3 meses.</p>
           <div className="stack-actions">
-            <Link className="primary-action" href="/auth/register">
-              Crear cuenta
-            </Link>
-            <Link className="secondary-action" href="/auth/login">
-              Iniciar sesion
-            </Link>
+            <AppButton href="/auth/register">Crear cuenta</AppButton>
+            <AppButton href="/auth/login" variant="secondary">Iniciar sesion</AppButton>
           </div>
+        </div>
+      </section>
+
+      <section className="catalog-toolbar">
+        <input className="catalog-search" placeholder="Buscar curso..." />
+        <div className="catalog-pills">
+          <span className="topic-chip">Todas las categorias</span>
+          <span className="topic-chip">Ciencias basicas</span>
+          <span className="topic-chip">Especialidades</span>
         </div>
       </section>
 
       <section className="catalog-grid">
         {courses.map((course) => (
-          <article className="course-card course-card-large course-browser-card" key={course.id}>
-            <div className="course-browser-head">
-              <div>
-                <p className="course-category">{course.category}</p>
-                <h2>{course.title}</h2>
-              </div>
-              <span className="module-badge">USD {course.priceUsd}</span>
-            </div>
-            <p>{course.summary}</p>
-            <div className="course-topic-row">
-              {(courseFocusAreas[course.slug] ?? []).map((topic) => (
-                <span className="topic-chip" key={topic}>
-                  {topic}
-                </span>
-              ))}
-            </div>
-            <div className="course-meta">
-              <span>{course.level}</span>
-              <span>{course.lessons} lecciones</span>
-              <span>{course.durationHours} horas</span>
-            </div>
-            <div className="course-actions">
-              <Link className="primary-action" href={`/courses/${course.slug}`}>
-                Entrar al curso
-              </Link>
-            </div>
-          </article>
+          <CourseCard
+            course={course}
+            key={course.id}
+            topics={courseFocusAreas[course.slug] ?? []}
+          />
         ))}
       </section>
     </main>
