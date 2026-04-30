@@ -686,7 +686,9 @@ img {
 }
 
 .auth-form input,
-.auth-form select {
+.auth-form select,
+.account-form input,
+.account-form textarea {
   min-height: 48px;
   border: 1px solid var(--line);
   border-radius: 16px;
@@ -697,6 +699,36 @@ img {
 .auth-footer {
   margin-top: 1rem;
   color: var(--muted);
+}
+
+.account-hub {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.account-hub-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.account-form {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.account-form label {
+  display: grid;
+  gap: 0.45rem;
+  color: var(--primary-dark);
+  font-weight: 700;
+}
+
+.account-form textarea {
+  resize: vertical;
+  min-height: 128px;
 }
 
 .form-message {
@@ -713,6 +745,12 @@ img {
   border-color: #f2c7d0;
 }
 
+.form-message-success {
+  color: #165a3d;
+  background: #eefcf4;
+  border-color: #b8e4cb;
+}
+
 .account-summary-row,
 .management-two-column {
   display: grid;
@@ -722,6 +760,10 @@ img {
 
 .account-summary-row {
   grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.account-summary-row-compact {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 .management-two-column {
@@ -775,6 +817,24 @@ img {
   font-weight: 700;
 }
 
+.subscription-policy-card {
+  padding: 1rem 1.1rem;
+  border-radius: 20px;
+  background: linear-gradient(180deg, #f8fbff 0%, #edf4ff 100%);
+  border: 1px solid var(--line);
+}
+
+.subscription-policy-card strong {
+  display: block;
+  margin-bottom: 0.4rem;
+}
+
+.subscription-policy-card p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
 .install-box {
   margin-top: 1rem;
 }
@@ -816,7 +876,8 @@ img {
   .subscription-panel,
   .payment-grid,
   .account-summary-row,
-  .management-two-column {
+  .management-two-column,
+  .account-hub-grid {
     grid-template-columns: 1fr;
   }
 

@@ -49,6 +49,8 @@ export default async function AdminPage() {
                   </div>
                   <div className="management-list-meta">
                     <span>{student.status}</span>
+                    <small>{student.subscriptions.length} suscripciones</small>
+                    <small>{student.devices.length} dispositivos</small>
                     <small>
                       {new Date(student.createdAt).toLocaleDateString("es-DO")}
                     </small>

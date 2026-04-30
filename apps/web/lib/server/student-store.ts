@@ -1,7 +1,7 @@
 import { randomBytes, randomUUID, scryptSync, timingSafeEqual } from "node:crypto";
 import { promises as fs } from "node:fs";
 import path from "node:path";
-import type { StudentAccount } from "@academia/shared";
+import { courses, type StudentAccount, type StudentDevice } from "@academia/shared";
 
 type StoredStudent = StudentAccount & {
   passwordHash: string;
@@ -11,6 +11,18 @@ type CreateStudentInput = {
   fullName: string;
   email: string;
   password: string;
+};
+
+type UpdateStudentProfileInput = {
+  fullName: string;
+  university: string;
+  profileNote: string;
+};
+
+type RegisterStudentDeviceInput = {
+  studentId: string;
+  deviceId: string;
+  userAgent: string;
 };
 
 function getPreferredDataFilePath() {
@@ -33,14 +45,31 @@ function normalizeEmail(email: string) {
   return email.trim().toLowerCase();
 }
 
-function sanitizeStudent(student: StoredStudent): StudentAccount {
+function normalizeStoredStudent(student: StoredStudent) {
   return {
-    id: student.id,
-    fullName: student.fullName,
-    email: student.email,
-    createdAt: student.createdAt,
-    status: student.status,
-    enrolledCourseSlugs: student.enrolledCourseSlugs,
+    ...student,
+    university: student.university ?? "",
+    profileNote: student.profileNote ?? "",
+    enrolledCourseSlugs: student.enrolledCourseSlugs ?? [],
+    subscriptions: student.subscriptions ?? [],
+    devices: student.devices ?? [],
+  } satisfies StoredStudent;
+}
+
+function sanitizeStudent(student: StoredStudent): StudentAccount {
+  const normalizedStudent = normalizeStoredStudent(student);
+
+  return {
+    id: normalizedStudent.id,
+    fullName: normalizedStudent.fullName,
+    email: normalizedStudent.email,
+    createdAt: normalizedStudent.createdAt,
+    status: normalizedStudent.status,
+    university: normalizedStudent.university,
+    profileNote: normalizedStudent.profileNote,
+    enrolledCourseSlugs: normalizedStudent.enrolledCourseSlugs,
+    subscriptions: normalizedStudent.subscriptions,
+    devices: normalizedStudent.devices,
   };
 }
 
@@ -73,7 +102,7 @@ async function readStoredStudents() {
   const raw = await fs.readFile(dataFile, "utf8");
 
   try {
-    return JSON.parse(raw) as StoredStudent[];
+    return (JSON.parse(raw) as StoredStudent[]).map(normalizeStoredStudent);
   } catch {
     return [];
   }
@@ -107,6 +136,51 @@ function verifyPassword(password: string, passwordHash: string) {
   return timingSafeEqual(incomingHash, storedHashBuffer);
 }
 
+function getExtraDeviceFeeUsd(student: StoredStudent) {
+  const activeSubscriptions = student.subscriptions.filter(
+    (subscription) => subscription.status === "active",
+  );
+
+  if (!activeSubscriptions.length) {
+    return 0;
+  }
+
+  return Math.max(
+    ...activeSubscriptions.map((subscription) => subscription.extraDeviceFeeUsd),
+  );
+}
+
+function buildDeviceLabel(userAgent: string, count: number) {
+  const normalizedAgent = userAgent.toLowerCase();
+  const browser = normalizedAgent.includes("safari") && !normalizedAgent.includes("chrome")
+    ? "Safari"
+    : normalizedAgent.includes("chrome")
+      ? "Chrome"
+      : normalizedAgent.includes("firefox")
+        ? "Firefox"
+        : normalizedAgent.includes("edg")
+          ? "Edge"
+          : "Navegador";
+
+  const os = normalizedAgent.includes("iphone") || normalizedAgent.includes("ipad")
+    ? "iOS"
+    : normalizedAgent.includes("android")
+      ? "Android"
+      : normalizedAgent.includes("mac os")
+        ? "macOS"
+        : normalizedAgent.includes("windows")
+          ? "Windows"
+          : "Equipo";
+
+  return `${browser} · ${os} ${count}`;
+}
+
+function addMonths(date: Date, months: number) {
+  const nextDate = new Date(date);
+  nextDate.setMonth(nextDate.getMonth() + months);
+  return nextDate;
+}
+
 export async function listStudents() {
   const students = await readStoredStudents();
 
@@ -138,7 +212,11 @@ export async function createStudent(input: CreateStudentInput) {
     email,
     createdAt: new Date().toISOString(),
     status: "active",
+    university: "",
+    profileNote: "",
     enrolledCourseSlugs: [],
+    subscriptions: [],
+    devices: [],
     passwordHash: hashPassword(input.password),
   };
 
@@ -161,6 +239,149 @@ export async function authenticateStudent(email: string, password: string) {
   if (!verifyPassword(password, student.passwordHash)) {
     return null;
   }
+
+  return sanitizeStudent(student);
+}
+
+export async function updateStudentProfile(
+  studentId: string,
+  input: UpdateStudentProfileInput,
+) {
+  const students = await readStoredStudents();
+  const student = students.find((entry) => entry.id === studentId);
+
+  if (!student) {
+    throw new Error("No encontramos la cuenta.");
+  }
+
+  student.fullName = input.fullName.trim();
+  student.university = input.university.trim();
+  student.profileNote = input.profileNote.trim();
+
+  await writeStoredStudents(students);
+
+  return sanitizeStudent(student);
+}
+
+export async function changeStudentPassword(
+  studentId: string,
+  currentPassword: string,
+  nextPassword: string,
+) {
+  const students = await readStoredStudents();
+  const student = students.find((entry) => entry.id === studentId);
+
+  if (!student) {
+    throw new Error("No encontramos la cuenta.");
+  }
+
+  if (!verifyPassword(currentPassword, student.passwordHash)) {
+    throw new Error("La contrasena actual no coincide.");
+  }
+
+  student.passwordHash = hashPassword(nextPassword);
+  await writeStoredStudents(students);
+
+  return sanitizeStudent(student);
+}
+
+export async function registerStudentDevice(input: RegisterStudentDeviceInput) {
+  const students = await readStoredStudents();
+  const student = students.find((entry) => entry.id === input.studentId);
+
+  if (!student) {
+    return null;
+  }
+
+  const now = new Date().toISOString();
+  const existingDevice = student.devices.find((device) => device.id === input.deviceId);
+
+  if (existingDevice) {
+    existingDevice.lastSeenAt = now;
+    existingDevice.userAgent = input.userAgent;
+  } else {
+    const activeDevices = student.devices.filter((device) => device.status === "active");
+    const exceedsLimit = activeDevices.length >= 4;
+    const extraChargeUsd = exceedsLimit ? getExtraDeviceFeeUsd(student) : 0;
+
+    const device: StudentDevice = {
+      id: input.deviceId,
+      label: buildDeviceLabel(input.userAgent, student.devices.length + 1),
+      userAgent: input.userAgent,
+      firstSeenAt: now,
+      lastSeenAt: now,
+      status: exceedsLimit ? "extra-charge" : "active",
+      extraChargeUsd,
+    };
+
+    student.devices.push(device);
+  }
+
+  await writeStoredStudents(students);
+
+  return sanitizeStudent(student);
+}
+
+export async function revokeStudentDevice(studentId: string, deviceId: string) {
+  const students = await readStoredStudents();
+  const student = students.find((entry) => entry.id === studentId);
+
+  if (!student) {
+    throw new Error("No encontramos la cuenta.");
+  }
+
+  student.devices = student.devices.filter((device) => device.id !== deviceId);
+  await writeStoredStudents(students);
+
+  return sanitizeStudent(student);
+}
+
+export async function activateCourseSubscription(studentId: string, courseSlug: string) {
+  const students = await readStoredStudents();
+  const student = students.find((entry) => entry.id === studentId);
+
+  if (!student) {
+    throw new Error("No encontramos la cuenta.");
+  }
+
+  const course = courses.find((item) => item.slug === courseSlug);
+
+  if (!course) {
+    throw new Error("No encontramos el curso.");
+  }
+
+  const startedAt = new Date();
+  const expiresAt = addMonths(startedAt, 3);
+  const extraDeviceFeeUsd = Number((course.priceUsd / 2).toFixed(2));
+  const existingSubscription = student.subscriptions.find(
+    (subscription) => subscription.courseSlug === courseSlug,
+  );
+
+  if (existingSubscription) {
+    existingSubscription.startedAt = startedAt.toISOString();
+    existingSubscription.expiresAt = expiresAt.toISOString();
+    existingSubscription.status = "active";
+    existingSubscription.priceUsd = course.priceUsd;
+    existingSubscription.extraDeviceFeeUsd = extraDeviceFeeUsd;
+  } else {
+    student.subscriptions.push({
+      id: `subscription-${courseSlug}`,
+      courseSlug,
+      courseTitle: course.title,
+      startedAt: startedAt.toISOString(),
+      expiresAt: expiresAt.toISOString(),
+      status: "active",
+      priceUsd: course.priceUsd,
+      cycleLabel: "3 meses",
+      extraDeviceFeeUsd,
+    });
+  }
+
+  if (!student.enrolledCourseSlugs.includes(courseSlug)) {
+    student.enrolledCourseSlugs.push(courseSlug);
+  }
+
+  await writeStoredStudents(students);
 
   return sanitizeStudent(student);
 }

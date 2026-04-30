@@ -134,13 +134,39 @@ export type TeacherTask = {
   courseTitle: string;
 };
 
+export type StudentDevice = {
+  id: string;
+  label: string;
+  userAgent: string;
+  firstSeenAt: string;
+  lastSeenAt: string;
+  status: "active" | "extra-charge";
+  extraChargeUsd: number;
+};
+
+export type StudentSubscription = {
+  id: string;
+  courseSlug: string;
+  courseTitle: string;
+  startedAt: string;
+  expiresAt: string;
+  status: "inactive" | "active" | "expired";
+  priceUsd: number;
+  cycleLabel: string;
+  extraDeviceFeeUsd: number;
+};
+
 export type StudentAccount = {
   id: string;
   fullName: string;
   email: string;
   createdAt: string;
   status: "active";
+  university: string;
+  profileNote: string;
   enrolledCourseSlugs: string[];
+  subscriptions: StudentSubscription[];
+  devices: StudentDevice[];
 };
 
 export const features = [

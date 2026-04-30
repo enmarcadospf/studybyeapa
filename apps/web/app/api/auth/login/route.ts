@@ -1,7 +1,9 @@
 import { NextResponse } from "next/server";
-import { authenticateStudent } from "../../../../lib/server/student-store";
+import { authenticateStudent, registerStudentDevice } from "../../../../lib/server/student-store";
 import {
   createSessionCookieValue,
+  getDeviceCookieName,
+  getOrCreateDeviceId,
   getSessionCookieName,
 } from "../../../../lib/server/session";
 
@@ -30,7 +32,21 @@ export async function POST(request: Request) {
     );
   }
 
-  const response = NextResponse.json({ student });
+  const deviceId = getOrCreateDeviceId(
+    request.headers.get("cookie")
+      ?.split(";")
+      .map((item) => item.trim())
+      .find((item) => item.startsWith(`${getDeviceCookieName()}=`))
+      ?.split("=")[1],
+  );
+  const updatedStudent =
+    (await registerStudentDevice({
+      studentId: student.id,
+      deviceId,
+      userAgent: request.headers.get("user-agent") ?? "Navegador web",
+    })) ?? student;
+
+  const response = NextResponse.json({ student: updatedStudent });
 
   response.cookies.set({
     name: getSessionCookieName(),
@@ -40,6 +56,15 @@ export async function POST(request: Request) {
     secure: process.env.NODE_ENV === "production",
     path: "/",
     maxAge: 60 * 60 * 24 * 14,
+  });
+  response.cookies.set({
+    name: getDeviceCookieName(),
+    value: deviceId,
+    httpOnly: true,
+    sameSite: "lax",
+    secure: process.env.NODE_ENV === "production",
+    path: "/",
+    maxAge: 60 * 60 * 24 * 180,
   });
 
   return response;

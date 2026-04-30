@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { getStudentCourses, getTutoringOffers } from "../../lib/api";
+import { getCourses, getStudentCourses, getTutoringOffers } from "../../lib/api";
+import { AccountHub } from "../../components/student/account-hub";
 import { getCurrentStudentSession } from "../../lib/server/session";
 
 export default async function StudentPage() {
@@ -10,11 +11,12 @@ export default async function StudentPage() {
     redirect("/auth/login");
   }
 
-  const [courses, tutoring] = await Promise.all([
+  const [courseProgress, tutoring, courses] = await Promise.all([
     getStudentCourses(),
     getTutoringOffers(),
+    getCourses(),
   ]);
-  const unlockedCourses = courses.filter((course) =>
+  const unlockedCourses = courseProgress.filter((course) =>
     student.enrolledCourseSlugs.includes(course.courseSlug),
   );
 
@@ -103,6 +105,8 @@ export default async function StudentPage() {
           </div>
         </aside>
       </section>
+
+      <AccountHub courses={courses} student={student} />
     </main>
   );
 }

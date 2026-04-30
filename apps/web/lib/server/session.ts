@@ -1,8 +1,9 @@
-import { createHmac, timingSafeEqual } from "node:crypto";
+import { randomUUID, createHmac, timingSafeEqual } from "node:crypto";
 import { cookies } from "next/headers";
 import { getStudentById } from "./student-store";
 
 const SESSION_COOKIE = "studybyeapa_session";
+const DEVICE_COOKIE = "studybyeapa_device";
 const SESSION_SECRET =
   process.env.SESSION_SECRET ?? "studybyeapa-dev-session-secret";
 
@@ -55,4 +56,14 @@ export async function getCurrentStudentSession() {
 
 export function getSessionCookieName() {
   return SESSION_COOKIE;
+}
+
+export function getDeviceCookieName() {
+  return DEVICE_COOKIE;
+}
+
+export function getOrCreateDeviceId(existingDeviceId?: string) {
+  return existingDeviceId && existingDeviceId.trim()
+    ? existingDeviceId
+    : randomUUID();
 }
