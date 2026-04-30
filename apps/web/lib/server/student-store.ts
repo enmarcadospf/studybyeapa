@@ -1,5 +1,6 @@
 import { randomBytes, randomUUID, scryptSync, timingSafeEqual } from "node:crypto";
 import { promises as fs } from "node:fs";
+import os from "node:os";
 import path from "node:path";
 import { courses, type StudentAccount, type StudentDevice } from "@academia/shared";
 
@@ -40,6 +41,8 @@ const DATA_FILE_CANDIDATES = [
   path.join(process.cwd(), "data/students.json"),
   path.join(process.cwd(), "apps/web/data/students.json"),
 ];
+
+const TEMP_DATA_FILE = path.join(os.tmpdir(), "studybyeapa", "students.json");
 
 function normalizeEmail(email: string) {
   return email.trim().toLowerCase();
@@ -84,17 +87,48 @@ async function resolveDataFile() {
   return getPreferredDataFilePath();
 }
 
-async function ensureDataFile() {
-  const dataFile = await resolveDataFile();
-  await fs.mkdir(path.dirname(dataFile), { recursive: true });
-
-  try {
-    await fs.access(dataFile);
-  } catch {
-    await fs.writeFile(dataFile, "[]", "utf8");
+async function readBundledSeedFile() {
+  for (const candidate of DATA_FILE_CANDIDATES) {
+    try {
+      const raw = await fs.readFile(candidate, "utf8");
+      return raw.trim() ? raw : "[]";
+    } catch {}
   }
 
-  return dataFile;
+  return "[]";
+}
+
+async function canWriteFile(filePath: string) {
+  try {
+    await fs.mkdir(path.dirname(filePath), { recursive: true });
+    const handle = await fs.open(filePath, "a");
+    await handle.close();
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+async function ensureDataFile() {
+  const preferredDataFile = await resolveDataFile();
+  const writableDataFile = (await canWriteFile(preferredDataFile))
+    ? preferredDataFile
+    : TEMP_DATA_FILE;
+
+  await fs.mkdir(path.dirname(writableDataFile), { recursive: true });
+
+  try {
+    await fs.access(writableDataFile);
+  } catch {
+    const seedContents =
+      writableDataFile === TEMP_DATA_FILE
+        ? await readBundledSeedFile()
+        : "[]";
+
+    await fs.writeFile(writableDataFile, seedContents, "utf8");
+  }
+
+  return writableDataFile;
 }
 
 async function readStoredStudents() {
