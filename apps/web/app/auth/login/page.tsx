@@ -1,8 +1,7 @@
 import { redirect } from "next/navigation";
 import { LoginForm } from "../../../components/auth/login-form";
 import { getCurrentStudentSession } from "../../../lib/server/session";
-import { MascotIllustration } from "../../../components/ui/mascot-illustration";
-import { Logo } from "../../../components/ui/logo";
+import { BrainBookIcon } from "../../../components/ui/logo";
 
 export default async function LoginPage() {
   const student = await getCurrentStudentSession();
@@ -12,31 +11,30 @@ export default async function LoginPage() {
   }
 
   return (
-    <main className="auth-shell">
-      <section className="auth-layout">
-        <article className="auth-feature-panel">
-          <span className="eyebrow">Bienvenido</span>
-          <h1>Vuelve a tu espacio de estudio</h1>
-          <p className="auth-copy">
-            Inicia sesion como estudiante para retomar modulos, repasos,
-            simulacros y tu progreso guardado.
+    <main className="auth-shell-eapa">
+      <section className="auth-grid-eapa">
+        <article className="soft-card auth-showcase-eapa">
+          <h1>
+            Vuelve a tu espacio
+            <br />
+            de <span>estudio</span>
+          </h1>
+          <p>
+            Inicia sesion como estudiante para retomar modulos, simulacros y tu progreso guardado.
           </p>
-          <MascotIllustration compact />
+          <div className="auth-illustration-eapa">
+            <BrainBookIcon className="hero-brain-icon" />
+          </div>
         </article>
 
-        <section className="auth-card auth-card-elevated">
-          <div className="auth-card-head">
-            <Logo small />
-            <div>
-              <p className="eyebrow">Acceso</p>
-              <h2>Entrar a la plataforma</h2>
-              <p className="auth-copy">Tu estudio sigue justo donde lo dejaste.</p>
-            </div>
+        <section className="soft-card auth-form-card-eapa">
+          <div className="auth-form-brand">
+            <BrainBookIcon className="auth-mini-brain" />
+            <h2>Entrar a la plataforma</h2>
+            <p>Tu estudio sigue justo donde lo dejaste.</p>
           </div>
-
           <LoginForm />
-
-          <p className="auth-footer">
+          <p className="auth-footer-eapa">
             Aun sin cuenta? <a href="/auth/register">Crear una cuenta</a>
           </p>
         </section>

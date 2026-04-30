@@ -41,19 +41,19 @@ export function LoginForm() {
   }
 
   return (
-    <form className="auth-form" onSubmit={handleSubmit}>
-      <label>
+    <form className="form-stack-eapa" onSubmit={handleSubmit}>
+      <label className="form-label-eapa">
         Correo
-        <input name="email" placeholder="tu@correo.com" type="email" />
+        <input className="input-eapa" name="email" placeholder="tu@correo.com" type="email" />
       </label>
-      <label>
+      <label className="form-label-eapa">
         Contrasena
-        <input name="password" placeholder="********" type="password" />
+        <input className="input-eapa" name="password" placeholder="********" type="password" />
       </label>
 
       {error ? <p className="form-message form-message-error">{error}</p> : null}
 
-      <button className="primary-action" disabled={isSubmitting} type="submit">
+      <button className="primary-btn w-full" disabled={isSubmitting} type="submit">
         {isSubmitting ? "Entrando..." : "Ingresar"}
       </button>
     </form>

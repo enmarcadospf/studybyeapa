@@ -1,12 +1,15 @@
+import Link from "next/link";
+import { Logo } from "../ui/logo";
+
 const studentLinks = [
   { href: "/student", label: "Inicio" },
   { href: "/courses", label: "Mis cursos" },
   { href: "/calendar", label: "Calendario" },
-  { href: "#", label: "Mis apuntes" },
   { href: "/simulacros", label: "Simulacros" },
-  { href: "#", label: "Progreso" },
   { href: "#", label: "Mensajes" },
-  { href: "/settings", label: "Configuracion" },
+  { href: "#", label: "Logros" },
+  { href: "#", label: "Notas" },
+  { href: "/settings", label: "Ajustes" },
 ];
 
 type StudentSidebarProps = {
@@ -15,22 +18,34 @@ type StudentSidebarProps = {
 
 export function StudentSidebar({ activeHref }: StudentSidebarProps) {
   return (
-    <aside className="student-sidebar">
-      <div className="student-sidebar-head">
-        <span>Study by EAPA</span>
-        <strong>Panel del estudiante</strong>
+    <aside className="student-sidebar-eapa">
+      <div>
+        <div className="student-sidebar-logo">
+          <Logo compact white />
+        </div>
+        <nav className="student-sidebar-nav-eapa">
+          {studentLinks.map((link) => (
+            <Link
+              key={link.label}
+              href={link.href}
+              className={
+                link.href === activeHref
+                  ? "student-sidebar-link-eapa is-active"
+                  : "student-sidebar-link-eapa"
+              }
+            >
+              <span className="student-sidebar-dot" />
+              {link.label}
+            </Link>
+          ))}
+        </nav>
       </div>
-      <nav className="student-sidebar-nav">
-        {studentLinks.map((link) => (
-          <a
-            className={link.href === activeHref ? "student-sidebar-link is-active" : "student-sidebar-link"}
-            href={link.href}
-            key={link.href}
-          >
-            {link.label}
-          </a>
-        ))}
-      </nav>
+      <form action="/api/auth/logout" method="post">
+        <button className="student-sidebar-logout" type="submit">
+          <span className="student-sidebar-dot" />
+          Cerrar sesion
+        </button>
+      </form>
     </aside>
   );
 }

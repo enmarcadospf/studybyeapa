@@ -1,10 +1,42 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { getStudentCourses, getTutoringOffers } from "../../lib/api";
-import { StudentSidebar } from "../../components/student/student-sidebar";
+import { getStudentCourses } from "../../lib/api";
 import { getCurrentStudentSession } from "../../lib/server/session";
+import { StudentSidebar } from "../../components/student/student-sidebar";
 
 export const dynamic = "force-dynamic";
+
+function StatCard({
+  icon,
+  title,
+  value,
+}: {
+  icon: string;
+  title: string;
+  value: string;
+}) {
+  return (
+    <div className="stat-card-eapa">
+      <div className="stat-icon-eapa">{icon}</div>
+      <p>{title}</p>
+      <h3>{value}</h3>
+    </div>
+  );
+}
+
+function ProgressRow({ name, progress }: { name: string; progress: number }) {
+  return (
+    <div className="progress-row-eapa">
+      <div className="progress-row-head-eapa">
+        <span>{name}</span>
+        <small>{progress}%</small>
+      </div>
+      <div className="progress-track-eapa">
+        <div className="progress-fill-eapa" style={{ width: `${progress}%` }} />
+      </div>
+    </div>
+  );
+}
 
 export default async function StudentPage() {
   const student = await getCurrentStudentSession();
@@ -13,127 +45,77 @@ export default async function StudentPage() {
     redirect("/auth/login");
   }
 
-  const [courseProgress, tutoring] = await Promise.all([
-    getStudentCourses(),
-    getTutoringOffers(),
-  ]);
+  const courseProgress = await getStudentCourses();
   const unlockedCourses = courseProgress.filter((course) =>
     student.enrolledCourseSlugs.includes(course.courseSlug),
   );
 
   return (
-    <main className="student-shell">
-      <section className="workspace-layout">
+    <main className="dashboard-shell-eapa">
+      <div className="dashboard-grid-eapa">
         <StudentSidebar activeHref="/student" />
-
-        <div className="workspace-main">
-          <section className="mock-dashboard-top">
+        <main className="soft-card dashboard-main-eapa">
+          <div className="dashboard-head-eapa">
             <div>
-              <h1>Hola, Estudiante! 👋🏻</h1>
-              <p>Vamos a por un gran dia de aprendizaje.</p>
+              <h1>Hola, {student.fullName.split(" ")[0]}!</h1>
+              <p>Sigue avanzando, cada dia estas mas cerca de tu meta.</p>
             </div>
-            <div className="mock-dashboard-mascot">🧠</div>
-          </section>
-
-          <section className="mock-stat-grid">
-            <article className="mock-stat-card">
-              <span>Cursos en progreso</span>
-              <strong>{unlockedCourses.length || 4}</strong>
-              <small>Ver todos →</small>
-            </article>
-            <article className="mock-stat-card">
-              <span>Horas de estudio</span>
-              <strong>18 h</strong>
-              <small>Esta semana</small>
-            </article>
-            <article className="mock-stat-card">
-              <span>Racha de estudio</span>
-              <strong>7 dias</strong>
-              <small>Sigue asi</small>
-            </article>
-          </section>
-
-          <section className="mock-student-grid">
-            <div className="student-panel">
-              <div className="section-heading">
-                <span>Mis cursos</span>
-                <h2>Continuar estudiando</h2>
-              </div>
-              <div className="student-stack">
-                {unlockedCourses.length ? (
-                  unlockedCourses.map((course) => (
-                    <article className="student-course-card" key={course.courseSlug}>
-                      <div className="student-course-row">
-                        <div className="student-course-icon">
-                          {course.title.slice(0, 1)}
-                        </div>
-                        <div>
-                          <h3>{course.title}</h3>
-                          <p>{course.nextLessonTitle}</p>
-                        </div>
-                        <Link className="eapa-button eapa-button-small" href={`/courses/${course.courseSlug}`}>
-                          Continuar
-                        </Link>
-                      </div>
-                      <div className="progress-bar" aria-hidden="true">
-                        <span style={{ width: `${course.progressPercent}%` }} />
-                      </div>
-                      <div className="course-meta">
-                        <span>{course.progressPercent}% completado</span>
-                        <span>{course.totalLessons} lecciones</span>
-                      </div>
-                    </article>
-                  ))
-                ) : (
-                  <article className="student-course-card">
-                    <h3>Aun no tienes cursos activos</h3>
-                    <p>
-                      Cuando habilitemos tus accesos o conectemos los pagos,
-                      tus cursos apareceran aqui con progreso real.
-                    </p>
-                    <Link className="text-link" href="/courses">
-                      Ver cursos disponibles
-                    </Link>
-                  </article>
-                )}
+            <div className="streak-box-eapa">
+              <span>🔥</span>
+              <div>
+                <p>Racha actual</p>
+                <strong>12 dias</strong>
               </div>
             </div>
+          </div>
 
-            <aside className="student-panel">
-              <div className="section-heading">
-                <span>Calendario</span>
-                <h2>Mayo 2026</h2>
-              </div>
-              <div className="calendar-preview-card">
-                <div className="calendar-preview-grid">
-                  {["L", "M", "M", "J", "V", "S", "D"].map((day) => (
-                    <span className="calendar-day-label" key={day}>
-                      {day}
-                    </span>
-                  ))}
-                  {Array.from({ length: 14 }).map((_, index) => (
-                    <span
-                      className={index === 9 ? "calendar-day is-active" : "calendar-day"}
-                      key={index}
-                    >
-                      {index + 12}
-                    </span>
-                  ))}
-                </div>
-              </div>
-              <div className="student-stack">
-                {tutoring.map((offer) => (
-                  <article className="tutoring-card" key={offer.id}>
-                    <p className="role-name">{offer.topic}</p>
-                    <p>{offer.teacherName}</p>
-                    <p>{offer.durationMinutes} minutos · USD {offer.priceUsd}</p>
-                  </article>
+          <div className="dashboard-stats-eapa">
+            <StatCard icon="📘" title="Cursos en progreso" value={String(unlockedCourses.length || 4)} />
+            <StatCard icon="📝" title="Lecciones completadas" value="68" />
+            <StatCard icon="⏰" title="Horas de estudio" value="42 h" />
+            <StatCard icon="🗓" title="Simulacros realizados" value="7" />
+          </div>
+
+          <div className="dashboard-panels-eapa">
+            <section className="soft-card dashboard-panel-eapa">
+              <h2>Mis cursos en progreso</h2>
+              <div className="progress-list-eapa">
+                {(unlockedCourses.length ? unlockedCourses : courseProgress.slice(0, 4)).map((course) => (
+                  <div key={course.courseSlug}>
+                    <ProgressRow name={course.title} progress={course.progressPercent} />
+                  </div>
                 ))}
               </div>
-            </aside>
-          </section>
-        </div>
-      </section>
+              <Link href="/courses" className="secondary-btn">
+                Ver todos mis cursos
+              </Link>
+            </section>
+
+            <section className="soft-card dashboard-panel-eapa">
+              <div className="calendar-panel-head-eapa">
+                <h2>Calendario</h2>
+                <span>Mayo 2025</span>
+              </div>
+              <div className="calendar-mini-grid-eapa">
+                {["Lun", "Mar", "Mie", "Jue", "Vie", "Sab", "Dom"].map((day) => (
+                  <div key={day} className="calendar-mini-label-eapa">{day}</div>
+                ))}
+                {Array.from({ length: 31 }, (_, i) => (
+                  <div
+                    key={i}
+                    className={i + 1 === 15 ? "calendar-mini-day-eapa is-active" : "calendar-mini-day-eapa"}
+                  >
+                    {i + 1}
+                  </div>
+                ))}
+              </div>
+              <Link href="/calendar" className="secondary-btn secondary-btn-full">
+                Ver calendario completo
+              </Link>
+            </section>
+          </div>
+        </main>
+      </div>
     </main>
   );
 }

@@ -1,65 +1,78 @@
-import { StudentSidebar } from "../../components/student/student-sidebar";
-
-const agenda = [
-  ["Repaso Anatomia", "07:00 - 08:00"],
-  ["Clase en vivo: Fisiologia", "11:00 - 12:00"],
-  ["Simulacro EAP 2026 - 1", "15:00 - 17:00"],
-  ["Repaso Farmacologia", "20:30 - 21:30"],
+const events = [
+  {
+    hour: "09:00 - 10:30",
+    title: "Estudio: Fisiologia Humana",
+    color: "medium",
+  },
+  {
+    hour: "11:00 - 12:00",
+    title: "Leccion: Bioquimica - Enzimas",
+    color: "light",
+  },
+  {
+    hour: "15:00 - 16:30",
+    title: "Simulacro 3: Patologia General",
+    color: "orange",
+  },
+  {
+    hour: "18:00 - 19:00",
+    title: "Repaso: Anatomia - Torax y costillas",
+    color: "navy",
+  },
 ];
 
 export default function CalendarPage() {
   return (
-    <main className="student-shell">
-      <section className="workspace-layout">
-        <StudentSidebar activeHref="/calendar" />
-        <div className="workspace-main">
-          <section className="mock-simple-header">
-            <div>
-              <h1>Calendario</h1>
-              <p>Organiza tu tiempo y no te pierdas ninguna actividad.</p>
+    <main className="public-shell-eapa">
+      <section className="soft-card calendar-shell-eapa">
+        <h1>Calendario</h1>
+        <p>Organiza tus actividades y mantente al dia.</p>
+
+        <div className="calendar-grid-eapa">
+          <div className="soft-card calendar-box-eapa">
+            <div className="calendar-box-head-eapa">
+              <button className="secondary-btn small-btn-eapa">‹</button>
+              <h2>Mayo 2025</h2>
+              <button className="secondary-btn small-btn-eapa">›</button>
             </div>
-            <div className="mock-dashboard-mascot">🗓</div>
-          </section>
-
-          <section className="sim-grid">
-            <section className="student-panel">
-              <div className="calendar-board">
-                <strong>Mayo 2026</strong>
-                <div className="calendar-preview-grid">
-                  {["L", "M", "M", "J", "V", "S", "D"].map((day) => (
-                    <span className="calendar-day-label" key={day}>
-                      {day}
-                    </span>
-                  ))}
-                  {Array.from({ length: 35 }).map((_, index) => (
-                    <span
-                      className={index === 16 ? "calendar-day is-active" : "calendar-day"}
-                      key={index}
-                    >
-                      {index + 1}
-                    </span>
-                  ))}
+            <div className="calendar-full-grid-eapa">
+              {["Lun", "Mar", "Mie", "Jue", "Vie", "Sab", "Dom"].map((day) => (
+                <div key={day} className="calendar-mini-label-eapa">{day}</div>
+              ))}
+              {Array.from({ length: 31 }, (_, i) => (
+                <div
+                  key={i}
+                  className={i + 1 === 15 ? "calendar-mini-day-eapa is-active" : "calendar-mini-day-eapa"}
+                >
+                  {i + 1}
                 </div>
-              </div>
-            </section>
+              ))}
+            </div>
+            <button className="secondary-btn secondary-btn-full">Hoy</button>
+          </div>
 
-            <aside className="student-panel">
-              <div className="section-heading">
-                <span>Eventos del dia</span>
-                <h2>Agenda</h2>
+          <div className="soft-card agenda-box-eapa">
+            <div className="agenda-head-eapa">
+              <h2>Agenda del dia - Jueves, 15 de mayo</h2>
+              <div className="agenda-tabs-eapa">
+                <button className="primary-btn small-pill-eapa">Dia</button>
+                <button className="secondary-btn small-pill-eapa">Semana</button>
+                <button className="secondary-btn small-pill-eapa">Mes</button>
               </div>
-              <div className="management-list">
-                {agenda.map(([title, time]) => (
-                  <article className="management-list-item" key={title}>
-                    <div>
-                      <h3>{title}</h3>
-                      <p>{time}</p>
-                    </div>
-                  </article>
-                ))}
-              </div>
-            </aside>
-          </section>
+            </div>
+            <div className="sim-list-eapa">
+              {events.map((event) => (
+                <div key={event.title} className="event-item-eapa">
+                  <span className={`event-dot-eapa is-${event.color}`} />
+                  <div>
+                    <p>{event.hour}</p>
+                    <h3>{event.title}</h3>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <button className="secondary-btn secondary-btn-center">+ Agregar actividad</button>
+          </div>
         </div>
       </section>
     </main>

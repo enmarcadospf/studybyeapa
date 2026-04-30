@@ -1,7 +1,13 @@
-import { courseFocusAreas } from "@academia/shared";
 import { getCourses } from "../../lib/api";
-import { CourseCard } from "../../components/ui/course-card";
-import { MascotIllustration } from "../../components/ui/mascot-illustration";
+
+const iconMap: Record<string, string> = {
+  "anatomia-clinica": "🦴",
+  "fisiologia-medica": "🫀",
+  "bioquimica-medica": "🧬",
+  "farmacologia-general": "💊",
+  "patologia-general": "🧠",
+  infectologia: "🔬",
+};
 
 export const dynamic = "force-dynamic";
 
@@ -9,36 +15,46 @@ export default async function CoursesPage() {
   const courses = await getCourses();
 
   return (
-    <main className="catalog-shell">
-      <section className="mock-courses-hero">
-        <div>
-          <h1 className="mock-page-title">Cursos</h1>
-          <p className="mock-page-copy">
-            Explora nuestros cursos y elige lo que quieres aprender hoy.
-          </p>
+    <main className="public-shell-eapa">
+      <section className="soft-card courses-shell-eapa">
+        <div className="courses-topbar-eapa">
+          <div>
+            <h1>Cursos</h1>
+            <p>Explora nuestras materias y empieza a estudiar hoy.</p>
+          </div>
+          <div className="courses-filters-eapa">
+            <input className="input-eapa" placeholder="Buscar cursos..." />
+            <select className="input-eapa">
+              <option>Categoria: Todas</option>
+            </select>
+            <select className="input-eapa">
+              <option>Nivel: Todos</option>
+            </select>
+            <button className="grid-button-eapa" type="button">
+              ▦
+            </button>
+          </div>
         </div>
-        <div className="mock-courses-illustration">
-          <MascotIllustration compact />
+
+        <div className="courses-grid-eapa">
+          {courses.map((course) => (
+            <a
+              key={course.id}
+              href={`/courses/${course.slug}`}
+              className="course-card-eapa"
+            >
+              <div className="course-card-icon-eapa">
+                {iconMap[course.slug] ?? "📘"}
+              </div>
+              <h3>{course.title}</h3>
+              <p>{course.summary}</p>
+              <div className="course-card-meta-eapa">
+                <span>{course.lessons} lecciones</span>
+                <strong>{course.level}</strong>
+              </div>
+            </a>
+          ))}
         </div>
-      </section>
-
-      <section className="mock-course-toolbar">
-        <input className="catalog-search" placeholder="Buscar curso..." />
-        <select className="mock-course-select" defaultValue="Todas las categorias">
-          <option>Todas las categorias</option>
-          <option>Ciencias basicas</option>
-          <option>Clinicas</option>
-        </select>
-      </section>
-
-      <section className="mock-course-grid">
-        {courses.map((course) => (
-          <CourseCard
-            course={course}
-            key={course.id}
-            topics={courseFocusAreas[course.slug] ?? []}
-          />
-        ))}
       </section>
     </main>
   );

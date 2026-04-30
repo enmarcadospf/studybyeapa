@@ -1,8 +1,7 @@
 import { redirect } from "next/navigation";
 import { RegisterForm } from "../../../components/auth/register-form";
 import { getCurrentStudentSession } from "../../../lib/server/session";
-import { MascotIllustration } from "../../../components/ui/mascot-illustration";
-import { Logo } from "../../../components/ui/logo";
+import { BrainBookIcon } from "../../../components/ui/logo";
 
 export default async function RegisterPage() {
   const student = await getCurrentStudentSession();
@@ -12,37 +11,31 @@ export default async function RegisterPage() {
   }
 
   return (
-    <main className="auth-shell">
-      <section className="auth-layout">
-        <article className="auth-feature-panel">
-          <span className="eyebrow">Unete a la plataforma</span>
-          <h1>Crea tu cuenta de estudiante</h1>
-          <p className="auth-copy">
-            Accede a cursos de medicina, flashcards, simulacros y herramientas
-            para organizar tu aprendizaje.
+    <main className="auth-shell-eapa">
+      <section className="auth-grid-eapa">
+        <article className="soft-card auth-showcase-eapa">
+          <h1>
+            Crea tu cuenta
+            <br />
+            de <span>estudiante</span>
+          </h1>
+          <p>
+            Accede a cursos, flashcards, simulacros y seguimiento de progreso.
           </p>
-          <div className="auth-badge-grid">
-            <div className="mini-badge-card">Cursos guiados</div>
-            <div className="mini-badge-card">Flashcards</div>
-            <div className="mini-badge-card">Quiz y examenes</div>
+          <div className="auth-illustration-eapa">
+            <BrainBookIcon className="hero-brain-icon" />
           </div>
-          <MascotIllustration compact />
         </article>
 
-        <section className="auth-card auth-card-elevated">
-          <div className="auth-card-head">
-            <Logo small />
-            <div>
-              <p className="eyebrow">Registro</p>
-              <h2>Crea tu cuenta</h2>
-              <p className="auth-copy">Es rapido, facil y gratuito.</p>
-            </div>
+        <section className="soft-card auth-form-card-eapa">
+          <div className="auth-form-brand">
+            <BrainBookIcon className="auth-mini-brain" />
+            <h2>Crea tu cuenta</h2>
+            <p>Es rapido, facil y gratuito.</p>
           </div>
-
           <RegisterForm />
-
-          <p className="auth-footer">
-            El acceso de administrador y creador se gestiona internamente.
+          <p className="auth-footer-eapa">
+            El acceso de administrador se maneja internamente.
           </p>
         </section>
       </section>

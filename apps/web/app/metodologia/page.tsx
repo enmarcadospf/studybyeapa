@@ -1,45 +1,71 @@
-import { LEARNING_LOOP, features } from "@academia/shared";
-import { MascotIllustration } from "../../components/ui/mascot-illustration";
-import { PageHeader } from "../../components/ui/page-header";
+import { BrainBookIcon } from "../../components/ui/logo";
+
+function MethodCard({
+  number,
+  icon,
+  title,
+  text,
+}: {
+  number: string;
+  icon: string;
+  title: string;
+  text: string;
+}) {
+  return (
+    <div className="soft-card method-card-eapa">
+      <div className="method-card-head-eapa">
+        <div className="method-step-eapa">{number}</div>
+        <div className="method-icon-eapa">{icon}</div>
+      </div>
+      <h3>{title}</h3>
+      <p>{text}</p>
+    </div>
+  );
+}
 
 export default function MetodologiaPage() {
   return (
-    <main className="page-shell">
-      <section className="mock-method-grid">
-        <div>
-          <PageHeader
-            description="Un metodo simple y efectivo para que aprender medicina sea mas facil y feliz."
-            eyebrow="Metodologia"
-            title="Nuestra Metodologia"
-          />
-        </div>
-        <div className="mock-method-visual">
-          <MascotIllustration compact />
-        </div>
-      </section>
-
-      <section className="mock-method-cards">
-          {LEARNING_LOOP.map((item, index) => (
-            <article className="mock-step-card" key={item.title}>
-              <div className="mock-step-badge">{index + 1}</div>
-              <h3>{item.title}</h3>
-              <p>{item.description}</p>
-            </article>
-          ))}
-      </section>
-
-      <section className="mock-quote-banner">
-        <strong>No se trata de estudiar mas, se trata de estudiar mejor.</strong>
-      </section>
-
-      <section className="content-section">
-        <div className="feature-grid">
-          {features.map((feature) => (
-            <article className="feature-card" key={feature.title}>
-              <h3>{feature.title}</h3>
-              <p>{feature.description}</p>
-            </article>
-          ))}
+    <main className="public-shell-eapa">
+      <section className="soft-card method-shell-eapa">
+        <div className="method-grid-eapa">
+          <div>
+            <h1>Nuestra metodologia</h1>
+            <p>
+              Un camino simple y efectivo para que aprendas medicina facil,
+              organizada y con felicidad.
+            </p>
+            <div className="method-cards-eapa">
+              <MethodCard
+                number="1"
+                icon="📘"
+                title="Aprende"
+                text="Lecciones claras, visuales y organizadas para entender desde la base."
+              />
+              <MethodCard
+                number="2"
+                icon="📝"
+                title="Practica"
+                text="Ejercicios, casos clinicos y preguntas que refuerzan tu aprendizaje."
+              />
+              <MethodCard
+                number="3"
+                icon="🏆"
+                title="Evalua y mejora"
+                text="Simulacros y evaluaciones para medir tu progreso y corregir debilidades."
+              />
+            </div>
+            <div className="method-quote-eapa">
+              <div className="method-heart-eapa">♥</div>
+              <p>
+                Aprendemos mejor cuando disfrutamos el proceso. Estudiar medicina puede ser facil y feliz.
+              </p>
+            </div>
+          </div>
+          <div className="method-visual-eapa">
+            <div className="hero-art-card">
+              <BrainBookIcon className="hero-brain-icon" />
+            </div>
+          </div>
         </div>
       </section>
     </main>

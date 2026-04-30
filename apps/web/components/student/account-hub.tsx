@@ -60,10 +60,7 @@ export function AccountHub({ student, courses }: AccountHubProps) {
       return;
     }
 
-    setProfileMessage({
-      type: "success",
-      text: "Perfil actualizado.",
-    });
+    setProfileMessage({ type: "success", text: "Perfil actualizado." });
     router.refresh();
   }
 
@@ -105,220 +102,143 @@ export function AccountHub({ student, courses }: AccountHubProps) {
 
   async function handleRevokeDevice(deviceId: string) {
     setRevokingDeviceId(deviceId);
-
     const response = await fetch(`/api/student/devices/${deviceId}`, {
       method: "DELETE",
     });
-
     setRevokingDeviceId("");
-
-    if (!response.ok) {
-      return;
+    if (response.ok) {
+      router.refresh();
     }
-
-    router.refresh();
   }
 
   return (
-    <section className="account-hub">
-      <section className="mock-profile-strip">
-        <div className="mock-profile-avatar">🧠</div>
-        <div className="mock-profile-copy">
-          <strong>{student.fullName}</strong>
-          <span>{student.email}</span>
+    <section className="profile-layout-eapa">
+      <section className="soft-card profile-summary-eapa">
+        <div className="profile-avatar-eapa">👩🏻‍⚕️</div>
+        <h2>{student.fullName}</h2>
+        <p>{student.email}</p>
+        <span className="profile-badge-eapa">Estudiante</span>
+      </section>
+
+      <section className="soft-card profile-form-card-eapa">
+        <h2>Datos personales</h2>
+        <form className="form-stack-eapa" onSubmit={handleProfileSubmit}>
+          <div className="profile-form-grid-eapa">
+            <label className="form-label-eapa">
+              Nombre completo
+              <input className="input-eapa" defaultValue={student.fullName} name="fullName" type="text" />
+            </label>
+            <label className="form-label-eapa">
+              Correo electronico
+              <input className="input-eapa" defaultValue={student.email} disabled type="email" />
+            </label>
+            <label className="form-label-eapa">
+              Universidad
+              <input className="input-eapa" defaultValue={student.university} name="university" type="text" />
+            </label>
+            <label className="form-label-eapa">
+              Estado
+              <input className="input-eapa" defaultValue="Republica Dominicana" disabled type="text" />
+            </label>
+          </div>
+          <label className="form-label-eapa">
+            Nota de perfil
+            <textarea
+              className="input-eapa profile-textarea-eapa"
+              defaultValue={student.profileNote}
+              name="profileNote"
+              rows={4}
+            />
+          </label>
+          {profileMessage ? (
+            <p className={`form-message ${profileMessage.type === "error" ? "form-message-error" : "form-message-success"}`}>
+              {profileMessage.text}
+            </p>
+          ) : null}
+          <button className="primary-btn" type="submit">Guardar cambios</button>
+        </form>
+      </section>
+
+      <section className="soft-card profile-side-info-eapa">
+        <h2>Informacion de cuenta</h2>
+        <div className="side-stats-eapa">
+          <div><span>Miembro desde</span><b>{new Date(student.createdAt).toLocaleDateString("es-DO")}</b></div>
+          <div><span>Plan actual</span><b>{activeSubscriptions.length ? "Estudiante Premium" : "Sin plan activo"}</b></div>
+          <div><span>Renovacion</span><b>{activeSubscriptions[0] ? new Date(activeSubscriptions[0].expiresAt).toLocaleDateString("es-DO") : "Pendiente"}</b></div>
+          <div><span>Dispositivos activos</span><b>{activeDevices.length}</b></div>
+          <div><span>Dispositivos extra</span><b>{extraChargeDevices.length}</b></div>
         </div>
-        <button className="ghost-action" type="button">
-          Editar perfil
+        <button className="secondary-btn secondary-btn-full" type="button">
+          Gestionar suscripcion
         </button>
       </section>
 
-      <div className="account-hub-grid">
-        <section className="student-panel">
-          <div className="section-heading">
-            <span>Perfil</span>
-            <h2>Tu informacion</h2>
-          </div>
-          <form className="account-form" onSubmit={handleProfileSubmit}>
-            <label>
-              Nombre completo
-              <input defaultValue={student.fullName} name="fullName" type="text" />
-            </label>
-            <label>
-              Correo
-              <input defaultValue={student.email} disabled type="email" />
-            </label>
-            <label>
-              Universidad o centro
-              <input
-                defaultValue={student.university}
-                name="university"
-                placeholder="Tu universidad"
-                type="text"
-              />
-            </label>
-            <label>
-              Nota de perfil
-              <textarea
-                defaultValue={student.profileNote}
-                name="profileNote"
-                placeholder="En que area quieres enfocarte ahora"
-                rows={4}
-              />
-            </label>
-            {profileMessage ? (
-              <p
-                className={`form-message ${
-                  profileMessage.type === "error"
-                    ? "form-message-error"
-                    : "form-message-success"
-                }`}
-              >
-                {profileMessage.text}
-              </p>
-            ) : null}
-            <button className="primary-action" type="submit">
-              Guardar perfil
-            </button>
-          </form>
-        </section>
-
-        <section className="student-panel">
-          <div className="section-heading">
-            <span>Cuenta</span>
-            <h2>Cambiar contrasena</h2>
-          </div>
-          <form className="account-form" onSubmit={handlePasswordSubmit}>
-            <label>
+      <section className="soft-card profile-wide-card-eapa">
+        <h2>Cambiar contrasena</h2>
+        <form className="form-stack-eapa" onSubmit={handlePasswordSubmit}>
+          <div className="profile-form-grid-eapa">
+            <label className="form-label-eapa">
               Contrasena actual
-              <input name="currentPassword" type="password" />
+              <input className="input-eapa" name="currentPassword" type="password" />
             </label>
-            <label>
+            <label className="form-label-eapa">
               Nueva contrasena
-              <input name="nextPassword" type="password" />
+              <input className="input-eapa" name="nextPassword" type="password" />
             </label>
-            <label>
+            <label className="form-label-eapa">
               Confirmar nueva contrasena
-              <input name="nextPasswordConfirmation" type="password" />
+              <input className="input-eapa" name="nextPasswordConfirmation" type="password" />
             </label>
-            {passwordMessage ? (
-              <p
-                className={`form-message ${
-                  passwordMessage.type === "error"
-                    ? "form-message-error"
-                    : "form-message-success"
-                }`}
-              >
-                {passwordMessage.text}
-              </p>
-            ) : null}
-            <button className="primary-action" type="submit">
-              Actualizar contrasena
-            </button>
-          </form>
-        </section>
-      </div>
-
-      <div className="account-hub-grid">
-        <section className="student-panel">
-          <div className="section-heading">
-            <span>Suscripcion</span>
-            <h2>Gestion de cursos y vigencia</h2>
           </div>
-          <div className="subscription-policy-card">
-            <strong>Cada curso se activa por 3 meses.</strong>
-            <p>
-              La regla actual queda definida asi: una cuenta puede usar hasta 4
-              dispositivos. A partir del quinto, se genera un cargo extra del 50%
-              del curso activo correspondiente.
+          {passwordMessage ? (
+            <p className={`form-message ${passwordMessage.type === "error" ? "form-message-error" : "form-message-success"}`}>
+              {passwordMessage.text}
             </p>
-          </div>
-          <div className="management-list">
-            {activeSubscriptions.length ? (
-              activeSubscriptions.map((subscription) => (
-                <article className="management-list-item" key={subscription.id}>
-                  <div>
-                    <h3>{subscription.courseTitle}</h3>
-                    <p>
-                      Vigencia hasta{" "}
-                      {new Date(subscription.expiresAt).toLocaleDateString("es-DO")}
-                    </p>
-                  </div>
-                  <div className="management-list-meta">
-                    <span>USD {subscription.priceUsd}</span>
-                    <small>Recargo extra dispositivo: USD {subscription.extraDeviceFeeUsd}</small>
-                  </div>
-                </article>
-              ))
-            ) : (
-              <article className="student-course-card">
-                <h3>No tienes una suscripcion activa</h3>
-                <p>
-                  Cuando conectemos el cobro real, cada curso se activara por 90
-                  dias y quedara visible aqui con su fecha de vencimiento.
-                </p>
-              </article>
-            )}
-          </div>
-          <div className="course-topic-row">
-            {courses.map((course) => (
-              <span className="topic-chip" key={course.id}>
-                {course.title} · 3 meses · USD {course.priceUsd}
-              </span>
-            ))}
-          </div>
-        </section>
+          ) : null}
+          <button className="primary-btn" type="submit">Actualizar contrasena</button>
+        </form>
+      </section>
 
-        <section className="student-panel">
-          <div className="section-heading">
-            <span>Dispositivos</span>
-            <h2>Control de acceso por cuenta</h2>
-          </div>
-          <div className="account-summary-row account-summary-row-compact">
-            <article className="dashboard-card">
-              <span className="dashboard-label">Activos</span>
-              <strong>{activeDevices.length}</strong>
-            </article>
-            <article className="dashboard-card">
-              <span className="dashboard-label">Con recargo</span>
-              <strong>{extraChargeDevices.length}</strong>
-            </article>
-          </div>
-          <div className="management-list">
-            {student.devices.length ? (
-              student.devices.map((device) => (
-                <article className="management-list-item" key={device.id}>
-                  <div>
-                    <h3>{device.label}</h3>
-                    <p>{device.userAgent}</p>
-                    <p>
-                      Ultimo acceso:{" "}
-                      {new Date(device.lastSeenAt).toLocaleString("es-DO")}
-                    </p>
-                  </div>
-                  <div className="management-list-meta">
-                    <span>
-                      {device.status === "active" ? "Activo" : "Recargo"}
-                    </span>
-                    {device.extraChargeUsd ? (
-                      <small>USD {device.extraChargeUsd}</small>
-                    ) : null}
-                    <button
-                      className="ghost-action"
-                      disabled={revokingDeviceId === device.id}
-                      onClick={() => handleRevokeDevice(device.id)}
-                      type="button"
-                    >
-                      {revokingDeviceId === device.id ? "Cerrando..." : "Cerrar"}
-                    </button>
-                  </div>
-                </article>
-              ))
-            ) : (
-              <p className="empty-copy">Todavia no hay dispositivos registrados.</p>
-            )}
-          </div>
-        </section>
-      </div>
+      <section className="soft-card profile-wide-card-eapa">
+        <h2>Control de dispositivos</h2>
+        <div className="device-list-eapa">
+          {student.devices.length ? (
+            student.devices.map((device) => (
+              <div key={device.id} className="device-item-eapa">
+                <div>
+                  <h3>{device.label}</h3>
+                  <p>{device.userAgent}</p>
+                </div>
+                <div className="device-actions-eapa">
+                  <span>{device.status === "active" ? "Activo" : "Recargo"}</span>
+                  <button className="secondary-btn small-pill-eapa" onClick={() => handleRevokeDevice(device.id)} type="button">
+                    {revokingDeviceId === device.id ? "Cerrando..." : "Cerrar"}
+                  </button>
+                </div>
+              </div>
+            ))
+          ) : (
+            <p className="empty-text-eapa">Todavia no hay dispositivos registrados.</p>
+          )}
+        </div>
+      </section>
+
+      <section className="soft-card profile-wide-card-eapa">
+        <h2>Cursos y vigencia</h2>
+        <div className="device-list-eapa">
+          {courses.map((course) => (
+            <div key={course.id} className="device-item-eapa">
+              <div>
+                <h3>{course.title}</h3>
+                <p>Acceso por 3 meses · recargo extra dispositivo del 50%</p>
+              </div>
+              <div className="device-actions-eapa">
+                <span>USD {course.priceUsd}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
     </section>
   );
 }

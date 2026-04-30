@@ -16,20 +16,17 @@ export default async function SettingsPage() {
   const courses = await getCourses();
 
   return (
-    <main className="student-shell">
-      <section className="workspace-layout">
+    <main className="dashboard-shell-eapa">
+      <div className="dashboard-grid-eapa">
         <StudentSidebar activeHref="/settings" />
-        <div className="workspace-main">
-          <section className="mock-simple-header">
-            <div>
-              <h1>Mi Perfil</h1>
-              <p>Gestiona tu informacion personal y preferencias.</p>
-            </div>
-            <div className="mock-dashboard-mascot">◉</div>
-          </section>
+        <main className="soft-card dashboard-main-eapa">
+          <div className="profile-page-head-eapa">
+            <h1>Mi Perfil</h1>
+            <p>Gestiona tu informacion personal y preferencias.</p>
+          </div>
           <AccountHub courses={courses} student={student} />
-        </div>
-      </section>
+        </main>
+      </div>
     </main>
   );
 }

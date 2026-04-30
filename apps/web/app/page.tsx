@@ -1,152 +1,75 @@
-import {
-  features,
-} from "@academia/shared";
-import { getCourses, getPlatformStats } from "../lib/api";
-import { AppButton } from "../components/ui/app-button";
-import { MascotIllustration } from "../components/ui/mascot-illustration";
-import { CourseCard } from "../components/ui/course-card";
-import { courseFocusAreas } from "@academia/shared";
+import Link from "next/link";
+import { BrainBookIcon } from "../components/ui/logo";
 
 export const dynamic = "force-dynamic";
 
-export default async function HomePage() {
-  const [stats, courses] = await Promise.all([
-    getPlatformStats(),
-    getCourses(),
-  ]);
-
+function FeatureCard({
+  icon,
+  title,
+  text,
+}: {
+  icon: string;
+  title: string;
+  text: string;
+}) {
   return (
-    <main className="page-shell">
-      <section className="mock-home-hero">
-        <div className="mock-home-copy">
-          <h1>
-            Aprende medicina
-            <span> facil y feliz</span>
-          </h1>
-          <p className="lead">
-            Metodo simple, organizado y efectivo para que estudiar sea mas facil
-            y disfrutable.
-          </p>
-          <div className="hero-actions">
-            <AppButton href="/auth/register">Comienza ahora</AppButton>
-          </div>
-        </div>
-        <div className="mock-home-visual">
-          <MascotIllustration />
-        </div>
-      </section>
+    <div className="soft-card feature-card-eapa">
+      <div className="feature-icon-eapa">{icon}</div>
+      <h3>{title}</h3>
+      <p>{text}</p>
+    </div>
+  );
+}
 
-      <section className="mock-feature-strip">
-        <div className="mock-feature-card">
-          <div className="mock-feature-icon">□</div>
-          <h3>Metodo comprobado</h3>
-          <p>Contenido claro y estructurado para entender mejor.</p>
-        </div>
-        <div className="mock-feature-card">
-          <div className="mock-feature-icon">◔</div>
-          <h3>Estudia a tu ritmo</h3>
-          <p>Organiza tu tiempo y avanza segun tu plan.</p>
-        </div>
-        <div className="mock-feature-card">
-          <div className="mock-feature-icon">⌂</div>
-          <h3>Acompanamiento</h3>
-          <p>No estas solo, estamos contigo en cada paso.</p>
-        </div>
-      </section>
-
-      <section id="metodologia" className="content-section">
-        <div className="section-heading">
-          <span>Metodologia</span>
-          <h2>Una experiencia pensada para que estudiar sea mas facil y mas claro</h2>
-        </div>
-        <div className="feature-grid">
-          {features.map((feature) => (
-            <article className="feature-card" key={feature.title}>
-              <h3>{feature.title}</h3>
-              <p>{feature.description}</p>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section className="content-section">
-        <div className="section-heading">
-          <span>Plataforma</span>
-          <h2>Una base lista para cursos, repaso, progreso y acceso por estudiante</h2>
-        </div>
-        <div className="stats-strip">
+export default function HomePage() {
+  return (
+    <main className="public-shell-eapa">
+      <section className="soft-card home-hero-eapa">
+        <div className="home-hero-grid-eapa">
           <div>
-            <strong>{stats.students}+</strong>
-            <span>estudiantes</span>
-          </div>
-          <div>
-            <strong>{stats.courses}</strong>
-            <span>cursos base</span>
-          </div>
-          <div>
-            <strong>{stats.completionRate}%</strong>
-            <span>finalizacion</span>
-          </div>
-        </div>
-      </section>
-
-      <section className="content-section">
-        <div className="section-heading">
-          <span>Catalogo inicial</span>
-          <h2>Materias medicas listas para crecer como cursos reales</h2>
-        </div>
-        <div className="course-grid">
-          {courses.map((course) => (
-            <CourseCard
-              course={course}
-              key={course.id}
-              topics={courseFocusAreas[course.slug] ?? []}
-            />
-          ))}
-        </div>
-      </section>
-
-      <section className="content-section">
-        <div className="section-heading">
-          <span>Ejemplo de anatomia</span>
-          <h2>Video, lectura, IA y repaso dentro del mismo modulo</h2>
-        </div>
-        <div className="detail-grid">
-          <article className="detail-card">
-            <h3>Contenido visual</h3>
+            <div className="pill-badge-eapa">✦ Plataforma medica para estudiantes</div>
+            <h1>
+              Aprende medicina
+              <br />
+              <span>facil y feliz</span>
+            </h1>
             <p>
-              Subes videos de anatomia para que el estudiante vea estructuras,
-              relaciones y referencias importantes con apoyo visual.
+              Cursos claros, practicos y actualizados que te acompanan paso a
+              paso para comprender mejor, estudiar con calma y avanzar con
+              confianza.
             </p>
-          </article>
-          <article className="detail-card">
-            <h3>Repaso inmediato</h3>
-            <p>
-              Despues del video o de la lectura, el sistema ofrece flashcards o
-              quiz para reforzar justo lo que acaba de estudiar.
-            </p>
-          </article>
-          <article className="detail-card">
-            <h3>Evaluacion exigente</h3>
-            <p>
-              Cuando termina el tema, pasa a una evaluacion final mas dificil,
-              pensada para comprobar si realmente domina el contenido.
-            </p>
-          </article>
-        </div>
-      </section>
-
-      <section className="content-section cta-section">
-        <div className="cta-panel">
-          <div>
-            <span className="eyebrow">Inscripcion</span>
-            <h2>Una sola cuenta, una sola experiencia: estudiantes</h2>
-            <p className="catalog-copy">
-              El creador administra todo por dentro. El estudiante solo ve un
-              acceso claro, limpio y directo a sus cursos.
-            </p>
+            <div className="hero-actions-eapa">
+              <Link href="/auth/register" className="primary-btn">
+                Inscribirme ahora
+              </Link>
+              <Link href="/metodologia" className="secondary-btn">
+                Conoce mas
+              </Link>
+            </div>
           </div>
-          <AppButton href="/auth/register">Crear cuenta de estudiante</AppButton>
+          <div className="hero-art-eapa">
+            <div className="hero-art-glow" />
+            <div className="hero-art-card">
+              <BrainBookIcon className="hero-brain-icon" />
+            </div>
+          </div>
+        </div>
+        <div className="feature-grid-eapa">
+          <FeatureCard
+            icon="📘"
+            title="Contenido claro y actualizado"
+            text="Lecciones disenadas con un enfoque practico y efectivo."
+          />
+          <FeatureCard
+            icon="⏰"
+            title="Aprende a tu ritmo"
+            text="Estudia cuando y donde quieras con total flexibilidad."
+          />
+          <FeatureCard
+            icon="📈"
+            title="Resultados que te impulsan"
+            text="Seguimiento de tu progreso y herramientas que te acercan a tu meta."
+          />
         </div>
       </section>
     </main>

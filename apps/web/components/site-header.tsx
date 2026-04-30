@@ -1,36 +1,33 @@
 import Link from "next/link";
 import { getCurrentStudentSession } from "../lib/server/session";
-import { AppButton } from "./ui/app-button";
 import { Logo } from "./ui/logo";
 
 export async function SiteHeader() {
   const student = await getCurrentStudentSession();
-  const firstName = student?.fullName.split(" ")[0] ?? null;
 
   return (
-    <header className="site-header">
-      <Link href="/">
+    <header className="top-navbar">
+      <Link href="/" className="top-navbar-brand">
         <Logo small />
       </Link>
-      <nav className="site-nav" aria-label="Principal">
-        <a href="/metodologia">Metodologia</a>
-        <a href="/courses">Cursos</a>
-        <a href="/student">Estudiante</a>
-        <a href="/settings">Gestion</a>
-        {student ? (
-          <>
-            <span className="session-pill">Hola, {firstName}</span>
-            <form action="/api/auth/logout" method="post">
-              <button className="nav-text-button" type="submit">Salir</button>
-            </form>
-          </>
-        ) : (
-          <>
-            <a href="/auth/login">Entrar</a>
-            <AppButton href="/auth/register">Inscribirme</AppButton>
-          </>
-        )}
+      <nav className="top-navbar-links" aria-label="Principal">
+        <Link href="/metodologia">Metodologia</Link>
+        <Link href="/courses">Cursos</Link>
+        <Link href={student ? "/student" : "/auth/register"}>Estudiante</Link>
+        <Link href={student ? "/settings" : "/auth/login"}>Gestion</Link>
+        <Link href="/auth/login">Entrar</Link>
       </nav>
+      <div className="top-navbar-actions">
+        {student ? (
+          <form action="/api/auth/logout" method="post">
+            <button className="primary-btn" type="submit">Cerrar sesion</button>
+          </form>
+        ) : (
+          <Link href="/auth/register" className="primary-btn">
+            Inscribirme
+          </Link>
+        )}
+      </div>
     </header>
   );
 }
