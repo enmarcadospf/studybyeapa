@@ -1,28 +1,36 @@
-export const APP_NAME = "Academia Online";
+export const APP_NAME = "Study by EAPA";
 export const APP_TAGLINE =
-  "Cursos medicos con lecciones, flashcards, quizzes y examenes finales para estudiar mejor desde la web.";
+  "Una plataforma web para que el estudiante de medicina aprenda mejor con video, lectura, flashcards, quiz y examenes finales guiados por IA.";
+
+export const BRAND = {
+  primary: "#0d5bd7",
+  primaryDark: "#083b8a",
+  primarySoft: "#e9f1ff",
+  text: "#10233f",
+} as const;
 
 export const LEARNING_LOOP = [
   {
-    title: "Aprender el tema",
+    title: "Ver o leer el tema",
     description:
-      "Cada leccion puede presentarse en formato de video o lectura, segun lo que mejor funcione para la materia.",
+      "Cada leccion se construye en el formato mas util: video corto, lectura puntual o una combinacion de ambos.",
   },
   {
-    title: "Repasar al instante",
+    title: "Repasar con apoyo de IA",
     description:
-      "Despues del contenido, el estudiante repasa con flashcards o un quiz ajustado a la dificultad que elija.",
+      "Al terminar el tema, el estudiante puede generar flashcards o un quiz ajustado a la dificultad que necesita.",
   },
   {
-    title: "Medirse de verdad",
+    title: "Cerrar con examen serio",
     description:
-      "Al terminar el tema o modulo, presenta un examen final exigente, con estilo parecido al que tu definas en la guia.",
+      "Cada modulo termina con una evaluacion mas exigente, estilo residente, basada en la guia docente que tu definas.",
   },
 ] as const;
 
 export type UserRole = "student" | "teacher" | "admin";
-
 export type CourseLevel = "beginner" | "intermediate" | "advanced";
+export type LessonContentType = "video" | "reading";
+export type QuizDifficulty = "basico" | "intermedio" | "avanzado" | "residente";
 
 export type Course = {
   id: string;
@@ -37,15 +45,34 @@ export type Course = {
   featured: boolean;
 };
 
-export type Lesson = {
+export type CourseModule = {
   id: string;
   courseSlug: string;
   title: string;
   summary: string;
-  contentType: "video" | "reading";
+  examLabel: string;
+  lessonIds: string[];
+};
+
+export type Lesson = {
+  id: string;
+  courseSlug: string;
+  moduleId: string;
+  title: string;
+  summary: string;
+  contentType: LessonContentType;
   durationMinutes: number;
   order: number;
   open: boolean;
+  supportsFlashcards: boolean;
+  supportsQuiz: boolean;
+};
+
+export type StudyToolCard = {
+  id: string;
+  title: string;
+  description: string;
+  actionLabel: string;
 };
 
 export type TutoringOffer = {
@@ -101,40 +128,34 @@ export type TeacherTask = {
 
 export const features = [
   {
-    title: "Cursos por materia y sistema",
+    title: "Modulos bien estructurados",
     description:
-      "Organiza semiologia, infectologia, anatomia y otras materias por sistemas, temas y modulos.",
+      "Cada curso se divide por modulos y cada modulo por lecciones claras para que el estudiante nunca se pierda.",
   },
   {
-    title: "Flashcards y quiz por tema",
+    title: "Repaso inteligente",
     description:
-      "Cada leccion puede terminar en repaso con flashcards o un quiz automatico segun la dificultad elegida.",
+      "Las lecciones activan botones para generar flashcards y quiz desde el material que tu subes.",
   },
   {
-    title: "Examen final tipo residente",
+    title: "IA visible y util",
     description:
-      "Al cerrar un tema o modulo, el sistema puede generar examenes exigentes basados en tu guia docente.",
+      "La IA no sera decorativa: estara integrada para crear repasos, examenes y apoyo al estudio.",
   },
 ] as const;
 
 export const roles = [
   {
     key: "student" as UserRole,
-    name: "Estudiante",
+    name: "Estudiantes",
     description:
-      "Explora cursos, estudia lecciones, repasa con flashcards y resuelve quizzes o examenes finales.",
-  },
-  {
-    key: "teacher" as UserRole,
-    name: "Creador docente",
-    description:
-      "Publica contenido, define la guia de estudio y ajusta el estilo de preguntas automaticas.",
+      "Entran, compran cursos, estudian por modulos, generan repaso y miden su progreso.",
   },
   {
     key: "admin" as UserRole,
-    name: "Administrador interno",
+    name: "Tu gestion interna",
     description:
-      "Supervisa cursos, usuarios, pagos y configuracion general del sitio, aunque seas la misma persona.",
+      "Tu controlas contenido, precios, ofertas, estructura, examenes y el estilo de las preguntas generadas.",
   },
 ] as const;
 
@@ -144,7 +165,7 @@ export const courses: Course[] = [
     slug: "semiologia-clinica",
     title: "Semiologia clinica",
     summary:
-      "Aprende sintomas, signos, interrogatorio y razonamiento clinico con enfoque practico.",
+      "Interrogatorio, hallazgos y razonamiento clinico con repaso activo al final de cada tema.",
     level: "intermediate",
     lessons: 28,
     durationHours: 20,
@@ -157,7 +178,7 @@ export const courses: Course[] = [
     slug: "infectologia",
     title: "Infectologia",
     summary:
-      "Repasa sindromes infecciosos, antibacterianos y toma de decisiones tipo examen.",
+      "Abordaje sindromico, antimicrobianos y preguntas de alta exigencia tipo examen.",
     level: "intermediate",
     lessons: 32,
     durationHours: 24,
@@ -170,85 +191,177 @@ export const courses: Course[] = [
     slug: "anatomia",
     title: "Anatomia",
     summary:
-      "Estudia por regiones y sistemas con videos, repaso activo y evaluacion final para fijar cada estructura.",
+      "Videos, lectura y repaso visual para consolidar estructuras, relaciones y puntos de examen.",
     level: "beginner",
     lessons: 26,
     durationHours: 18,
     priceUsd: 45,
     category: "Ciencias basicas",
-    featured: false,
+    featured: true,
   },
 ] as const;
 
-export const tutoringOffers: TutoringOffer[] = [
+export const modules: CourseModule[] = [
   {
-    id: "tutoring-frontend",
-    topic: "Mentoria de frontend",
-    teacherName: "Laura Medina",
-    durationMinutes: 60,
-    priceUsd: 20,
-    nextSlot: "2026-04-29T18:00:00.000Z",
+    id: "module-semiologia-1",
+    courseSlug: "semiologia-clinica",
+    title: "Modulo 1 · Bases del interrogatorio",
+    summary: "Aprender a escuchar, filtrar sintomas y dirigir preguntas clinicas.",
+    examLabel: "Examen final de modulo con enfoque clinico",
+    lessonIds: ["lesson-semiologia-01", "lesson-semiologia-02"],
   },
   {
-    id: "tutoring-backend",
-    topic: "Sesion de backend",
-    teacherName: "Carlos Reyes",
-    durationMinutes: 90,
-    priceUsd: 28,
-    nextSlot: "2026-04-30T20:00:00.000Z",
+    id: "module-infectologia-1",
+    courseSlug: "infectologia",
+    title: "Modulo 1 · Sindrome febril",
+    summary: "Criterios iniciales, enfoque diagnostico y decisiones terapéuticas.",
+    examLabel: "Examen final estilo residente",
+    lessonIds: ["lesson-infectologia-01", "lesson-infectologia-02"],
+  },
+  {
+    id: "module-anatomia-1",
+    courseSlug: "anatomia",
+    title: "Modulo 1 · Torax",
+    summary: "Video, lectura y repaso activo sobre estructuras toracicas y correlacion clinica.",
+    examLabel: "Examen final por sistema",
+    lessonIds: ["lesson-anatomia-01", "lesson-anatomia-02", "lesson-anatomia-03"],
   },
 ] as const;
 
 export const lessons: Lesson[] = [
   {
-    id: "lesson-react-01",
+    id: "lesson-semiologia-01",
     courseSlug: "semiologia-clinica",
+    moduleId: "module-semiologia-1",
     title: "Interrogatorio clinico dirigido",
-    summary: "Aprende a estructurar preguntas utiles para orientar el diagnostico.",
+    summary: "Preguntas clave para orientar el diagnostico desde el primer contacto.",
     contentType: "video",
     durationMinutes: 18,
     order: 1,
     open: true,
+    supportsFlashcards: true,
+    supportsQuiz: true,
   },
   {
-    id: "lesson-react-02",
+    id: "lesson-semiologia-02",
     courseSlug: "semiologia-clinica",
+    moduleId: "module-semiologia-1",
     title: "Signos cardinales y hallazgos clave",
-    summary: "Repasa signos clinicos que deben convertirse en flashcards de alta frecuencia.",
+    summary: "Lectura corta con datos de alta frecuencia para repaso y preguntas.",
     contentType: "reading",
     durationMinutes: 26,
     order: 2,
     open: true,
+    supportsFlashcards: true,
+    supportsQuiz: true,
   },
   {
-    id: "lesson-node-01",
+    id: "lesson-infectologia-01",
     courseSlug: "infectologia",
+    moduleId: "module-infectologia-1",
     title: "Abordaje inicial del sindrome febril",
-    summary: "Diferencia cuadros frecuentes y decide estudios o tratamiento inicial.",
+    summary: "Video de enfoque rapido para diferenciar causas y priorizar estudios.",
     contentType: "video",
     durationMinutes: 24,
     order: 1,
     open: true,
+    supportsFlashcards: true,
+    supportsQuiz: true,
   },
   {
-    id: "lesson-study-01",
-    courseSlug: "anatomia",
-    title: "Anatomia del torax",
-    summary: "Integra relaciones anatomicas y puntos de examen con apoyo visual y repaso activo.",
+    id: "lesson-infectologia-02",
+    courseSlug: "infectologia",
+    moduleId: "module-infectologia-1",
+    title: "Antibioticoterapia razonada",
+    summary: "Lectura dirigida con razonamiento para elegir tratamiento y evitar errores.",
     contentType: "reading",
-    durationMinutes: 15,
-    order: 1,
-    open: true,
-  },
-  {
-    id: "lesson-study-02",
-    courseSlug: "anatomia",
-    title: "Video guiado de estructuras toracicas",
-    summary: "Visualiza referencias anatomicas y consolida el tema antes del repaso.",
-    contentType: "video",
-    durationMinutes: 22,
+    durationMinutes: 21,
     order: 2,
     open: true,
+    supportsFlashcards: true,
+    supportsQuiz: true,
+  },
+  {
+    id: "lesson-anatomia-01",
+    courseSlug: "anatomia",
+    moduleId: "module-anatomia-1",
+    title: "Video guiado de estructuras toracicas",
+    summary: "Recorrido visual de torax con referencias practicas y orientacion espacial.",
+    contentType: "video",
+    durationMinutes: 22,
+    order: 1,
+    open: true,
+    supportsFlashcards: true,
+    supportsQuiz: true,
+  },
+  {
+    id: "lesson-anatomia-02",
+    courseSlug: "anatomia",
+    moduleId: "module-anatomia-1",
+    title: "Lectura de anatomia del torax",
+    summary: "Resumen organizado de estructuras, limites y relaciones de alto valor.",
+    contentType: "reading",
+    durationMinutes: 15,
+    order: 2,
+    open: true,
+    supportsFlashcards: true,
+    supportsQuiz: true,
+  },
+  {
+    id: "lesson-anatomia-03",
+    courseSlug: "anatomia",
+    moduleId: "module-anatomia-1",
+    title: "Correlacion clinica del torax",
+    summary: "Leccion corta para unir anatomia con imagenes, sintomas y examen.",
+    contentType: "video",
+    durationMinutes: 17,
+    order: 3,
+    open: true,
+    supportsFlashcards: true,
+    supportsQuiz: true,
+  },
+] as const;
+
+export const studyToolCards: StudyToolCard[] = [
+  {
+    id: "tool-flashcards",
+    title: "Generar flashcards",
+    description:
+      "Convierte el tema estudiado en tarjetas cortas para repaso rapido y repeticion espaciada.",
+    actionLabel: "Crear flashcards",
+  },
+  {
+    id: "tool-quiz",
+    title: "Crear quiz por dificultad",
+    description:
+      "Permite elegir nivel basico, intermedio, avanzado o residente para practicar segun necesidad.",
+    actionLabel: "Crear quiz",
+  },
+  {
+    id: "tool-ai",
+    title: "Hablar con la IA del tema",
+    description:
+      "Espacio para escribir preguntas, pedir resumentes, aclarar conceptos y reforzar el razonamiento.",
+    actionLabel: "Abrir IA",
+  },
+] as const;
+
+export const tutoringOffers: TutoringOffer[] = [
+  {
+    id: "guided-review-1",
+    topic: "Repaso guiado de anatomia",
+    teacherName: "EAPA",
+    durationMinutes: 45,
+    priceUsd: 15,
+    nextSlot: "2026-05-05T18:00:00.000Z",
+  },
+  {
+    id: "guided-review-2",
+    topic: "Resolucion de quiz clinico",
+    teacherName: "EAPA",
+    durationMinutes: 60,
+    priceUsd: 18,
+    nextSlot: "2026-05-06T20:00:00.000Z",
   },
 ] as const;
 
@@ -266,21 +379,9 @@ export const dashboardSections: DashboardSection[] = [
     description:
       "Vista para continuar cursos, repasar con flashcards y resolver quizzes o examenes sin perder el ritmo.",
     summaries: [
-      {
-        title: "Cursos activos",
-        value: "4",
-        helper: "Dos terminan esta semana",
-      },
-      {
-        title: "Progreso promedio",
-        value: "72%",
-        helper: "Subio 8% este mes",
-      },
-      {
-        title: "Tutoria proxima",
-        value: "12 flashcards",
-        helper: "Pendientes del tema actual",
-      },
+      { title: "Cursos activos", value: "4", helper: "Dos terminan esta semana" },
+      { title: "Progreso promedio", value: "72%", helper: "Subio 8% este mes" },
+      { title: "Pendientes IA", value: "12", helper: "Flashcards por revisar" },
     ],
   },
   {
@@ -289,21 +390,9 @@ export const dashboardSections: DashboardSection[] = [
     description:
       "Espacio para publicar contenido, definir guias de generacion y revisar el rendimiento de los estudiantes.",
     summaries: [
-      {
-        title: "Cohortes activas",
-        value: "3",
-        helper: "86 estudiantes en total",
-      },
-      {
-        title: "Tutorias semanales",
-        value: "3 guias",
-        helper: "Listas para flashcards y quiz",
-      },
-      {
-        title: "Contenido pendiente",
-        value: "5 lecciones",
-        helper: "Listas para publicar",
-      },
+      { title: "Cursos activos", value: "3", helper: "Con lecciones publicadas" },
+      { title: "Guias IA", value: "3", helper: "Listas para flashcards y quiz" },
+      { title: "Contenido pendiente", value: "5 lecciones", helper: "Listas para publicar" },
     ],
   },
   {
@@ -312,21 +401,9 @@ export const dashboardSections: DashboardSection[] = [
     description:
       "Control central de usuarios, catalogo, pagos y salud general del sitio.",
     summaries: [
-      {
-        title: "Ingresos del mes",
-        value: "USD 8,420",
-        helper: "18% por encima del mes anterior",
-      },
-      {
-        title: "Nuevos registros",
-        value: "214",
-        helper: "Mayor crecimiento en backend",
-      },
-      {
-        title: "Alertas abiertas",
-        value: "3",
-        helper: "Pagos, soporte y revision de curso",
-      },
+      { title: "Ingresos del mes", value: "USD 8,420", helper: "18% por encima del mes anterior" },
+      { title: "Nuevos registros", value: "214", helper: "Mayor crecimiento en anatomia" },
+      { title: "Alertas abiertas", value: "3", helper: "Pagos, soporte y revision de curso" },
     ],
   },
 ] as const;
@@ -343,7 +420,7 @@ export const studentCourseProgress: StudentCourseProgress[] = [
     courseSlug: "infectologia",
     title: "Infectologia",
     progressPercent: 34,
-    nextLessonTitle: "Abordaje inicial del sindrome febril",
+    nextLessonTitle: "Antibioticoterapia razonada",
     totalLessons: 32,
   },
 ] as const;

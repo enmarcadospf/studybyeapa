@@ -1,6 +1,7 @@
 import {
   APP_NAME,
   APP_TAGLINE,
+  BRAND,
   LEARNING_LOOP,
   features,
   roles,
@@ -20,6 +21,11 @@ export default async function HomePage() {
           <span className="eyebrow">Plataforma web de estudio medico</span>
           <h1>{APP_NAME}</h1>
           <p className="lead">{APP_TAGLINE}</p>
+          <div className="hero-chip-row">
+            <span className="hero-chip">Video + lectura</span>
+            <span className="hero-chip">Flashcards automaticas</span>
+            <span className="hero-chip">Quiz por dificultad</span>
+          </div>
           <div className="stats-strip">
             <div>
               <strong>{stats.students}+</strong>
@@ -35,7 +41,7 @@ export default async function HomePage() {
             </div>
           </div>
           <div className="hero-actions">
-            <a className="primary-action" href="#modulos">
+            <a className="primary-action" href="#metodologia">
               Ver metodologia
             </a>
             <a className="secondary-action" href="/courses">
@@ -44,19 +50,35 @@ export default async function HomePage() {
           </div>
         </div>
         <div className="hero-card">
-          <p className="card-title">Pensado solo como web</p>
-          <ul>
-            <li>Lecciones en video o lectura</li>
-            <li>Repaso con flashcards o quiz</li>
-            <li>Examen final dificil por modulo</li>
-          </ul>
+          <div className="brand-preview">
+            <img
+              alt="Study by EAPA"
+              className="brand-preview-logo"
+              src="/studybyeapa-logo.svg"
+            />
+            <div>
+              <p className="card-title">Un estudio mas claro y minimalista</p>
+              <p className="hero-note">
+                Azul, blanco y gris claro para que el contenido se sienta limpio
+                y serio desde la primera vista.
+              </p>
+            </div>
+          </div>
+          <div className="ai-box">
+            <p className="ai-label">IA integrada</p>
+            <h3>Escribe preguntas, pide resumenes y genera repaso.</h3>
+            <p>
+              La IA sera una herramienta visible dentro de cada modulo, no un
+              detalle escondido.
+            </p>
+          </div>
         </div>
       </section>
 
-      <section id="modulos" className="content-section">
+      <section id="metodologia" className="content-section">
         <div className="section-heading">
           <span>Metodologia</span>
-          <h2>Estudio guiado con repaso automatico despues de cada tema</h2>
+          <h2>Una experiencia pensada para que estudiar sea mas facil y mas claro</h2>
         </div>
         <div className="feature-grid">
           {features.map((feature) => (
@@ -70,8 +92,8 @@ export default async function HomePage() {
 
       <section className="content-section">
         <div className="section-heading">
-          <span>Como aprende el estudiante</span>
-          <h2>Una herramienta hecha para estudiar mas facil, no para complicar</h2>
+          <span>Ruta de aprendizaje</span>
+          <h2>El estudiante sabe exactamente que hacer despues de cada tema</h2>
         </div>
         <div className="feature-grid">
           {LEARNING_LOOP.map((item) => (
@@ -85,8 +107,8 @@ export default async function HomePage() {
 
       <section id="roles" className="content-section">
         <div className="section-heading">
-          <span>Experiencias</span>
-          <h2>Dos vistas reales: estudiantes y tu gestion interna</h2>
+          <span>Vista del producto</span>
+          <h2>Solo dos frentes reales: estudiantes y tu gestion interna</h2>
         </div>
         <div className="role-grid">
           {roles.map((role) => (
@@ -101,11 +123,14 @@ export default async function HomePage() {
       <section className="content-section">
         <div className="section-heading">
           <span>Catalogo inicial</span>
-          <h2>Materias medicas listas para transformarse en cursos reales</h2>
+          <h2>Materias medicas listas para crecer como cursos reales</h2>
         </div>
         <div className="course-grid">
           {courses.map((course) => (
-            <article className="course-card" key={course.id}>
+            <article
+              className={`course-card ${course.featured ? "course-card-featured" : ""}`}
+              key={course.id}
+            >
               <p className="course-category">{course.category}</p>
               <h3>{course.title}</h3>
               <p>{course.summary}</p>
@@ -115,7 +140,7 @@ export default async function HomePage() {
                 <span>USD {course.priceUsd}</span>
               </div>
               <a className="text-link" href={`/courses/${course.slug}`}>
-                Ver detalle
+                Ver curso
               </a>
             </article>
           ))}
@@ -124,8 +149,8 @@ export default async function HomePage() {
 
       <section className="content-section">
         <div className="section-heading">
-          <span>Ejemplo real</span>
-          <h2>En anatomia puedes mezclar video, lectura y repaso en el mismo flujo</h2>
+          <span>Ejemplo de anatomia</span>
+          <h2>Video, lectura, IA y repaso dentro del mismo modulo</h2>
         </div>
         <div className="detail-grid">
           <article className="detail-card">
@@ -149,6 +174,26 @@ export default async function HomePage() {
               pensada para comprobar si realmente domina el contenido.
             </p>
           </article>
+        </div>
+      </section>
+
+      <section className="content-section cta-section">
+        <div className="cta-panel">
+          <div>
+            <span className="eyebrow">Inscripcion</span>
+            <h2>Una sola cuenta, una sola experiencia: estudiantes</h2>
+            <p className="catalog-copy">
+              El creador administra todo por dentro. El estudiante solo ve un
+              acceso claro, limpio y directo a sus cursos.
+            </p>
+          </div>
+          <a
+            className="primary-action"
+            href="/auth/register"
+            style={{ backgroundColor: BRAND.primary }}
+          >
+            Crear cuenta de estudiante
+          </a>
         </div>
       </section>
     </main>

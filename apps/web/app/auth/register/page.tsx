@@ -4,10 +4,10 @@ export default function RegisterPage() {
       <section className="auth-card">
         <div>
           <p className="eyebrow">Registro</p>
-          <h1>Crea tu cuenta de estudio</h1>
+          <h1>Crea tu cuenta de estudiante</h1>
           <p className="auth-copy">
-            Este flujo sera la puerta de entrada para estudiantes, profesores y
-            administradores segun el rol que definas.
+            Este registro es solo para estudiantes. Desde aqui podran entrar a
+            sus cursos, repasar con flashcards y resolver quiz o examenes.
           </p>
         </div>
 
@@ -21,21 +21,25 @@ export default function RegisterPage() {
             <input name="email" placeholder="tu@correo.com" type="email" />
           </label>
           <label>
-            Rol inicial
-            <select defaultValue="student" name="role">
-              <option value="student">Estudiante</option>
-              <option value="teacher">Profesor</option>
-              <option value="admin">Administrador</option>
-            </select>
-          </label>
-          <label>
             Contrasena
             <input name="password" placeholder="********" type="password" />
+          </label>
+          <label>
+            Confirmar contrasena
+            <input
+              name="passwordConfirmation"
+              placeholder="********"
+              type="password"
+            />
           </label>
           <button className="primary-action" type="submit">
             Crear cuenta
           </button>
         </form>
+
+        <p className="auth-footer">
+          El acceso de administrador y creador se gestiona internamente.
+        </p>
       </section>
     </main>
   );

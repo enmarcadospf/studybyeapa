@@ -3,13 +3,12 @@ import "./globals.css";
 import { SiteHeader } from "../components/site-header";
 
 export const metadata: Metadata = {
-  title: "Academia Online",
-  description: "Plataforma educativa para cursos y tutorias",
-  manifest: "/manifest.json",
+  title: "Study by EAPA",
+  description: "Plataforma web para estudiantes de medicina con IA, flashcards y examenes.",
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0f172a",
+  themeColor: "#0d5bd7",
 };
 
 export default function RootLayout({
