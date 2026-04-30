@@ -1,10 +1,33 @@
+import { courses, lessons, modules } from "@academia/shared";
+import { MaterialManager } from "../../components/admin/material-manager";
 import { getAdminAlerts } from "../../lib/api";
+import { listLessonMaterials } from "../../lib/server/lesson-material-store";
 import { listStudents } from "../../lib/server/student-store";
 
 export const dynamic = "force-dynamic";
 
 export default async function AdminPage() {
-  const [alerts, students] = await Promise.all([getAdminAlerts(), listStudents()]);
+  const [alerts, students, lessonMaterials] = await Promise.all([
+    getAdminAlerts(),
+    listStudents(),
+    listLessonMaterials(),
+  ]);
+
+  const materialRows = lessons.map((lesson) => {
+    const course = courses.find((item) => item.slug === lesson.courseSlug);
+    const module = modules.find((item) => item.id === lesson.moduleId);
+    const material = lessonMaterials.find((item) => item.lessonId === lesson.id);
+
+    return {
+      lessonId: lesson.id,
+      lessonTitle: lesson.title,
+      courseTitle: course?.title ?? lesson.courseSlug,
+      moduleTitle: module?.title ?? "Modulo sin titulo",
+      sourceTitle: material?.sourceTitle ?? "",
+      content: material?.content ?? "",
+      updatedAt: material?.updatedAt ?? null,
+    };
+  });
 
   return (
     <main className="management-shell">
@@ -33,6 +56,19 @@ export default async function AdminPage() {
             </strong>
           </article>
         </div>
+      </section>
+
+      <section className="detail-card admin-material-section">
+        <div className="section-heading">
+          <span>IA y contenido</span>
+          <h2>Material real para flashcards y bancos de preguntas</h2>
+          <p>
+            Pega aqui tu guia, lectura, transcripcion o apuntes por leccion.
+            Cuando el estudiante use la IA, primero se tomara este material como
+            fuente principal.
+          </p>
+        </div>
+        <MaterialManager lessons={materialRows} />
       </section>
 
       <section className="management-two-column">

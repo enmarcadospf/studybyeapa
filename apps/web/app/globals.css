@@ -2484,6 +2484,89 @@ img {
   background: #fff4f6;
 }
 
+.admin-material-section {
+  margin: 1.5rem 0;
+}
+
+.material-manager {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1.2rem;
+}
+
+.material-manager-toolbar {
+  display: grid;
+  grid-template-columns: 1fr 280px;
+  gap: 1rem;
+  align-items: end;
+}
+
+.material-field {
+  display: grid;
+  gap: 0.45rem;
+  color: var(--navy);
+  font-weight: 800;
+}
+
+.material-field-wide {
+  min-width: 0;
+}
+
+.material-input,
+.material-textarea {
+  width: 100%;
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: rgba(248, 251, 255, 0.92);
+  color: var(--navy);
+  outline: none;
+}
+
+.material-textarea {
+  min-height: 260px;
+  resize: vertical;
+  line-height: 1.65;
+}
+
+.material-input:focus,
+.material-textarea:focus {
+  border-color: var(--blue);
+  box-shadow: 0 0 0 4px rgba(169, 199, 232, 0.24);
+}
+
+.material-status-card {
+  display: grid;
+  gap: 0.25rem;
+  padding: 1rem;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: rgba(248, 251, 255, 0.92);
+}
+
+.material-status-card span,
+.material-status-card small,
+.material-counter {
+  color: var(--text-gray);
+}
+
+.material-status-card strong {
+  color: var(--navy);
+}
+
+.material-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+}
+
+.material-actions button:disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+  transform: none;
+}
+
 @media (max-width: 1180px) {
   .feature-grid-eapa,
   .method-cards-eapa,
@@ -2535,6 +2618,10 @@ img {
   .device-item-eapa {
     flex-direction: column;
     align-items: flex-start;
+  }
+
+  .material-manager-toolbar {
+    grid-template-columns: 1fr;
   }
 
   .flashcards-grid {

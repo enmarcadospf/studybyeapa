@@ -6,6 +6,7 @@ import {
   type Lesson,
 } from "@academia/shared";
 import { NextResponse } from "next/server";
+import { getLessonMaterialByLessonId } from "../../../../lib/server/lesson-material-store";
 
 type StudyAction = "ask" | "flashcards" | "quiz" | "exam";
 
@@ -43,6 +44,11 @@ type AskPayload = {
   answer: string;
 };
 
+type LessonMaterialContext = {
+  sourceTitle: string;
+  content: string;
+} | null;
+
 function getCourseContext(courseSlug: string, lessonId?: string) {
   const course = courses.find((item) => item.slug === courseSlug) ?? null;
   const courseLesson = lessonId
@@ -55,7 +61,23 @@ function getCourseContext(courseSlug: string, lessonId?: string) {
   return { course, courseLesson, courseModule };
 }
 
-function buildContextBlock(course: Course, lesson: Lesson | null, moduleTitle: string | null) {
+function truncateMaterial(content: string) {
+  const normalizedContent = content.trim();
+  const maxCharacters = 12000;
+
+  if (normalizedContent.length <= maxCharacters) {
+    return normalizedContent;
+  }
+
+  return `${normalizedContent.slice(0, maxCharacters)}\n\n[Material truncado para mantener la respuesta estable.]`;
+}
+
+function buildContextBlock(
+  course: Course,
+  lesson: Lesson | null,
+  moduleTitle: string | null,
+  material: LessonMaterialContext,
+) {
   return [
     `Curso: ${course.title}.`,
     `Resumen del curso: ${course.summary}.`,
@@ -64,6 +86,13 @@ function buildContextBlock(course: Course, lesson: Lesson | null, moduleTitle: s
     lesson ? `Tipo de contenido: ${lesson.contentType === "video" ? "video" : "lectura"}.` : null,
     lesson ? `Resumen de la leccion: ${lesson.summary}.` : null,
     lesson ? `Duracion estimada: ${lesson.durationMinutes} minutos.` : null,
+    material
+      ? [
+          "Material real subido por el profesor. Usa este material como fuente principal:",
+          `Fuente: ${material.sourceTitle}.`,
+          truncateMaterial(material.content),
+        ].join("\n")
+      : "No hay material real subido para esta leccion. Si respondes, aclara que estas usando solo el resumen disponible.",
   ]
     .filter(Boolean)
     .join("\n");
@@ -83,7 +112,9 @@ async function createOpenAIResponse({
   const apiKey = process.env.OPENAI_API_KEY;
 
   if (!apiKey) {
-    throw new Error("Falta OPENAI_API_KEY en el servidor.");
+    throw new Error(
+      "La IA de OpenAI aun no esta configurada en Netlify. Agrega OPENAI_API_KEY en Environment variables y vuelve a desplegar.",
+    );
   }
 
   const model = process.env.OPENAI_MODEL || "gpt-5.5";
@@ -126,12 +157,18 @@ async function createOpenAIResponse({
   return JSON.parse(payload.output_text) as unknown;
 }
 
-async function generateAskPayload(course: Course, lesson: Lesson | null, moduleTitle: string | null, question: string) {
+async function generateAskPayload(
+  course: Course,
+  lesson: Lesson | null,
+  moduleTitle: string | null,
+  material: LessonMaterialContext,
+  question: string,
+) {
   const result = await createOpenAIResponse({
     instructions:
-      "Eres el tutor IA de Study by EAPA. Explicas medicina de forma clara, amable, segura y educativa. No inventes datos concretos si el contexto es insuficiente. Responde en espanol sencillo para estudiantes de medicina.",
+      "Eres el tutor IA de Study by EAPA. Explicas medicina de forma clara, amable, segura y educativa. Usa el material real subido por el profesor como fuente principal cuando exista. No inventes datos concretos si el contexto es insuficiente. Responde en espanol sencillo para estudiantes de medicina.",
     input: [
-      buildContextBlock(course, lesson, moduleTitle),
+      buildContextBlock(course, lesson, moduleTitle, material),
       `Pregunta del estudiante: ${question || "Dame un resumen util de esta leccion."}`,
       "Devuelve una respuesta corta, clara y enfocada en aprendizaje.",
     ].join("\n\n"),
@@ -150,12 +187,17 @@ async function generateAskPayload(course: Course, lesson: Lesson | null, moduleT
   return result as AskPayload;
 }
 
-async function generateFlashcardsPayload(course: Course, lesson: Lesson, moduleTitle: string | null) {
+async function generateFlashcardsPayload(
+  course: Course,
+  lesson: Lesson,
+  moduleTitle: string | null,
+  material: LessonMaterialContext,
+) {
   const result = await createOpenAIResponse({
     instructions:
-      "Eres el tutor IA de Study by EAPA. Genera flashcards medicas de alta utilidad para repaso. Cada tarjeta debe tener una pregunta clave al frente y una respuesta corta y precisa al reverso.",
+      "Eres el tutor IA de Study by EAPA. Genera flashcards medicas de alta utilidad para repaso. Usa el material real subido por el profesor como fuente principal cuando exista. Cada tarjeta debe tener una pregunta clave al frente y una respuesta corta y precisa al reverso.",
     input: [
-      buildContextBlock(course, lesson, moduleTitle),
+      buildContextBlock(course, lesson, moduleTitle, material),
       "Genera 6 flashcards basadas en ideas clave, definiciones, relaciones clinicas y datos de examen.",
     ].join("\n\n"),
     schemaName: "study_flashcards",
@@ -189,20 +231,22 @@ async function generateQuizPayload({
   course,
   lesson,
   moduleTitle,
+  material,
   difficulty,
   residentMode,
 }: {
   course: Course;
   lesson: Lesson;
   moduleTitle: string | null;
+  material: LessonMaterialContext;
   difficulty: string;
   residentMode: boolean;
 }) {
   const result = await createOpenAIResponse({
     instructions:
-      "Eres el tutor IA de Study by EAPA. Genera preguntas de seleccion multiple en espanol. Siempre incluye 4 opciones plausibles, indica la correcta y da una explicacion breve. Si el modo es residente, eleva claramente la dificultad y el razonamiento clinico.",
+      "Eres el tutor IA de Study by EAPA. Genera preguntas de seleccion multiple en espanol. Usa el material real subido por el profesor como fuente principal cuando exista. Siempre incluye 4 opciones plausibles, indica la correcta y da una explicacion breve. Si el modo es residente, eleva claramente la dificultad y el razonamiento clinico.",
     input: [
-      buildContextBlock(course, lesson, moduleTitle),
+      buildContextBlock(course, lesson, moduleTitle, material),
       residentMode
         ? "Genera 5 preguntas muy dificiles, complejas, estilo residente, con razonamiento clinico."
         : `Genera 5 preguntas de seleccion multiple nivel ${difficulty}.`,
@@ -276,11 +320,16 @@ export async function POST(request: Request) {
       );
     }
 
+    const lessonMaterial = courseLesson
+      ? await getLessonMaterialByLessonId(courseLesson.id)
+      : null;
+
     if (action === "flashcards" && courseLesson) {
       const result = await generateFlashcardsPayload(
         course,
         courseLesson,
         courseModule?.title ?? null,
+        lessonMaterial,
       );
 
       return NextResponse.json(result);
@@ -291,6 +340,7 @@ export async function POST(request: Request) {
         course,
         lesson: courseLesson,
         moduleTitle: courseModule?.title ?? null,
+        material: lessonMaterial,
         difficulty,
         residentMode: false,
       });
@@ -303,6 +353,7 @@ export async function POST(request: Request) {
         course,
         lesson: courseLesson,
         moduleTitle: courseModule?.title ?? null,
+        material: lessonMaterial,
         difficulty: "residente",
         residentMode: true,
       });
@@ -314,6 +365,7 @@ export async function POST(request: Request) {
       course,
       courseLesson,
       courseModule?.title ?? null,
+      lessonMaterial,
       body.question ?? "",
     );
 
