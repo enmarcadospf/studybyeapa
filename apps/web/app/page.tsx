@@ -27,23 +27,20 @@ export default function HomePage() {
       <section className="soft-card home-hero-eapa">
         <div className="home-hero-grid-eapa">
           <div>
-            <div className="pill-badge-eapa">✦ Plataforma medica para estudiantes</div>
             <h1>
               Aprende medicina
               <br />
               <span>facil y feliz</span>
             </h1>
             <p>
-              Cursos claros, practicos y actualizados que te acompanan paso a
-              paso para comprender mejor, estudiar con calma y avanzar con
-              confianza.
+              Cursos claros, practicos y actualizados que te acompanan en cada paso de tu camino como futuro profesional de la salud.
             </p>
             <div className="hero-actions-eapa">
               <Link href="/auth/register" className="primary-btn">
                 Inscribirme ahora
               </Link>
               <Link href="/metodologia" className="secondary-btn">
-                Conoce mas
+                Conoce mas →
               </Link>
             </div>
           </div>
@@ -56,17 +53,17 @@ export default function HomePage() {
         </div>
         <div className="feature-grid-eapa">
           <FeatureCard
-            icon="📘"
+            icon="◫"
             title="Contenido claro y actualizado"
-            text="Lecciones disenadas con un enfoque practico y efectivo."
+            text="Lecciones disenadas por expertos con un enfoque practico y efectivo."
           />
           <FeatureCard
-            icon="⏰"
+            icon="◔"
             title="Aprende a tu ritmo"
-            text="Estudia cuando y donde quieras con total flexibilidad."
+            text="Estudia cuando y desde donde quieras con total flexibilidad."
           />
           <FeatureCard
-            icon="📈"
+            icon="↗"
             title="Resultados que te impulsan"
             text="Seguimiento de tu progreso y herramientas que te acercan a tu meta."
           />

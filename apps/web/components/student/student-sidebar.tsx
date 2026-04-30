@@ -2,14 +2,14 @@ import Link from "next/link";
 import { Logo } from "../ui/logo";
 
 const studentLinks = [
-  { href: "/student", label: "Inicio" },
-  { href: "/courses", label: "Mis cursos" },
-  { href: "/calendar", label: "Calendario" },
-  { href: "/simulacros", label: "Simulacros" },
-  { href: "#", label: "Mensajes" },
-  { href: "#", label: "Logros" },
-  { href: "#", label: "Notas" },
-  { href: "/settings", label: "Ajustes" },
+  { href: "/student", label: "Inicio", icon: "⌂" },
+  { href: "/courses", label: "Mis cursos", icon: "▤" },
+  { href: "/calendar", label: "Calendario", icon: "◫" },
+  { href: "/simulacros", label: "Simulacros", icon: "☑" },
+  { href: "#", label: "Mensajes", icon: "✉" },
+  { href: "#", label: "Logros", icon: "★" },
+  { href: "#", label: "Notas", icon: "✎" },
+  { href: "/settings", label: "Ajustes", icon: "⚙" },
 ];
 
 type StudentSidebarProps = {
@@ -34,7 +34,7 @@ export function StudentSidebar({ activeHref }: StudentSidebarProps) {
                   : "student-sidebar-link-eapa"
               }
             >
-              <span className="student-sidebar-dot" />
+              <span className="student-sidebar-icon">{link.icon}</span>
               {link.label}
             </Link>
           ))}
@@ -42,7 +42,7 @@ export function StudentSidebar({ activeHref }: StudentSidebarProps) {
       </div>
       <form action="/api/auth/logout" method="post">
         <button className="student-sidebar-logout" type="submit">
-          <span className="student-sidebar-dot" />
+          <span className="student-sidebar-icon">↩</span>
           Cerrar sesion
         </button>
       </form>

@@ -70,10 +70,10 @@ export default async function StudentPage() {
           </div>
 
           <div className="dashboard-stats-eapa">
-            <StatCard icon="📘" title="Cursos en progreso" value={String(unlockedCourses.length || 4)} />
-            <StatCard icon="📝" title="Lecciones completadas" value="68" />
-            <StatCard icon="⏰" title="Horas de estudio" value="42 h" />
-            <StatCard icon="🗓" title="Simulacros realizados" value="7" />
+            <StatCard icon="▤" title="Cursos en progreso" value={String(unlockedCourses.length || 4)} />
+            <StatCard icon="☑" title="Lecciones completadas" value="68" />
+            <StatCard icon="◔" title="Horas de estudio" value="42 h" />
+            <StatCard icon="◫" title="Simulacros realizados" value="7" />
           </div>
 
           <div className="dashboard-panels-eapa">

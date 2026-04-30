@@ -24,6 +24,13 @@ export default async function SettingsPage() {
             <h1>Mi Perfil</h1>
             <p>Gestiona tu informacion personal y preferencias.</p>
           </div>
+          <div className="profile-tabs-eapa">
+            <span className="is-active">Mi perfil</span>
+            <span>Preferencias</span>
+            <span>Seguridad</span>
+            <span>Notificaciones</span>
+            <span>Facturacion</span>
+          </div>
           <AccountHub courses={courses} student={student} />
         </main>
       </div>

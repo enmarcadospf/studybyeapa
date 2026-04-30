@@ -37,21 +37,21 @@ export default function MetodologiaPage() {
             <div className="method-cards-eapa">
               <MethodCard
                 number="1"
-                icon="📘"
+                icon="▤"
                 title="Aprende"
-                text="Lecciones claras, visuales y organizadas para entender desde la base."
+                text="Lecciones claras, videos y recursos disenados para que entiendas a profundidad."
               />
               <MethodCard
                 number="2"
-                icon="📝"
+                icon="☑"
                 title="Practica"
-                text="Ejercicios, casos clinicos y preguntas que refuerzan tu aprendizaje."
+                text="Ejercicios, casos clinicos y preguntas que refuerzan lo aprendido."
               />
               <MethodCard
                 number="3"
                 icon="🏆"
                 title="Evalua y mejora"
-                text="Simulacros y evaluaciones para medir tu progreso y corregir debilidades."
+                text="Simulacros y evaluaciones que miden tu progreso y te ayudan a mejorar."
               />
             </div>
             <div className="method-quote-eapa">

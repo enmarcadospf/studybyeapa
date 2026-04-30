@@ -27,53 +27,53 @@ export function BrainBookIcon({
       xmlns="http://www.w3.org/2000/svg"
     >
       <path
-        d="M54 51C43 50 35 42 35 31C35 20 44 12 55 14C60 5 74 5 80 16C86 5 100 5 105 14C116 12 125 20 125 31C125 42 117 50 106 51C99 59 87 60 80 51C73 60 61 59 54 51Z"
+        d="M51 50C41 50 34 42 34 32C34 22 42 14 53 15C58 7 71 7 77 17C83 7 97 7 102 15C113 14 121 22 121 32C121 42 114 50 104 50C99 58 88 61 80 54C72 61 60 58 51 50Z"
         fill={whiteIcon ? "transparent" : "#F8FBFF"}
         stroke={blue}
-        strokeWidth="6"
+        strokeWidth="5"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
-      <path d="M80 17V52" stroke={blue} strokeWidth="5" strokeLinecap="round" />
-      <path d="M58 29C64 27 68 30 69 35" stroke={blue} strokeWidth="4" strokeLinecap="round" />
-      <path d="M101 29C95 27 91 30 90 35" stroke={blue} strokeWidth="4" strokeLinecap="round" />
-      <path d="M65 45C68 49 73 49 76 45" stroke={navy} strokeWidth="4" strokeLinecap="round" />
-      <path d="M87 45C90 49 95 49 98 45" stroke={navy} strokeWidth="4" strokeLinecap="round" />
-      <path d="M72 56C76 61 84 61 88 56" stroke={navy} strokeWidth="4" strokeLinecap="round" />
+      <path d="M80 18V53" stroke={blue} strokeWidth="4.5" strokeLinecap="round" />
+      <path d="M59 30C64 28 68 31 69 35" stroke={blue} strokeWidth="3.5" strokeLinecap="round" />
+      <path d="M100 30C95 28 91 31 90 35" stroke={blue} strokeWidth="3.5" strokeLinecap="round" />
+      <path d="M67 44C69 47 73 47 75 44" stroke={navy} strokeWidth="4" strokeLinecap="round" />
+      <path d="M85 44C87 47 91 47 93 44" stroke={navy} strokeWidth="4" strokeLinecap="round" />
+      <path d="M72 55C76 59 84 59 88 55" stroke={navy} strokeWidth="4" strokeLinecap="round" />
       {!whiteIcon ? (
         <>
-          <circle cx="55" cy="50" r="5" fill={orange} opacity="0.85" />
-          <circle cx="105" cy="50" r="5" fill={orange} opacity="0.85" />
+          <circle cx="57" cy="48" r="4.5" fill={orange} opacity="0.85" />
+          <circle cx="103" cy="48" r="4.5" fill={orange} opacity="0.85" />
         </>
       ) : null}
       <path
-        d="M67 69C67 82 75 91 80 97C85 91 93 82 93 69"
+        d="M67 68C67 79 74 88 80 94C86 88 93 79 93 68"
         stroke={blue}
-        strokeWidth="6"
+        strokeWidth="5"
         strokeLinecap="round"
       />
-      <path d="M93 69C93 61 103 61 103 69" stroke={navy} strokeWidth="6" strokeLinecap="round" />
-      <path d="M67 69C67 61 57 61 57 69" stroke={navy} strokeWidth="6" strokeLinecap="round" />
+      <path d="M93 68C93 60 102 60 102 68" stroke={navy} strokeWidth="5" strokeLinecap="round" />
+      <path d="M67 68C67 60 58 60 58 68" stroke={navy} strokeWidth="5" strokeLinecap="round" />
       <circle
         cx="80"
-        cy="96"
-        r="10"
+        cy="93"
+        r="9"
         fill={whiteIcon ? "transparent" : "white"}
         stroke={navy}
-        strokeWidth="5"
+        strokeWidth="4.5"
       />
-      <circle cx="80" cy="96" r="4" fill={blue} />
+      <circle cx="80" cy="93" r="3.5" fill={blue} />
       <path
-        d="M18 103C38 96 58 97 80 113C102 97 122 96 142 103V132C119 126 99 128 80 141C61 128 41 126 18 132V103Z"
+        d="M22 104C40 98 58 100 80 114C102 100 120 98 138 104V126C118 121 100 123 80 136C60 123 42 121 22 126V104Z"
         fill={whiteIcon ? "transparent" : "white"}
         stroke={blue}
-        strokeWidth="5"
+        strokeWidth="4.5"
         strokeLinejoin="round"
       />
-      <path d="M80 113V141" stroke={navy} strokeWidth="5" strokeLinecap="round" />
-      <path d="M29 113C45 109 58 111 72 120" stroke={light} strokeWidth="4" strokeLinecap="round" />
-      <path d="M88 120C102 111 115 109 131 113" stroke={light} strokeWidth="4" strokeLinecap="round" />
-      <path d="M20 132C43 128 62 131 80 141C98 131 117 128 140 132" stroke={navy} strokeWidth="5" strokeLinecap="round" />
+      <path d="M80 114V136" stroke={navy} strokeWidth="4.5" strokeLinecap="round" />
+      <path d="M31 112C45 109 56 111 72 120" stroke={light} strokeWidth="3.5" strokeLinecap="round" />
+      <path d="M88 120C104 111 115 109 129 112" stroke={light} strokeWidth="3.5" strokeLinecap="round" />
+      <path d="M24 126C44 122 61 125 80 136C99 125 116 122 136 126" stroke={navy} strokeWidth="4.5" strokeLinecap="round" />
     </svg>
   );
 }
@@ -83,20 +83,21 @@ export function Logo({
   white = false,
   small = false,
 }: LogoProps) {
-  const compactMode = compact || small;
+  const iconOnly = compact;
+  const smallMode = small && !compact;
 
   return (
     <div className="eapa-logo-real">
       <BrainBookIcon
         variant={white ? "white" : "normal"}
-        className={compactMode ? "logo-icon-sm" : "logo-icon-lg"}
+        className={iconOnly ? "logo-icon-sm" : smallMode ? "logo-icon-nav" : "logo-icon-lg"}
       />
-      {!compactMode ? (
+      {!iconOnly ? (
         <div className="eapa-logo-real-copy">
-          <div className={white ? "eapa-logo-title is-white" : "eapa-logo-title"}>
+          <div className={white ? `eapa-logo-title is-white ${smallMode ? "is-small" : ""}` : `eapa-logo-title ${smallMode ? "is-small" : ""}`}>
             Study <span>by</span> <strong>EAPA</strong>
           </div>
-          <div className={white ? "eapa-logo-subtitle is-white" : "eapa-logo-subtitle"}>
+          <div className={white ? `eapa-logo-subtitle is-white ${smallMode ? "is-small" : ""}` : `eapa-logo-subtitle ${smallMode ? "is-small" : ""}`}>
             Aprende medicina facil y feliz
           </div>
         </div>

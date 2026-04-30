@@ -1,12 +1,14 @@
 import { getCourses } from "../../lib/api";
 
 const iconMap: Record<string, string> = {
-  "anatomia-clinica": "🦴",
-  "fisiologia-medica": "🫀",
-  "bioquimica-medica": "🧬",
-  "farmacologia-general": "💊",
-  "patologia-general": "🧠",
-  infectologia: "🔬",
+  "anatomia-clinica": "⚕",
+  "fisiologia-medica": "◉",
+  "bioquimica-medica": "⌬",
+  "farmacologia-general": "◖",
+  "patologia-general": "◎",
+  infectologia: "✺",
+  "semiologia-clinica": "◌",
+  anatomia: "⚕",
 };
 
 export const dynamic = "force-dynamic";

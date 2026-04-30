@@ -1532,7 +1532,7 @@ img {
   z-index: 50;
   width: 100%;
   margin: 0;
-  padding: 1rem max(1.5rem, calc((100vw - 1200px) / 2 + 1.5rem));
+  padding: 0.9rem max(1.25rem, calc((100vw - 1120px) / 2 + 1.25rem));
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -1556,7 +1556,7 @@ img {
 
 .top-navbar-links a {
   color: #64748b;
-  font-size: 1rem;
+  font-size: 0.92rem;
   font-weight: 600;
   transition: color 0.2s ease;
 }
@@ -1584,8 +1584,13 @@ img {
 }
 
 .logo-icon-sm {
-  width: 44px;
-  height: 44px;
+  width: 40px;
+  height: 40px;
+}
+
+.logo-icon-nav {
+  width: 46px;
+  height: 46px;
 }
 
 .eapa-logo-real-copy {
@@ -1596,6 +1601,10 @@ img {
   font-size: 1.8rem;
   font-weight: 800;
   color: var(--navy);
+}
+
+.eapa-logo-title.is-small {
+  font-size: 1.15rem;
 }
 
 .eapa-logo-title span {
@@ -1621,12 +1630,16 @@ img {
   color: var(--blue);
 }
 
+.eapa-logo-subtitle.is-small {
+  font-size: 0.65rem;
+}
+
 .public-shell-eapa,
 .auth-shell-eapa,
 .dashboard-shell-eapa {
-  max-width: 1280px;
+  max-width: 1120px;
   margin: 0 auto;
-  padding: 2rem 1.5rem 4rem;
+  padding: 1.5rem 1rem 3rem;
 }
 
 .home-hero-eapa,
@@ -1637,7 +1650,7 @@ img {
 .dashboard-main-eapa,
 .auth-showcase-eapa,
 .auth-form-card-eapa {
-  padding: 2rem;
+  padding: 1.4rem;
 }
 
 .home-hero-grid-eapa,
@@ -1669,7 +1682,7 @@ img {
 .auth-showcase-eapa h1,
 .profile-page-head-eapa h1 {
   margin: 0;
-  font-size: clamp(2.4rem, 5vw, 4.3rem);
+  font-size: clamp(1.95rem, 4vw, 3.25rem);
   line-height: 1.05;
   color: var(--navy);
 }
@@ -1688,7 +1701,8 @@ img {
 .auth-showcase-eapa p,
 .profile-page-head-eapa p {
   color: var(--text-gray);
-  line-height: 1.75;
+  line-height: 1.65;
+  font-size: 0.93rem;
 }
 
 .pill-badge-eapa {
@@ -1718,13 +1732,13 @@ img {
   align-items: center;
   justify-content: center;
   position: relative;
-  min-height: 420px;
+  min-height: 320px;
 }
 
 .hero-art-glow {
   position: absolute;
-  width: 420px;
-  height: 300px;
+  width: 320px;
+  height: 220px;
   border-radius: 45%;
   background: rgba(169, 199, 232, 0.25);
   filter: blur(2px);
@@ -1732,11 +1746,11 @@ img {
 
 .hero-art-card {
   position: relative;
-  padding: 1.5rem;
-  border-radius: 40px;
-  border: 1px solid var(--soft-gray);
-  background: white;
-  box-shadow: var(--shadow-soft);
+  padding: 0.6rem;
+  border-radius: 36px;
+  border: none;
+  background: transparent;
+  box-shadow: none;
 }
 
 .feature-grid-eapa,
@@ -1766,7 +1780,7 @@ img {
 .profile-form-card-eapa,
 .profile-side-info-eapa,
 .profile-wide-card-eapa {
-  padding: 1.5rem;
+  padding: 1.05rem;
 }
 
 .feature-card-eapa h3,
@@ -1776,7 +1790,7 @@ img {
 .event-item-eapa h3,
 .device-item-eapa h3 {
   margin: 0;
-  font-size: 1.1rem;
+  font-size: 0.98rem;
   color: var(--navy);
 }
 
@@ -1795,8 +1809,8 @@ img {
 .method-icon-eapa,
 .stat-icon-eapa,
 .course-card-icon-eapa {
-  width: 56px;
-  height: 56px;
+  width: 42px;
+  height: 42px;
   margin-bottom: 1rem;
   display: flex;
   align-items: center;
@@ -1804,7 +1818,7 @@ img {
   border-radius: 18px;
   background: rgba(169, 199, 232, 0.22);
   color: var(--blue);
-  font-size: 1.6rem;
+  font-size: 1rem;
 }
 
 .method-card-head-eapa {
@@ -1910,7 +1924,7 @@ img {
 
 .student-sidebar-eapa {
   min-height: 760px;
-  padding: 1.25rem;
+  padding: 0.95rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -1935,7 +1949,7 @@ img {
   align-items: center;
   gap: 0.75rem;
   width: 100%;
-  padding: 0.95rem 1rem;
+  padding: 0.78rem 0.85rem;
   border: none;
   border-radius: 18px;
   background: transparent;
@@ -1950,11 +1964,11 @@ img {
   color: white;
 }
 
-.student-sidebar-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 999px;
-  background: currentColor;
+.student-sidebar-icon {
+  width: 16px;
+  display: inline-flex;
+  justify-content: center;
+  font-size: 0.95rem;
 }
 
 .dashboard-head-eapa {
@@ -1968,7 +1982,7 @@ img {
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  padding: 1rem 1.2rem;
+  padding: 0.85rem 1rem;
   border: 1px solid rgba(255, 177, 115, 0.4);
   border-radius: 24px;
   background: rgba(255, 177, 115, 0.16);
@@ -1985,7 +1999,7 @@ img {
 
 .stat-card-eapa h3 {
   margin: 0.3rem 0 0;
-  font-size: 2rem;
+  font-size: 1.7rem;
 }
 
 .dashboard-panels-eapa,
@@ -2324,6 +2338,28 @@ img {
 
 .profile-page-head-eapa {
   margin-bottom: 1.5rem;
+}
+
+.profile-tabs-eapa {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.8rem;
+  border-bottom: 1px solid var(--soft-gray);
+  color: var(--text-gray);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.profile-tabs-eapa span {
+  padding-bottom: 0.3rem;
+  border-bottom: 2px solid transparent;
+}
+
+.profile-tabs-eapa .is-active {
+  color: var(--blue);
+  border-color: var(--blue);
 }
 
 .assistant-answer-block {
