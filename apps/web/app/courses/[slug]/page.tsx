@@ -1,6 +1,8 @@
 import Link from "next/link";
 import {
+  courseFocusAreas,
   modules,
+  paymentMethodCards,
   studyToolCards,
 } from "@academia/shared";
 import { notFound } from "next/navigation";
@@ -48,6 +50,13 @@ export default async function CourseDetailPage({
           <p className="course-support-line">
             Video, lectura, IA, flashcards y quiz desde una sola vista.
           </p>
+          <div className="course-topic-row">
+            {(courseFocusAreas[course.slug] ?? []).map((topic) => (
+              <span className="topic-chip" key={topic}>
+                {topic}
+              </span>
+            ))}
+          </div>
           <div className="course-meta">
             <span>Nivel {course.level}</span>
             <span>{course.lessons} lecciones</span>
@@ -78,6 +87,35 @@ export default async function CourseDetailPage({
             ))}
           </div>
         </aside>
+      </section>
+
+      <section className="subscription-panel">
+        <div className="subscription-copy">
+          <p className="eyebrow">Acceso al curso</p>
+          <h2>Tienes que suscribirte para poder tener acceso completo</h2>
+          <p className="catalog-copy">
+            Puedes explorar la estructura del curso, pero para abrir todas las
+            lecciones, generar flashcards, usar el quiz y presentar examenes,
+            el estudiante debe pagar la suscripcion o compra del curso.
+          </p>
+          <div className="hero-actions">
+            <a className="primary-action" href="/auth/register">
+              Suscribirme ahora
+            </a>
+            <a className="secondary-action" href="/auth/login">
+              Ya tengo cuenta
+            </a>
+          </div>
+        </div>
+        <div className="payment-grid">
+          {paymentMethodCards.map((method) => (
+            <article className="payment-card" key={method.id}>
+              <span className="module-badge">{method.badge}</span>
+              <h3>{method.title}</h3>
+              <p>{method.description}</p>
+            </article>
+          ))}
+        </div>
       </section>
 
       <section className="content-section">
@@ -124,6 +162,9 @@ export default async function CourseDetailPage({
                               Quiz IA
                             </button>
                           ) : null}
+                          <button className="ghost-action" type="button">
+                            Bloqueado hasta suscripcion
+                          </button>
                         </div>
                       </div>
                     </article>

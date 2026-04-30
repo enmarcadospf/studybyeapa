@@ -444,6 +444,86 @@ img {
   margin-top: 1rem;
 }
 
+.catalog-hero-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 1.25rem;
+  align-items: stretch;
+}
+
+.catalog-side-card,
+.subscription-panel,
+.payment-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 28px;
+  box-shadow: var(--shadow);
+}
+
+.catalog-side-card {
+  padding: 1.5rem;
+  display: grid;
+  align-content: center;
+  gap: 0.85rem;
+}
+
+.catalog-side-card h2,
+.payment-card h3 {
+  margin: 0;
+}
+
+.stack-actions {
+  display: grid;
+  gap: 0.8rem;
+}
+
+.course-browser-card {
+  padding: 1.5rem;
+}
+
+.course-browser-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.course-topic-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  margin-top: 1rem;
+}
+
+.topic-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.42rem 0.72rem;
+  border-radius: 999px;
+  background: var(--gray-soft);
+  color: var(--primary-dark);
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.subscription-panel {
+  margin-top: 2rem;
+  padding: 1.6rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.2rem;
+}
+
+.payment-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.payment-card {
+  padding: 1.2rem;
+}
+
 .course-detail-hero {
   grid-template-columns: 1.25fr 0.75fr;
 }
@@ -627,7 +707,10 @@ img {
   .student-grid,
   .stats-strip,
   .cta-panel,
-  .lesson-row {
+  .lesson-row,
+  .catalog-hero-grid,
+  .subscription-panel,
+  .payment-grid {
     grid-template-columns: 1fr;
   }
 

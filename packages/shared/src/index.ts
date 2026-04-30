@@ -75,6 +75,13 @@ export type StudyToolCard = {
   actionLabel: string;
 };
 
+export type PaymentMethodCard = {
+  id: string;
+  title: string;
+  description: string;
+  badge: string;
+};
+
 export type TutoringOffer = {
   id: string;
   topic: string;
@@ -345,6 +352,51 @@ export const studyToolCards: StudyToolCard[] = [
     actionLabel: "Abrir IA",
   },
 ] as const;
+
+export const paymentMethodCards: PaymentMethodCard[] = [
+  {
+    id: "apple-pay",
+    title: "Apple Pay",
+    description:
+      "Pago rapido desde iPhone, iPad o Mac cuando conectemos Stripe con tu cuenta real.",
+    badge: "Rapido",
+  },
+  {
+    id: "card",
+    title: "Tarjeta de credito o debito",
+    description:
+      "Cobro directo del curso con Visa, Mastercard u otras tarjetas compatibles.",
+    badge: "Principal",
+  },
+  {
+    id: "account",
+    title: "Deposito en tu cuenta",
+    description:
+      "Todo pago aprobado ira a tu cuenta configurada en la pasarela que integremos.",
+    badge: "Tu cobras",
+  },
+] as const;
+
+export const courseFocusAreas: Record<string, string[]> = {
+  "semiologia-clinica": [
+    "Interrogatorio",
+    "Signos",
+    "Sintomas",
+    "Razonamiento clinico",
+  ],
+  infectologia: [
+    "Antibioticos",
+    "Sindrome febril",
+    "Enfermedades infecciosas",
+    "Terapia antimicrobiana",
+  ],
+  anatomia: [
+    "Torax",
+    "Abdomen",
+    "Neuroanatomia",
+    "Correlacion clinica",
+  ],
+} as const;
 
 export const tutoringOffers: TutoringOffer[] = [
   {
