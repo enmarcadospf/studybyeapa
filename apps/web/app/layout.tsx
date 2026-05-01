@@ -5,6 +5,9 @@ import { SiteHeader } from "../components/site-header";
 export const metadata: Metadata = {
   title: "Study by EAPA",
   description: "Plataforma web para estudiantes de medicina con IA, flashcards y examenes.",
+  icons: {
+    icon: "/studybyeapa-logo.svg",
+  },
 };
 
 export const viewport: Viewport = {

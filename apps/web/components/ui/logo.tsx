@@ -14,66 +14,91 @@ export function BrainBookIcon({
   variant = "normal",
 }: BrainBookIconProps) {
   const whiteIcon = variant === "white";
+
+  if (!whiteIcon) {
+    return (
+      <img
+        src="/studybyeapa-logo-mark.png"
+        alt=""
+        aria-hidden="true"
+        className={className}
+        decoding="async"
+      />
+    );
+  }
+
   const navy = whiteIcon ? "#FFFFFF" : "#0D2B5E";
   const blue = whiteIcon ? "#FFFFFF" : "#2D6CC4";
   const light = whiteIcon ? "#FFFFFF" : "#A9C7E8";
-  const orange = "#FFB173";
+  const blush = "#FFA7A7";
 
   return (
     <svg
-      viewBox="0 0 160 150"
+      viewBox="0 0 220 220"
       className={className}
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
     >
+      {/* Cerebro feliz */}
       <path
-        d="M51 50C41 50 34 42 34 32C34 22 42 14 53 15C58 7 71 7 77 17C83 7 97 7 102 15C113 14 121 22 121 32C121 42 114 50 104 50C99 58 88 61 80 54C72 61 60 58 51 50Z"
+        d="M69 88C54 87 43 76 43 61C43 45 55 34 72 36C78 22 96 21 105 35C114 21 132 22 138 36C155 34 167 45 167 61C167 76 156 87 141 88C132 99 116 101 105 90C94 101 78 99 69 88Z"
         fill={whiteIcon ? "transparent" : "#F8FBFF"}
         stroke={blue}
-        strokeWidth="5"
+        strokeWidth="7"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
-      <path d="M80 18V53" stroke={blue} strokeWidth="4.5" strokeLinecap="round" />
-      <path d="M59 30C64 28 68 31 69 35" stroke={blue} strokeWidth="3.5" strokeLinecap="round" />
-      <path d="M100 30C95 28 91 31 90 35" stroke={blue} strokeWidth="3.5" strokeLinecap="round" />
-      <path d="M67 44C69 47 73 47 75 44" stroke={navy} strokeWidth="4" strokeLinecap="round" />
-      <path d="M85 44C87 47 91 47 93 44" stroke={navy} strokeWidth="4" strokeLinecap="round" />
-      <path d="M72 55C76 59 84 59 88 55" stroke={navy} strokeWidth="4" strokeLinecap="round" />
+      <path d="M105 36V90" stroke={blue} strokeWidth="6.5" strokeLinecap="round" />
+      <path d="M75 56C83 51 91 54 94 63" stroke={blue} strokeWidth="5.5" strokeLinecap="round" />
+      <path d="M135 56C127 51 119 54 116 63" stroke={blue} strokeWidth="5.5" strokeLinecap="round" />
+      <path d="M65 70C68 65 74 64 78 69" stroke={blue} strokeWidth="5.5" strokeLinecap="round" />
+      <path d="M145 70C142 65 136 64 132 69" stroke={blue} strokeWidth="5.5" strokeLinecap="round" />
+      <path d="M82 72C85 77 91 77 94 72" stroke={navy} strokeWidth="5.5" strokeLinecap="round" />
+      <path d="M116 72C119 77 125 77 128 72" stroke={navy} strokeWidth="5.5" strokeLinecap="round" />
+      <path d="M94 85C100 93 110 93 116 85" stroke={navy} strokeWidth="5.5" strokeLinecap="round" />
       {!whiteIcon ? (
         <>
-          <circle cx="57" cy="48" r="4.5" fill={orange} opacity="0.85" />
-          <circle cx="103" cy="48" r="4.5" fill={orange} opacity="0.85" />
+          <circle cx="73" cy="82" r="7" fill={blush} opacity="0.9" />
+          <circle cx="137" cy="82" r="7" fill={blush} opacity="0.9" />
         </>
       ) : null}
+
+      {/* Estetoscopio separado del cerebro */}
       <path
-        d="M67 68C67 79 74 88 80 94C86 88 93 79 93 68"
+        d="M89 112C89 132 100 145 110 153C120 145 131 132 131 112"
         stroke={blue}
-        strokeWidth="5"
+        strokeWidth="8"
         strokeLinecap="round"
       />
-      <path d="M93 68C93 60 102 60 102 68" stroke={navy} strokeWidth="5" strokeLinecap="round" />
-      <path d="M67 68C67 60 58 60 58 68" stroke={navy} strokeWidth="5" strokeLinecap="round" />
+      <path d="M131 112C131 101 145 101 145 112" stroke={navy} strokeWidth="8" strokeLinecap="round" />
+      <path d="M89 112C89 101 75 101 75 112" stroke={navy} strokeWidth="8" strokeLinecap="round" />
+      <circle cx="88" cy="112" r="6" fill={navy} />
+      <circle cx="132" cy="112" r="6" fill={navy} />
       <circle
-        cx="80"
-        cy="93"
-        r="9"
+        cx="110"
+        cy="152"
+        r="16"
         fill={whiteIcon ? "transparent" : "white"}
         stroke={navy}
-        strokeWidth="4.5"
+        strokeWidth="7"
       />
-      <circle cx="80" cy="93" r="3.5" fill={blue} />
+      <circle cx="110" cy="152" r="6" fill={blue} />
+
+      {/* Libro abierto */}
       <path
-        d="M22 104C40 98 58 100 80 114C102 100 120 98 138 104V126C118 121 100 123 80 136C60 123 42 121 22 126V104Z"
+        d="M26 158C55 149 84 153 110 174C136 153 165 149 194 158V195C162 187 136 191 110 209C84 191 58 187 26 195V158Z"
         fill={whiteIcon ? "transparent" : "white"}
         stroke={blue}
-        strokeWidth="4.5"
+        strokeWidth="7"
         strokeLinejoin="round"
       />
-      <path d="M80 114V136" stroke={navy} strokeWidth="4.5" strokeLinecap="round" />
-      <path d="M31 112C45 109 56 111 72 120" stroke={light} strokeWidth="3.5" strokeLinecap="round" />
-      <path d="M88 120C104 111 115 109 129 112" stroke={light} strokeWidth="3.5" strokeLinecap="round" />
-      <path d="M24 126C44 122 61 125 80 136C99 125 116 122 136 126" stroke={navy} strokeWidth="4.5" strokeLinecap="round" />
+      <path d="M110 174V209" stroke={navy} strokeWidth="7" strokeLinecap="round" />
+      <path d="M43 174C62 168 82 171 100 184" stroke={light} strokeWidth="5.5" strokeLinecap="round" />
+      <path d="M120 184C138 171 158 168 177 174" stroke={light} strokeWidth="5.5" strokeLinecap="round" />
+      <path d="M42 187C61 182 80 185 99 197" stroke={light} strokeWidth="5.5" strokeLinecap="round" />
+      <path d="M121 197C140 185 159 182 178 187" stroke={light} strokeWidth="5.5" strokeLinecap="round" />
+      <path d="M29 195C62 188 88 194 110 209C132 194 158 188 191 195" stroke={navy} strokeWidth="7" strokeLinecap="round" />
     </svg>
   );
 }
@@ -85,6 +110,17 @@ export function Logo({
 }: LogoProps) {
   const iconOnly = compact;
   const smallMode = small && !compact;
+
+  if (!white && !iconOnly) {
+    return (
+      <img
+        src="/studybyeapa-logo-horizontal.png"
+        alt="Study by EAPA - Aprende medicina fácil y feliz"
+        className={smallMode ? "eapa-logo-image-nav" : "eapa-logo-image"}
+        decoding="async"
+      />
+    );
+  }
 
   return (
     <div className="eapa-logo-real">
@@ -98,7 +134,7 @@ export function Logo({
             Study <span>by</span> <strong>EAPA</strong>
           </div>
           <div className={white ? `eapa-logo-subtitle is-white ${smallMode ? "is-small" : ""}` : `eapa-logo-subtitle ${smallMode ? "is-small" : ""}`}>
-            Aprende medicina facil y feliz
+            Aprende medicina fácil y feliz
           </div>
         </div>
       ) : null}
