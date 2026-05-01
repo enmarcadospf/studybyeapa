@@ -124,7 +124,7 @@ export function StudyAssistant({
           </div>
 
           <label className="assistant-label">
-            Leccion
+            Lección
             <select
               className="assistant-select"
               onChange={(event) => setSelectedLessonId(event.target.value)}
@@ -145,7 +145,7 @@ export function StudyAssistant({
               onChange={(event) => setDifficulty(event.target.value)}
               value={difficulty}
             >
-              <option value="basico">Basico</option>
+              <option value="basico">Básico</option>
               <option value="intermedio">Intermedio</option>
               <option value="avanzado">Avanzado</option>
               <option value="residente">Residente</option>
@@ -153,11 +153,11 @@ export function StudyAssistant({
           </label>
 
           <label className="assistant-label">
-            Pregunta o instruccion
+            Pregunta o instrucción
             <textarea
               className="assistant-textarea"
               onChange={(event) => setQuestion(event.target.value)}
-              placeholder="Ejemplo: resumeme este tema, genera flashcards o crea preguntas estilo residente."
+              placeholder="Ejemplo: resúmeme este tema, genera flashcards o crea preguntas estilo residente."
               rows={6}
               value={question}
             />
@@ -196,7 +196,7 @@ export function StudyAssistant({
 
           {selectedLesson ? (
             <p className="assistant-meta-copy">
-              Leccion seleccionada: <strong>{selectedLesson.title}</strong>
+              Lección seleccionada: <strong>{selectedLesson.title}</strong>
             </p>
           ) : null}
           {error ? <p className="form-message form-message-error">{error}</p> : null}
@@ -295,7 +295,7 @@ export function StudyAssistant({
               <p>
                 Puedes hacer preguntas, generar flashcards que se voltean,
                 crear bancos de preguntas con opciones y usar modo residente
-                con preguntas mas complejas.
+                con preguntas más complejas.
               </p>
             </article>
           )}

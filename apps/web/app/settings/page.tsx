@@ -21,8 +21,9 @@ export default async function SettingsPage() {
         <StudentSidebar activeHref="/settings" />
         <main className="soft-card dashboard-main-eapa">
           <div className="profile-page-head-eapa">
-            <h1>Mi Perfil</h1>
-            <p>Gestiona tu informacion personal y preferencias.</p>
+            <span className="pill-badge-eapa">Configuración</span>
+            <h1>Mi perfil</h1>
+            <p>Gestiona tu información personal, contraseña, dispositivos y suscripción.</p>
           </div>
           <div className="profile-tabs-eapa">
             <span className="is-active">Mi perfil</span>

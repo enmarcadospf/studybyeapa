@@ -1,22 +1,22 @@
 const events = [
   {
     hour: "09:00 - 10:30",
-    title: "Estudio: Fisiologia Humana",
+    title: "Estudio: Fisiología Humana",
     color: "medium",
   },
   {
     hour: "11:00 - 12:00",
-    title: "Leccion: Bioquimica - Enzimas",
+    title: "Lección: Bioquímica - Enzimas",
     color: "light",
   },
   {
     hour: "15:00 - 16:30",
-    title: "Simulacro 3: Patologia General",
+    title: "Simulacro 3: Patología General",
     color: "orange",
   },
   {
     hour: "18:00 - 19:00",
-    title: "Repaso: Anatomia - Torax y costillas",
+    title: "Repaso: Anatomía - Tórax y costillas",
     color: "navy",
   },
 ];
@@ -25,8 +25,9 @@ export default function CalendarPage() {
   return (
     <main className="public-shell-eapa">
       <section className="soft-card calendar-shell-eapa">
+        <span className="pill-badge-eapa">Plan de estudio</span>
         <h1>Calendario</h1>
-        <p>Organiza tus actividades y mantente al dia.</p>
+        <p>Organiza tus actividades y mantente al día.</p>
 
         <div className="calendar-grid-eapa">
           <div className="soft-card calendar-box-eapa">
@@ -36,7 +37,7 @@ export default function CalendarPage() {
               <button className="secondary-btn small-btn-eapa">›</button>
             </div>
             <div className="calendar-full-grid-eapa">
-              {["Lun", "Mar", "Mie", "Jue", "Vie", "Sab", "Dom"].map((day) => (
+              {["Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"].map((day) => (
                 <div key={day} className="calendar-mini-label-eapa">{day}</div>
               ))}
               {Array.from({ length: 31 }, (_, i) => (
@@ -53,9 +54,9 @@ export default function CalendarPage() {
 
           <div className="soft-card agenda-box-eapa">
             <div className="agenda-head-eapa">
-              <h2>Agenda del dia - Jueves, 15 de mayo</h2>
+              <h2>Agenda del día - Jueves, 15 de mayo</h2>
               <div className="agenda-tabs-eapa">
-                <button className="primary-btn small-pill-eapa">Dia</button>
+                <button className="primary-btn small-pill-eapa">Día</button>
                 <button className="secondary-btn small-pill-eapa">Semana</button>
                 <button className="secondary-btn small-pill-eapa">Mes</button>
               </div>

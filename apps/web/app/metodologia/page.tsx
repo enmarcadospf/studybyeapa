@@ -29,9 +29,9 @@ export default function MetodologiaPage() {
       <section className="soft-card method-shell-eapa">
         <div className="method-grid-eapa">
           <div>
-            <h1>Nuestra metodologia</h1>
+            <h1>Nuestra metodología</h1>
             <p>
-              Un camino simple y efectivo para que aprendas medicina facil,
+              Un camino simple y efectivo para que aprendas medicina fácil,
               organizada y con felicidad.
             </p>
             <div className="method-cards-eapa">
@@ -39,25 +39,25 @@ export default function MetodologiaPage() {
                 number="1"
                 icon="▤"
                 title="Aprende"
-                text="Lecciones claras, videos y recursos disenados para que entiendas a profundidad."
+                text="Lecciones claras, videos y recursos diseñados para que entiendas a profundidad."
               />
               <MethodCard
                 number="2"
                 icon="☑"
                 title="Practica"
-                text="Ejercicios, casos clinicos y preguntas que refuerzan lo aprendido."
+                text="Ejercicios, casos clínicos y preguntas que refuerzan lo aprendido."
               />
               <MethodCard
                 number="3"
                 icon="🏆"
-                title="Evalua y mejora"
+                title="Evalúa y mejora"
                 text="Simulacros y evaluaciones que miden tu progreso y te ayudan a mejorar."
               />
             </div>
             <div className="method-quote-eapa">
               <div className="method-heart-eapa">♥</div>
               <p>
-                Aprendemos mejor cuando disfrutamos el proceso. Estudiar medicina puede ser facil y feliz.
+                Aprendemos mejor cuando disfrutamos el proceso. Estudiar medicina puede ser fácil y feliz.
               </p>
             </div>
           </div>

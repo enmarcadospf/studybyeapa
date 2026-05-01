@@ -42,7 +42,7 @@ export default async function CourseDetailPage({
         <aside className="mock-course-sidebar">
           <div className="mock-course-sidebar-head">
             <strong>{course.title}</strong>
-            <span>{courseModules.length} modulos</span>
+            <span>{courseModules.length} módulos</span>
           </div>
           <div className="progress-bar" aria-hidden="true">
             <span style={{ width: "70%" }} />
@@ -64,7 +64,7 @@ export default async function CourseDetailPage({
           <p className="course-category">2. {courseModules[1]?.title ?? "Sistema oseo"}</p>
           <h1>{courseModules[1]?.title ?? course.title}</h1>
           <p className="course-detail-summary">
-            Aprende sobre el tema con contenido humano, claro, estructurado y enfocado en comprension real.
+            Aprende sobre el tema con contenido humano, claro, estructurado y enfocado en comprensión real.
           </p>
           <div className="mock-course-body">
             <div className="mock-course-figure">🦴</div>
@@ -72,9 +72,9 @@ export default async function CourseDetailPage({
               <strong>Puntos clave</strong>
               <ul>
                 <li>Soporte del cuerpo</li>
-                <li>Proteccion de organos</li>
+                <li>Protección de órganos</li>
                 <li>Movimiento</li>
-                <li>Produccion de celulas sanguineas</li>
+                <li>Producción de células sanguíneas</li>
                 <li>Almacenamiento de minerales</li>
               </ul>
             </div>
@@ -93,8 +93,8 @@ export default async function CourseDetailPage({
           <h2>Tienes que suscribirte para poder tener acceso completo</h2>
           <p className="catalog-copy">
             Puedes explorar la estructura del curso, pero para abrir todas las
-            lecciones, generar flashcards, usar el quiz y presentar examenes,
-            el estudiante debe pagar la suscripcion o compra del curso.
+            lecciones, generar flashcards, usar el quiz y presentar exámenes,
+            el estudiante debe pagar la suscripción o compra del curso.
           </p>
           <div className="hero-actions">
             <a className="primary-action" href="/auth/register">
@@ -119,7 +119,7 @@ export default async function CourseDetailPage({
       <section className="content-section">
         <div className="section-heading">
           <span>Estructura</span>
-          <h2>Modulos y lecciones del curso</h2>
+          <h2>Módulos y lecciones del curso</h2>
         </div>
         <div className="module-stack">
           {courseModules.map((module) => {
@@ -140,7 +140,7 @@ export default async function CourseDetailPage({
                   {moduleLessons.map((lesson) => (
                     <article className="lesson-row" key={lesson.id}>
                       <div>
-                        <p className="lesson-kicker">Leccion {lesson.order}</p>
+                        <p className="lesson-kicker">Lección {lesson.order}</p>
                         <h4>{lesson.title}</h4>
                         <p>{lesson.summary}</p>
                       </div>
@@ -161,7 +161,7 @@ export default async function CourseDetailPage({
                             </button>
                           ) : null}
                           <button className="ghost-action" type="button">
-                            Bloqueado hasta suscripcion
+                            Bloqueado hasta suscripción
                           </button>
                         </div>
                       </div>
@@ -181,10 +181,10 @@ export default async function CourseDetailPage({
         </div>
         <div className="detail-grid">
           <article className="detail-card">
-            <h3>Preguntale al tema</h3>
+            <h3>Pregúntale al tema</h3>
             <p>
-              El estudiante podra escribir dudas, pedir ejemplos o resumir una
-              leccion sin salir del modulo.
+              El estudiante podrá escribir dudas, pedir ejemplos o resumir una
+              lección sin salir del módulo.
             </p>
           </article>
           <article className="detail-card">

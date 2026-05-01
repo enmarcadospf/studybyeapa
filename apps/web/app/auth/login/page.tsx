@@ -20,7 +20,7 @@ export default async function LoginPage() {
             de <span>estudio</span>
           </h1>
           <p>
-            Inicia sesion como estudiante para retomar modulos, simulacros y tu progreso guardado.
+            Inicia sesión como estudiante para retomar módulos, simulacros y tu progreso guardado.
           </p>
           <div className="auth-illustration-eapa">
             <BrainBookIcon className="hero-brain-icon" />
@@ -35,7 +35,7 @@ export default async function LoginPage() {
           </div>
           <LoginForm />
           <p className="auth-footer-eapa">
-            Aun sin cuenta? <a href="/auth/register">Crear una cuenta</a>
+            ¿Aún sin cuenta? <a href="/auth/register">Crear una cuenta</a>
           </p>
         </section>
       </section>

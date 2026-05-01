@@ -88,7 +88,7 @@ export function AccountHub({ student, courses }: AccountHubProps) {
     if (!response.ok) {
       setPasswordMessage({
         type: "error",
-        text: result.message ?? "No se pudo cambiar la contrasena.",
+        text: result.message ?? "No se pudo cambiar la contraseña.",
       });
       return;
     }
@@ -96,7 +96,7 @@ export function AccountHub({ student, courses }: AccountHubProps) {
     event.currentTarget.reset();
     setPasswordMessage({
       type: "success",
-      text: result.message ?? "Contrasena actualizada.",
+      text: result.message ?? "Contraseña actualizada.",
     });
   }
 
@@ -129,7 +129,7 @@ export function AccountHub({ student, courses }: AccountHubProps) {
               <input className="input-eapa" defaultValue={student.fullName} name="fullName" type="text" />
             </label>
             <label className="form-label-eapa">
-              Correo electronico
+              Correo electrónico
               <input className="input-eapa" defaultValue={student.email} disabled type="email" />
             </label>
             <label className="form-label-eapa">
@@ -137,8 +137,8 @@ export function AccountHub({ student, courses }: AccountHubProps) {
               <input className="input-eapa" defaultValue={student.university} name="university" type="text" />
             </label>
             <label className="form-label-eapa">
-              Estado
-              <input className="input-eapa" defaultValue="Republica Dominicana" disabled type="text" />
+              País
+              <input className="input-eapa" defaultValue="República Dominicana" disabled type="text" />
             </label>
           </div>
           <label className="form-label-eapa">
@@ -160,33 +160,33 @@ export function AccountHub({ student, courses }: AccountHubProps) {
       </section>
 
       <section className="soft-card profile-side-info-eapa">
-        <h2>Informacion de cuenta</h2>
+        <h2>Información de cuenta</h2>
         <div className="side-stats-eapa">
           <div><span>Miembro desde</span><b>{new Date(student.createdAt).toLocaleDateString("es-DO")}</b></div>
           <div><span>Plan actual</span><b>{activeSubscriptions.length ? "Estudiante Premium" : "Sin plan activo"}</b></div>
-          <div><span>Renovacion</span><b>{activeSubscriptions[0] ? new Date(activeSubscriptions[0].expiresAt).toLocaleDateString("es-DO") : "Pendiente"}</b></div>
+          <div><span>Renovación</span><b>{activeSubscriptions[0] ? new Date(activeSubscriptions[0].expiresAt).toLocaleDateString("es-DO") : "Pendiente"}</b></div>
           <div><span>Dispositivos activos</span><b>{activeDevices.length}</b></div>
           <div><span>Dispositivos extra</span><b>{extraChargeDevices.length}</b></div>
         </div>
         <button className="secondary-btn secondary-btn-full" type="button">
-          Gestionar suscripcion
+          Gestionar suscripción
         </button>
       </section>
 
       <section className="soft-card profile-wide-card-eapa">
-        <h2>Cambiar contrasena</h2>
+        <h2>Cambiar contraseña</h2>
         <form className="form-stack-eapa" onSubmit={handlePasswordSubmit}>
           <div className="profile-form-grid-eapa">
             <label className="form-label-eapa">
-              Contrasena actual
+              Contraseña actual
               <input className="input-eapa" name="currentPassword" type="password" />
             </label>
             <label className="form-label-eapa">
-              Nueva contrasena
+              Nueva contraseña
               <input className="input-eapa" name="nextPassword" type="password" />
             </label>
             <label className="form-label-eapa">
-              Confirmar nueva contrasena
+              Confirmar nueva contraseña
               <input className="input-eapa" name="nextPasswordConfirmation" type="password" />
             </label>
           </div>
@@ -195,7 +195,7 @@ export function AccountHub({ student, courses }: AccountHubProps) {
               {passwordMessage.text}
             </p>
           ) : null}
-          <button className="primary-btn" type="submit">Actualizar contrasena</button>
+          <button className="primary-btn" type="submit">Actualizar contraseña</button>
         </form>
       </section>
 
@@ -218,7 +218,7 @@ export function AccountHub({ student, courses }: AccountHubProps) {
               </div>
             ))
           ) : (
-            <p className="empty-text-eapa">Todavia no hay dispositivos registrados.</p>
+            <p className="empty-text-eapa">Todavía no hay dispositivos registrados.</p>
           )}
         </div>
       </section>
@@ -230,7 +230,7 @@ export function AccountHub({ student, courses }: AccountHubProps) {
             <div key={course.id} className="device-item-eapa">
               <div>
                 <h3>{course.title}</h3>
-                <p>Acceso por 3 meses · recargo extra dispositivo del 50%</p>
+                <p>Acceso por 3 meses · recargo por dispositivo extra del 50%</p>
               </div>
               <div className="device-actions-eapa">
                 <span>USD {course.priceUsd}</span>

@@ -1,24 +1,24 @@
 const simulacros = [
   {
-    name: "Simulacro 1: Anatomia y Fisiologia",
+    name: "Simulacro 1: Anatomía y Fisiología",
     preguntas: "60 preguntas",
     estado: "Completado",
     score: "84%",
   },
   {
-    name: "Simulacro 2: Bioquimica y Farmacologia",
+    name: "Simulacro 2: Bioquímica y Farmacología",
     preguntas: "60 preguntas",
     estado: "Completado",
     score: "68%",
   },
   {
-    name: "Simulacro 3: Patologia General",
+    name: "Simulacro 3: Patología General",
     preguntas: "60 preguntas",
     estado: "Realizar",
     score: "-",
   },
   {
-    name: "Simulacro 4: Microbiologia",
+    name: "Simulacro 4: Microbiología",
     preguntas: "60 preguntas",
     estado: "Realizar",
     score: "-",
@@ -29,8 +29,9 @@ export default function SimulacrosPage() {
   return (
     <main className="public-shell-eapa">
       <section className="soft-card simulacros-shell-eapa">
+        <span className="pill-badge-eapa">Modo examen</span>
         <h1>Simulacros</h1>
-        <p>Evalua tus conocimientos y mide tu progreso.</p>
+        <p>Evalúa tus conocimientos y mide tu progreso con preguntas estilo examen.</p>
 
         <div className="simulacros-grid-eapa">
           <div className="soft-card side-card-eapa">
@@ -45,6 +46,11 @@ export default function SimulacrosPage() {
               <div><span>Simulacros realizados</span><b>7</b></div>
               <div><span>Promedio de aciertos</span><b>72%</b></div>
               <div><span>Mejor puntaje</span><b>84%</b></div>
+            </div>
+            <div className="strength-tags-eapa">
+              <span>Anatomía 80%</span>
+              <span>Fisiología 76%</span>
+              <span>Farmacología 30%</span>
             </div>
           </div>
 

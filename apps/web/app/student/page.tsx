@@ -58,13 +58,17 @@ export default async function StudentPage() {
           <div className="dashboard-head-eapa">
             <div>
               <h1>Hola, {student.fullName.split(" ")[0]}!</h1>
-              <p>Sigue avanzando, cada dia estas mas cerca de tu meta.</p>
+              <p>Sigue avanzando, cada día estás más cerca de tu meta.</p>
+            </div>
+            <div className="dashboard-actions-eapa">
+              <Link href="/courses" className="secondary-btn">Ver catálogo</Link>
+              <Link href="/simulacros" className="primary-btn">Nuevo repaso</Link>
             </div>
             <div className="streak-box-eapa">
               <span>🔥</span>
               <div>
                 <p>Racha actual</p>
-                <strong>12 dias</strong>
+                <strong>12 días</strong>
               </div>
             </div>
           </div>

@@ -31,7 +31,7 @@ export default async function RegisterPage() {
           <div className="auth-form-brand">
             <BrainBookIcon className="auth-mini-brain" />
             <h2>Crea tu cuenta</h2>
-            <p>Es rapido, facil y gratuito.</p>
+            <p>Es rápido, fácil y gratuito.</p>
           </div>
           <RegisterForm />
           <p className="auth-footer-eapa">

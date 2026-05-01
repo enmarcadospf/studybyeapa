@@ -9,7 +9,7 @@ const studentLinks = [
   { href: "#", label: "Mensajes", icon: "✉" },
   { href: "#", label: "Logros", icon: "★" },
   { href: "#", label: "Notas", icon: "✎" },
-  { href: "/settings", label: "Ajustes", icon: "⚙" },
+  { href: "/settings", label: "Configuración", icon: "⚙" },
 ];
 
 type StudentSidebarProps = {
@@ -43,7 +43,7 @@ export function StudentSidebar({ activeHref }: StudentSidebarProps) {
       <form action="/api/auth/logout" method="post">
         <button className="student-sidebar-logout" type="submit">
           <span className="student-sidebar-icon">↩</span>
-          Cerrar sesion
+          Cerrar sesión
         </button>
       </form>
     </aside>

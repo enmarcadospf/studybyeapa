@@ -11,16 +11,16 @@ export async function SiteHeader() {
         <Logo small />
       </Link>
       <nav className="top-navbar-links" aria-label="Principal">
-        <Link href="/metodologia">Metodologia</Link>
+        <Link href="/metodologia">Metodología</Link>
         <Link href="/courses">Cursos</Link>
         <Link href={student ? "/student" : "/auth/register"}>Estudiante</Link>
-        <Link href={student ? "/settings" : "/auth/login"}>Gestion</Link>
+        <Link href={student ? "/settings" : "/auth/login"}>Configuración</Link>
         <Link href="/auth/login">Entrar</Link>
       </nav>
       <div className="top-navbar-actions">
         {student ? (
           <form action="/api/auth/logout" method="post">
-            <button className="primary-btn" type="submit">Cerrar sesion</button>
+            <button className="primary-btn" type="submit">Cerrar sesión</button>
           </form>
         ) : (
           <Link href="/auth/register" className="primary-btn">

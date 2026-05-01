@@ -198,7 +198,7 @@ export const roles = [
     key: "admin" as UserRole,
     name: "Tu configuracion interna",
     description:
-      "Tu controlas contenido, precios, ofertas, estructura, examenes y el estilo de las preguntas generadas.",
+      "Tú controlas contenido, precios, ofertas, estructura, exámenes y el estilo de las preguntas generadas.",
   },
 ] as const;
 
@@ -206,9 +206,9 @@ export const courses: Course[] = [
   {
     id: "course-semiologia-clinica",
     slug: "semiologia-clinica",
-    title: "Semiologia clinica",
+    title: "Semiología clínica",
     summary:
-      "Interrogatorio, hallazgos y razonamiento clinico con repaso activo al final de cada tema.",
+      "Interrogatorio, hallazgos y razonamiento clínico con repaso activo al final de cada tema.",
     level: "intermediate",
     lessons: 28,
     durationHours: 20,
@@ -219,9 +219,9 @@ export const courses: Course[] = [
   {
     id: "course-infectologia",
     slug: "infectologia",
-    title: "Infectologia",
+    title: "Infectología",
     summary:
-      "Abordaje sindromico, antimicrobianos y preguntas de alta exigencia tipo examen.",
+      "Abordaje sindrómico, antimicrobianos y preguntas de alta exigencia tipo examen.",
     level: "intermediate",
     lessons: 32,
     durationHours: 24,
@@ -232,14 +232,14 @@ export const courses: Course[] = [
   {
     id: "course-anatomia",
     slug: "anatomia",
-    title: "Anatomia",
+    title: "Anatomía",
     summary:
       "Videos, lectura y repaso visual para consolidar estructuras, relaciones y puntos de examen.",
     level: "beginner",
     lessons: 26,
     durationHours: 18,
     priceUsd: 45,
-    category: "Ciencias basicas",
+    category: "Ciencias básicas",
     featured: true,
   },
 ] as const;
@@ -248,24 +248,24 @@ export const modules: CourseModule[] = [
   {
     id: "module-semiologia-1",
     courseSlug: "semiologia-clinica",
-    title: "Modulo 1 · Bases del interrogatorio",
-    summary: "Aprender a escuchar, filtrar sintomas y dirigir preguntas clinicas.",
-    examLabel: "Examen final de modulo con enfoque clinico",
+    title: "Módulo 1 · Bases del interrogatorio",
+    summary: "Aprender a escuchar, filtrar síntomas y dirigir preguntas clínicas.",
+    examLabel: "Examen final de módulo con enfoque clínico",
     lessonIds: ["lesson-semiologia-01", "lesson-semiologia-02"],
   },
   {
     id: "module-infectologia-1",
     courseSlug: "infectologia",
-    title: "Modulo 1 · Sindrome febril",
-    summary: "Criterios iniciales, enfoque diagnostico y decisiones terapéuticas.",
+    title: "Módulo 1 · Síndrome febril",
+    summary: "Criterios iniciales, enfoque diagnóstico y decisiones terapéuticas.",
     examLabel: "Examen final estilo residente",
     lessonIds: ["lesson-infectologia-01", "lesson-infectologia-02"],
   },
   {
     id: "module-anatomia-1",
     courseSlug: "anatomia",
-    title: "Modulo 1 · Torax",
-    summary: "Video, lectura y repaso activo sobre estructuras toracicas y correlacion clinica.",
+    title: "Módulo 1 · Tórax",
+    summary: "Video, lectura y repaso activo sobre estructuras torácicas y correlación clínica.",
     examLabel: "Examen final por sistema",
     lessonIds: ["lesson-anatomia-01", "lesson-anatomia-02", "lesson-anatomia-03"],
   },
@@ -276,8 +276,8 @@ export const lessons: Lesson[] = [
     id: "lesson-semiologia-01",
     courseSlug: "semiologia-clinica",
     moduleId: "module-semiologia-1",
-    title: "Interrogatorio clinico dirigido",
-    summary: "Preguntas clave para orientar el diagnostico desde el primer contacto.",
+    title: "Interrogatorio clínico dirigido",
+    summary: "Preguntas clave para orientar el diagnóstico desde el primer contacto.",
     contentType: "video",
     durationMinutes: 18,
     order: 1,
@@ -302,8 +302,8 @@ export const lessons: Lesson[] = [
     id: "lesson-infectologia-01",
     courseSlug: "infectologia",
     moduleId: "module-infectologia-1",
-    title: "Abordaje inicial del sindrome febril",
-    summary: "Video de enfoque rapido para diferenciar causas y priorizar estudios.",
+    title: "Abordaje inicial del síndrome febril",
+    summary: "Video de enfoque rápido para diferenciar causas y priorizar estudios.",
     contentType: "video",
     durationMinutes: 24,
     order: 1,
@@ -328,8 +328,8 @@ export const lessons: Lesson[] = [
     id: "lesson-anatomia-01",
     courseSlug: "anatomia",
     moduleId: "module-anatomia-1",
-    title: "Video guiado de estructuras toracicas",
-    summary: "Recorrido visual de torax con referencias practicas y orientacion espacial.",
+    title: "Video guiado de estructuras torácicas",
+    summary: "Recorrido visual de tórax con referencias prácticas y orientación espacial.",
     contentType: "video",
     durationMinutes: 22,
     order: 1,
@@ -341,8 +341,8 @@ export const lessons: Lesson[] = [
     id: "lesson-anatomia-02",
     courseSlug: "anatomia",
     moduleId: "module-anatomia-1",
-    title: "Lectura de anatomia del torax",
-    summary: "Resumen organizado de estructuras, limites y relaciones de alto valor.",
+    title: "Lectura de anatomía del tórax",
+    summary: "Resumen organizado de estructuras, límites y relaciones de alto valor.",
     contentType: "reading",
     durationMinutes: 15,
     order: 2,
@@ -354,8 +354,8 @@ export const lessons: Lesson[] = [
     id: "lesson-anatomia-03",
     courseSlug: "anatomia",
     moduleId: "module-anatomia-1",
-    title: "Correlacion clinica del torax",
-    summary: "Leccion corta para unir anatomia con imagenes, sintomas y examen.",
+    title: "Correlación clínica del tórax",
+    summary: "Lección corta para unir anatomía con imágenes, síntomas y examen.",
     contentType: "video",
     durationMinutes: 17,
     order: 3,
@@ -370,21 +370,21 @@ export const studyToolCards: StudyToolCard[] = [
     id: "tool-flashcards",
     title: "Generar flashcards",
     description:
-      "Convierte el tema estudiado en tarjetas cortas para repaso rapido y repeticion espaciada.",
+      "Convierte el tema estudiado en tarjetas cortas para repaso rápido y repetición espaciada.",
     actionLabel: "Crear flashcards",
   },
   {
     id: "tool-quiz",
     title: "Crear quiz por dificultad",
     description:
-      "Permite elegir nivel basico, intermedio, avanzado o residente para practicar segun necesidad.",
+      "Permite elegir nivel básico, intermedio, avanzado o residente para practicar según necesidad.",
     actionLabel: "Crear quiz",
   },
   {
     id: "tool-ai",
     title: "Hablar con la IA del tema",
     description:
-      "Espacio para escribir preguntas, pedir resumentes, aclarar conceptos y reforzar el razonamiento.",
+      "Espacio para escribir preguntas, pedir resúmenes, aclarar conceptos y reforzar el razonamiento.",
     actionLabel: "Abrir IA",
   },
 ] as const;
@@ -394,21 +394,21 @@ export const paymentMethodCards: PaymentMethodCard[] = [
     id: "apple-pay",
     title: "Apple Pay",
     description:
-      "Pago rapido desde iPhone, iPad o Mac cuando conectemos Stripe con tu cuenta real.",
-    badge: "Rapido",
+      "Pago rápido desde iPhone, iPad o Mac cuando conectemos Stripe con tu cuenta real.",
+    badge: "Rápido",
   },
   {
     id: "card",
-    title: "Tarjeta de credito o debito",
+    title: "Tarjeta de crédito o débito",
     description:
       "Cobro directo del curso con Visa, Mastercard u otras tarjetas compatibles.",
     badge: "Principal",
   },
   {
     id: "account",
-    title: "Deposito en tu cuenta",
+    title: "Depósito en tu cuenta",
     description:
-      "Todo pago aprobado ira a tu cuenta configurada en la pasarela que integremos.",
+      "Todo pago aprobado irá a tu cuenta configurada en la pasarela que integremos.",
     badge: "Tu cobras",
   },
 ] as const;
@@ -417,27 +417,27 @@ export const courseFocusAreas: Record<string, string[]> = {
   "semiologia-clinica": [
     "Interrogatorio",
     "Signos",
-    "Sintomas",
-    "Razonamiento clinico",
+    "Síntomas",
+    "Razonamiento clínico",
   ],
   infectologia: [
-    "Antibioticos",
-    "Sindrome febril",
+    "Antibióticos",
+    "Síndrome febril",
     "Enfermedades infecciosas",
     "Terapia antimicrobiana",
   ],
   anatomia: [
-    "Torax",
+    "Tórax",
     "Abdomen",
-    "Neuroanatomia",
-    "Correlacion clinica",
+    "Neuroanatomía",
+    "Correlación clínica",
   ],
 } as const;
 
 export const tutoringOffers: TutoringOffer[] = [
   {
     id: "guided-review-1",
-    topic: "Repaso guiado de anatomia",
+    topic: "Repaso guiado de anatomía",
     teacherName: "EAPA",
     durationMinutes: 45,
     priceUsd: 15,
@@ -445,7 +445,7 @@ export const tutoringOffers: TutoringOffer[] = [
   },
   {
     id: "guided-review-2",
-    topic: "Resolucion de quiz clinico",
+    topic: "Resolución de quiz clínico",
     teacherName: "EAPA",
     durationMinutes: 60,
     priceUsd: 18,
@@ -465,7 +465,7 @@ export const dashboardSections: DashboardSection[] = [
     role: "student",
     heading: "Panel del estudiante",
     description:
-      "Vista para continuar cursos, repasar con flashcards y resolver quizzes o examenes sin perder el ritmo.",
+      "Vista para continuar cursos, repasar con flashcards y resolver quizzes o exámenes sin perder el ritmo.",
     summaries: [
       { title: "Cursos activos", value: "4", helper: "Dos terminan esta semana" },
       { title: "Progreso promedio", value: "72%", helper: "Subio 8% este mes" },
