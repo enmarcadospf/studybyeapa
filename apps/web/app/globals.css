@@ -1778,6 +1778,45 @@ img {
   grid-template-columns: 1.05fr 0.95fr;
 }
 
+.method-grid-eapa {
+  grid-template-columns: minmax(0, 1.25fr) minmax(280px, 0.75fr);
+  gap: clamp(1.5rem, 4vw, 3.25rem);
+}
+
+.method-shell-eapa {
+  min-height: 560px;
+  overflow: hidden;
+  position: relative;
+  border-radius: 26px;
+}
+
+.method-shell-eapa::before {
+  content: "";
+  position: absolute;
+  inset: auto -10% -42% 28%;
+  height: 420px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(169, 199, 232, 0.28), transparent 62%);
+  pointer-events: none;
+}
+
+.method-copy-eapa {
+  position: relative;
+  z-index: 2;
+  padding: clamp(0.35rem, 1.2vw, 0.8rem);
+}
+
+.method-eyebrow-eapa {
+  display: inline-flex;
+  align-items: center;
+  margin-bottom: 0.9rem;
+  color: var(--blue);
+  font-size: 0.74rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
 .home-copy-eapa {
   padding: clamp(0.25rem, 1.2vw, 0.8rem);
 }
@@ -1799,6 +1838,12 @@ img {
 
 .home-hero-eapa h1 {
   max-width: 8.4ch;
+}
+
+.method-shell-eapa h1 {
+  max-width: 13ch;
+  font-size: clamp(2.1rem, 4vw, 3.15rem);
+  letter-spacing: -0.048em;
 }
 
 .home-hero-eapa h1 span,
@@ -1824,6 +1869,11 @@ img {
   margin-top: 1.2rem;
   font-size: 1rem;
   line-height: 1.75;
+}
+
+.method-copy-eapa > p {
+  max-width: 37rem;
+  margin: 0.78rem 0 0;
 }
 
 .pill-badge-eapa {
@@ -1857,6 +1907,85 @@ img {
   justify-content: center;
   position: relative;
   min-height: 320px;
+}
+
+.method-visual-eapa {
+  min-height: 430px;
+}
+
+.method-visual-panel-eapa {
+  position: relative;
+  width: min(100%, 380px);
+  min-height: 420px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.method-mascot-glow-eapa {
+  position: absolute;
+  inset: 8% 0 4%;
+  border-radius: 44% 56% 54% 46% / 46% 42% 58% 54%;
+  background:
+    radial-gradient(circle at 22% 30%, rgba(169, 199, 232, 0.42), transparent 25%),
+    radial-gradient(circle at 78% 64%, rgba(45, 108, 196, 0.12), transparent 28%),
+    linear-gradient(135deg, rgba(248, 251, 255, 0.98), rgba(169, 199, 232, 0.24));
+  box-shadow: inset 0 0 0 1px rgba(214, 226, 243, 0.55);
+}
+
+.method-brain-icon {
+  position: relative;
+  z-index: 2;
+  width: min(92%, 330px);
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 22px 24px rgba(13, 43, 94, 0.08));
+}
+
+.method-plus-eapa,
+.method-bubble-eapa {
+  position: absolute;
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+}
+
+.method-plus-eapa {
+  color: var(--blue);
+  font-size: 1.35rem;
+  opacity: 0.72;
+}
+
+.method-plus-one {
+  left: 6%;
+  top: 28%;
+}
+
+.method-plus-two {
+  right: 7%;
+  top: 44%;
+}
+
+.method-bubble-eapa {
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  color: var(--blue);
+  background: white;
+  border: 1px solid rgba(169, 199, 232, 0.56);
+  box-shadow: 0 12px 28px rgba(13, 43, 94, 0.075);
+}
+
+.method-bubble-check {
+  left: 9%;
+  top: 48%;
+}
+
+.method-bubble-heart {
+  right: 9%;
+  bottom: 28%;
 }
 
 .home-mascot-stage-eapa {
@@ -1972,6 +2101,11 @@ img {
   margin-top: 2.1rem;
 }
 
+.method-cards-eapa {
+  gap: 0.9rem;
+  margin-top: 2.25rem;
+}
+
 .dashboard-stats-eapa {
   grid-template-columns: repeat(4, minmax(0, 1fr));
 }
@@ -1998,6 +2132,23 @@ img {
   text-align: left;
 }
 
+.method-card-eapa {
+  position: relative;
+  min-height: 214px;
+  padding: 2rem 1.05rem 1.18rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
+}
+
+.method-card-eapa:hover {
+  transform: translateY(-2px);
+  border-color: rgba(45, 108, 196, 0.28);
+  box-shadow: 0 16px 36px rgba(13, 43, 94, 0.075);
+}
+
 .feature-card-eapa h3,
 .method-card-eapa h3,
 .course-card-eapa h3,
@@ -2007,6 +2158,10 @@ img {
   margin: 0;
   font-size: 0.94rem;
   color: var(--navy);
+}
+
+.method-card-eapa h3 {
+  font-size: 1.02rem;
 }
 
 .feature-card-eapa p,
@@ -2036,6 +2191,24 @@ img {
   font-size: 1rem;
 }
 
+.method-icon-eapa {
+  width: 78px;
+  height: 78px;
+  margin: 0 0 1.2rem;
+  border-radius: 24px;
+  background: rgba(169, 199, 232, 0.2);
+}
+
+.method-icon-eapa svg {
+  width: 46px;
+  height: 46px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 3.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
 .feature-icon-eapa svg {
   width: 24px;
   height: 24px;
@@ -2046,46 +2219,61 @@ img {
   stroke-linejoin: round;
 }
 
-.method-card-head-eapa {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  margin-bottom: 1rem;
-}
-
 .method-step-eapa {
-  width: 40px;
-  height: 40px;
+  position: absolute;
+  left: 1rem;
+  top: 1rem;
+  width: 34px;
+  height: 34px;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 999px;
   background: var(--blue);
   color: white;
-  font-weight: 800;
+  font-size: 0.86rem;
+  font-weight: 900;
+  box-shadow: 0 10px 18px rgba(45, 108, 196, 0.2);
 }
 
 .method-quote-eapa {
   display: flex;
   align-items: center;
   gap: 1rem;
-  margin-top: 2rem;
-  padding: 1.25rem;
+  justify-content: center;
+  width: min(100%, 620px);
+  margin: 2rem auto 0;
+  padding: 1rem 1.3rem;
   border: 1px solid rgba(169, 199, 232, 0.4);
-  border-radius: 24px;
+  border-radius: 20px;
   background: rgba(169, 199, 232, 0.18);
 }
 
 .method-heart-eapa {
-  width: 48px;
-  height: 48px;
+  flex: 0 0 auto;
+  width: 42px;
+  height: 42px;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 999px;
   background: white;
-  color: var(--orange-soft);
-  font-size: 1.25rem;
+  color: var(--blue);
+  box-shadow: 0 8px 18px rgba(13, 43, 94, 0.05);
+}
+
+.method-heart-eapa svg {
+  width: 20px;
+  height: 20px;
+  fill: currentColor;
+}
+
+.method-quote-eapa p {
+  margin: 0;
+  color: var(--blue);
+  font-size: 0.9rem;
+  font-weight: 800;
+  line-height: 1.5;
 }
 
 .courses-topbar-eapa {
