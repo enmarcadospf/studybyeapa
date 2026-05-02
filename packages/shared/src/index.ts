@@ -242,6 +242,71 @@ export const courses: Course[] = [
     category: "Ciencias básicas",
     featured: true,
   },
+  {
+    id: "course-fisiologia-medica",
+    slug: "fisiologia-medica",
+    title: "Fisiología médica",
+    summary:
+      "Funciones del cuerpo humano explicadas por sistemas, con práctica y correlación clínica.",
+    level: "intermediate",
+    lessons: 24,
+    durationHours: 19,
+    priceUsd: 49,
+    category: "Ciencias básicas",
+    featured: true,
+  },
+  {
+    id: "course-bioquimica-medica",
+    slug: "bioquimica-medica",
+    title: "Bioquímica médica",
+    summary:
+      "Moléculas, metabolismo y procesos esenciales para conectar ciencias básicas con clínica.",
+    level: "beginner",
+    lessons: 18,
+    durationHours: 14,
+    priceUsd: 39,
+    category: "Ciencias básicas",
+    featured: false,
+  },
+  {
+    id: "course-farmacologia-general",
+    slug: "farmacologia-general",
+    title: "Farmacología general",
+    summary:
+      "Principios de fármacos, mecanismos de acción, seguridad y aplicación terapéutica.",
+    level: "intermediate",
+    lessons: 22,
+    durationHours: 17,
+    priceUsd: 45,
+    category: "Terapéutica",
+    featured: false,
+  },
+  {
+    id: "course-patologia-general",
+    slug: "patologia-general",
+    title: "Patología general",
+    summary:
+      "Bases de enfermedad, inflamación, lesión celular y razonamiento anatomopatológico.",
+    level: "advanced",
+    lessons: 20,
+    durationHours: 16,
+    priceUsd: 45,
+    category: "Ciencias clínicas",
+    featured: false,
+  },
+  {
+    id: "course-microbiologia",
+    slug: "microbiologia",
+    title: "Microbiología",
+    summary:
+      "Microorganismos, mecanismos de enfermedad y fundamentos para el estudio de infecciones.",
+    level: "beginner",
+    lessons: 17,
+    durationHours: 13,
+    priceUsd: 39,
+    category: "Ciencias básicas",
+    featured: false,
+  },
 ] as const;
 
 export const modules: CourseModule[] = [

@@ -2277,37 +2277,159 @@ img {
 }
 
 .courses-topbar-eapa {
-  grid-template-columns: 1fr auto;
-  align-items: end;
+  grid-template-columns: minmax(0, 1fr) minmax(180px, 320px);
+  align-items: center;
+  margin-bottom: 1.6rem;
+}
+
+.courses-shell-eapa {
+  position: relative;
+  overflow: hidden;
+  border-radius: 26px;
+}
+
+.courses-shell-eapa::before {
+  content: "";
+  position: absolute;
+  right: -8%;
+  top: -18%;
+  width: 380px;
+  height: 380px;
+  border-radius: 999px;
+  background: radial-gradient(circle, rgba(169, 199, 232, 0.28), transparent 64%);
+  pointer-events: none;
+}
+
+.courses-heading-eapa {
+  position: relative;
+  z-index: 2;
+}
+
+.courses-eyebrow-eapa {
+  display: inline-flex;
+  align-items: center;
+  margin-bottom: 0.7rem;
+  color: var(--blue);
+  font-size: 0.74rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.courses-mascot-eapa {
+  position: relative;
+  z-index: 2;
+  min-height: 188px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.courses-mascot-eapa::before {
+  content: "";
+  position: absolute;
+  inset: 16% 8% 8%;
+  border-radius: 42% 58% 50% 50% / 48% 44% 56% 52%;
+  background: rgba(169, 199, 232, 0.2);
+}
+
+.courses-brain-icon {
+  position: relative;
+  z-index: 2;
+  width: min(100%, 210px);
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 18px 22px rgba(13, 43, 94, 0.08));
+}
+
+.courses-star {
+  position: absolute;
+  z-index: 3;
+  color: var(--orange-soft);
+  font-size: 1.35rem;
+  font-weight: 900;
+}
+
+.courses-star-one {
+  left: 12%;
+  top: 28%;
+}
+
+.courses-star-two {
+  right: 13%;
+  top: 18%;
 }
 
 .courses-filters-eapa {
+  position: relative;
+  z-index: 2;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: 0.75rem;
+  margin-bottom: 1.15rem;
   padding: 0.65rem;
   border: 1px solid rgba(214, 226, 243, 0.86);
   border-radius: 22px;
   background: rgba(255, 255, 255, 0.76);
 }
 
+.course-search-eapa {
+  position: relative;
+  display: block;
+}
+
+.course-search-eapa > span {
+  position: absolute;
+  left: 0.95rem;
+  top: 50%;
+  z-index: 2;
+  width: 18px;
+  height: 18px;
+  transform: translateY(-50%);
+  color: #9aa8bd;
+  pointer-events: none;
+}
+
+.course-search-eapa svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+}
+
+.course-search-eapa .input-eapa {
+  padding-left: 2.7rem;
+}
+
 .courses-filters-eapa .input-eapa {
-  width: min(220px, 100%);
+  width: min(210px, 100%);
+  min-height: 42px;
+  border-radius: 14px;
+  font-size: 0.82rem;
 }
 
 .grid-button-eapa {
-  width: 46px;
-  height: 46px;
+  width: 42px;
+  height: 42px;
   border: none;
-  border-radius: 16px;
+  border-radius: 14px;
   background: var(--blue);
   color: white;
   font-size: 1.2rem;
   cursor: pointer;
+  box-shadow: 0 10px 18px rgba(45, 108, 196, 0.16);
+}
+
+.grid-button-eapa.is-active {
+  background: var(--navy);
 }
 
 .course-card-eapa {
+  position: relative;
+  z-index: 1;
   border: 1px solid var(--soft-gray);
   background: white;
   border-radius: 22px;
@@ -2322,7 +2444,8 @@ img {
 }
 
 .course-card-visual-eapa {
-  min-height: 112px;
+  position: relative;
+  min-height: 116px;
   margin: -0.15rem -0.15rem 1rem;
   display: flex;
   align-items: center;
@@ -2334,13 +2457,42 @@ img {
 }
 
 .course-card-visual-eapa .course-card-icon-eapa {
-  width: 66px;
-  height: 66px;
+  width: 72px;
+  height: 72px;
   margin: 0;
   border-radius: 22px;
   background: white;
   box-shadow: 0 10px 24px rgba(13, 43, 94, 0.08);
-  font-size: 1.55rem;
+}
+
+.course-card-icon-eapa svg {
+  width: 38px;
+  height: 38px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.course-status-pill {
+  position: absolute;
+  right: 0.72rem;
+  top: 0.72rem;
+  padding: 0.38rem 0.62rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(169, 199, 232, 0.48);
+  color: var(--blue);
+  font-size: 0.72rem;
+  font-weight: 900;
+  box-shadow: 0 8px 18px rgba(13, 43, 94, 0.055);
+}
+
+.course-status-pill.is-active {
+  color: #168049;
+  background: #f0fdf4;
+  border-color: rgba(34, 197, 94, 0.22);
 }
 
 .course-card-meta-eapa {
@@ -2349,7 +2501,8 @@ img {
   justify-content: space-between;
   gap: 1rem;
   margin-top: 1.2rem;
-  font-size: 0.92rem;
+  font-size: 0.78rem;
+  font-weight: 800;
 }
 
 .course-card-meta-eapa span {
@@ -2377,6 +2530,63 @@ img {
 
 .course-progress-eapa strong {
   color: var(--blue);
+}
+
+.course-card-action-eapa {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 1rem;
+  padding-top: 0.9rem;
+  border-top: 1px solid rgba(230, 235, 241, 0.86);
+  color: var(--blue);
+  font-size: 0.82rem;
+  font-weight: 900;
+}
+
+.courses-grid-eapa.is-compact {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.courses-grid-eapa.is-compact .course-card-eapa {
+  display: grid;
+  grid-template-columns: 132px 1fr;
+  align-items: center;
+  gap: 1rem;
+}
+
+.courses-grid-eapa.is-compact .course-card-visual-eapa {
+  min-height: 100%;
+  margin: 0;
+}
+
+.courses-grid-eapa.is-compact .course-card-meta-eapa,
+.courses-grid-eapa.is-compact .course-progress-eapa,
+.courses-grid-eapa.is-compact .course-card-action-eapa {
+  grid-column: 2;
+}
+
+.courses-grid-eapa.is-compact .course-card-eapa h3,
+.courses-grid-eapa.is-compact .course-card-eapa > p {
+  grid-column: 2;
+}
+
+.course-empty-eapa {
+  grid-column: 1 / -1;
+  padding: 2rem;
+  text-align: center;
+}
+
+.course-empty-eapa strong {
+  display: block;
+  color: var(--navy);
+  font-size: 1.2rem;
+}
+
+.course-empty-eapa p {
+  max-width: 34rem;
+  margin: 0.8rem auto 1.3rem;
 }
 
 .dashboard-grid-eapa {
@@ -3123,6 +3333,27 @@ img {
   .logo-icon-lg {
     width: 220px;
     height: 220px;
+  }
+
+  .courses-topbar-eapa {
+    gap: 0.85rem;
+    margin-bottom: 1rem;
+  }
+
+  .courses-mascot-eapa {
+    min-height: 118px;
+  }
+
+  .courses-brain-icon {
+    width: 128px;
+  }
+
+  .courses-mascot-eapa::before {
+    inset: 10% 18%;
+  }
+
+  .courses-grid-eapa.is-compact {
+    grid-template-columns: 1fr;
   }
 }
 
