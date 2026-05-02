@@ -10,3 +10,6 @@ coverage
 *.tsbuildinfo
 node-v*.tar.gz
 node-v*/
+**/.open-next
+**/.wrangler
+apps/web/cloudflare-env.d.ts

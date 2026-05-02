@@ -11,6 +11,9 @@
     "dev:web": "npm run dev -w @academia/web",
     "dev:api": "npm run dev -w @academia/api",
     "build": "npm run build -w @academia/shared && npm run build -w @academia/api && npm run build -w @academia/web",
+    "build:cloudflare": "npm run build:cloudflare -w @academia/web",
+    "preview:cloudflare": "npm run preview:cloudflare -w @academia/web",
+    "deploy:cloudflare": "npm run deploy:cloudflare -w @academia/web",
     "lint": "npm run lint -w @academia/web && npm run lint -w @academia/api",
     "test": "npm run test -w @academia/api",
     "typecheck": "npm run typecheck -w @academia/shared && npm run typecheck -w @academia/api && npm run typecheck -w @academia/web"
