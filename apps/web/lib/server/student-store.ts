@@ -3,9 +3,24 @@ import { promises as fs } from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { courses, type StudentAccount, type StudentDevice } from "@academia/shared";
+import { getStudyDatabase, type StudyDatabase } from "./cloudflare-db";
 
 type StoredStudent = StudentAccount & {
   passwordHash: string;
+};
+
+type StudentRow = {
+  id: string;
+  full_name: string;
+  email: string;
+  created_at: string;
+  status: StudentAccount["status"];
+  university: string | null;
+  profile_note: string | null;
+  enrolled_course_slugs: string | null;
+  subscriptions: string | null;
+  devices: string | null;
+  password_hash: string;
 };
 
 type CreateStudentInput = {
@@ -48,6 +63,19 @@ function normalizeEmail(email: string) {
   return email.trim().toLowerCase();
 }
 
+function parseJsonArray<T>(value: string | null | undefined): T[] {
+  if (!value) {
+    return [];
+  }
+
+  try {
+    const parsed = JSON.parse(value);
+    return Array.isArray(parsed) ? (parsed as T[]) : [];
+  } catch {
+    return [];
+  }
+}
+
 function normalizeStoredStudent(student: StoredStudent) {
   return {
     ...student,
@@ -74,6 +102,24 @@ function sanitizeStudent(student: StoredStudent): StudentAccount {
     subscriptions: normalizedStudent.subscriptions,
     devices: normalizedStudent.devices,
   };
+}
+
+function rowToStoredStudent(row: StudentRow): StoredStudent {
+  return normalizeStoredStudent({
+    id: row.id,
+    fullName: row.full_name,
+    email: row.email,
+    createdAt: row.created_at,
+    status: row.status,
+    university: row.university ?? "",
+    profileNote: row.profile_note ?? "",
+    enrolledCourseSlugs: parseJsonArray<string>(row.enrolled_course_slugs),
+    subscriptions: parseJsonArray<StudentAccount["subscriptions"][number]>(
+      row.subscriptions,
+    ),
+    devices: parseJsonArray<StudentDevice>(row.devices),
+    passwordHash: row.password_hash,
+  });
 }
 
 async function resolveDataFile() {
@@ -132,6 +178,31 @@ async function ensureDataFile() {
 }
 
 async function readStoredStudents() {
+  const db = getStudyDatabase();
+
+  if (db) {
+    const { results = [] } = await db
+      .prepare(
+        `SELECT
+          id,
+          full_name,
+          email,
+          created_at,
+          status,
+          university,
+          profile_note,
+          enrolled_course_slugs,
+          subscriptions,
+          devices,
+          password_hash
+        FROM students
+        ORDER BY created_at DESC`,
+      )
+      .all<StudentRow>();
+
+    return results.map(rowToStoredStudent);
+  }
+
   const dataFile = await ensureDataFile();
   const raw = await fs.readFile(dataFile, "utf8");
 
@@ -142,7 +213,62 @@ async function readStoredStudents() {
   }
 }
 
+async function upsertD1Student(db: StudyDatabase, student: StoredStudent) {
+  await db
+    .prepare(
+      `INSERT INTO students (
+        id,
+        full_name,
+        email,
+        created_at,
+        status,
+        university,
+        profile_note,
+        enrolled_course_slugs,
+        subscriptions,
+        devices,
+        password_hash
+      )
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      ON CONFLICT(id) DO UPDATE SET
+        full_name = excluded.full_name,
+        email = excluded.email,
+        created_at = excluded.created_at,
+        status = excluded.status,
+        university = excluded.university,
+        profile_note = excluded.profile_note,
+        enrolled_course_slugs = excluded.enrolled_course_slugs,
+        subscriptions = excluded.subscriptions,
+        devices = excluded.devices,
+        password_hash = excluded.password_hash`,
+    )
+    .bind(
+      student.id,
+      student.fullName,
+      student.email,
+      student.createdAt,
+      student.status,
+      student.university,
+      student.profileNote,
+      JSON.stringify(student.enrolledCourseSlugs),
+      JSON.stringify(student.subscriptions),
+      JSON.stringify(student.devices),
+      student.passwordHash,
+    )
+    .run();
+}
+
 async function writeStoredStudents(students: StoredStudent[]) {
+  const db = getStudyDatabase();
+
+  if (db) {
+    for (const student of students) {
+      await upsertD1Student(db, normalizeStoredStudent(student));
+    }
+
+    return;
+  }
+
   const dataFile = await ensureDataFile();
   await fs.writeFile(dataFile, JSON.stringify(students, null, 2), "utf8");
 }

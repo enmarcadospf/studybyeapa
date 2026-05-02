@@ -10,8 +10,8 @@
   --bg: #f8fbff;
   --orange-soft: #ffb173;
   --line: rgba(169, 199, 232, 0.45);
-  --shadow-soft: 0 18px 45px rgba(13, 43, 94, 0.08);
-  --shadow-card: 0 12px 30px rgba(13, 43, 94, 0.06);
+  --shadow-soft: 0 22px 60px rgba(13, 43, 94, 0.08);
+  --shadow-card: 0 10px 26px rgba(13, 43, 94, 0.055);
 }
 
 * {
@@ -25,8 +25,8 @@ html {
 body {
   margin: 0;
   background:
-    radial-gradient(circle at 92% 10%, rgba(169, 199, 232, 0.28), transparent 26%),
-    radial-gradient(circle at 8% 90%, rgba(45, 108, 196, 0.08), transparent 24%),
+    radial-gradient(circle at 88% 9%, rgba(169, 199, 232, 0.24), transparent 24%),
+    radial-gradient(circle at 8% 88%, rgba(45, 108, 196, 0.06), transparent 28%),
     var(--bg);
   color: var(--navy);
   font-family: "Poppins", "Inter", sans-serif;
@@ -54,24 +54,25 @@ img {
 }
 
 .soft-card {
-  border: 1px solid rgba(214, 226, 243, 0.92);
-  border-radius: 28px;
+  border: 1px solid rgba(214, 226, 243, 0.9);
+  border-radius: 24px;
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(255, 255, 255, 0.94));
-  box-shadow: 0 16px 44px rgba(13, 43, 94, 0.06);
+  box-shadow: var(--shadow-card);
 }
 
 .primary-btn,
 .secondary-btn {
-  min-height: 44px;
+  min-height: 40px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.45rem;
-  padding: 0.78rem 1.2rem;
+  padding: 0.68rem 1.12rem;
   border-radius: 999px;
   border: 1px solid transparent;
   font-weight: 800;
+  font-size: 0.88rem;
   line-height: 1;
   cursor: pointer;
   transition:
@@ -1608,18 +1609,18 @@ img {
   position: sticky;
   top: 0;
   z-index: 50;
-  width: min(1120px, calc(100% - 2rem));
-  margin: 1rem auto 0;
-  padding: 0.7rem 0.85rem;
+  width: min(1120px, calc(100% - 1.5rem));
+  margin: 1rem auto 0.4rem;
+  padding: 0.62rem 0.72rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
   border: 1px solid rgba(214, 226, 243, 0.92);
-  border-radius: 22px;
+  border-radius: 18px;
   background: rgba(255, 255, 255, 0.92);
   backdrop-filter: blur(18px);
-  box-shadow: 0 14px 36px rgba(13, 43, 94, 0.06);
+  box-shadow: 0 10px 26px rgba(13, 43, 94, 0.045);
 }
 
 .top-navbar-brand {
@@ -1629,12 +1630,12 @@ img {
 .top-navbar-links {
   display: flex;
   align-items: center;
-  gap: clamp(0.8rem, 2vw, 1.8rem);
+  gap: clamp(1rem, 2.4vw, 2.35rem);
 }
 
 .top-navbar-links a {
   color: #64748b;
-  font-size: 0.86rem;
+  font-size: 0.76rem;
   font-weight: 800;
   transition: color 0.2s ease;
 }
@@ -1662,7 +1663,7 @@ img {
 }
 
 .eapa-logo-image-nav {
-  width: clamp(150px, 16vw, 190px);
+  width: clamp(132px, 14vw, 165px);
   height: auto;
   object-fit: contain;
 }
@@ -1732,7 +1733,7 @@ img {
 .dashboard-shell-eapa {
   max-width: 1120px;
   margin: 0 auto;
-  padding: 1.5rem 1rem 3rem;
+  padding: 1.05rem 0.75rem 3rem;
 }
 
 .home-hero-eapa,
@@ -1744,6 +1745,12 @@ img {
 .auth-showcase-eapa,
 .auth-form-card-eapa {
   padding: clamp(1.1rem, 2.2vw, 2rem);
+}
+
+.home-hero-eapa {
+  overflow: hidden;
+  padding: clamp(1.45rem, 3vw, 2.25rem);
+  border-radius: 26px;
 }
 
 .home-hero-grid-eapa,
@@ -1762,8 +1769,17 @@ img {
 .home-hero-grid-eapa,
 .method-grid-eapa,
 .auth-grid-eapa {
-  grid-template-columns: 1.05fr 0.95fr;
+  grid-template-columns: 0.92fr 1.08fr;
   align-items: center;
+}
+
+.method-grid-eapa,
+.auth-grid-eapa {
+  grid-template-columns: 1.05fr 0.95fr;
+}
+
+.home-copy-eapa {
+  padding: clamp(0.25rem, 1.2vw, 0.8rem);
 }
 
 .home-hero-eapa h1,
@@ -1775,10 +1791,14 @@ img {
 .auth-showcase-eapa h1,
 .profile-page-head-eapa h1 {
   margin: 0;
-  font-size: clamp(2.15rem, 5vw, 4.3rem);
-  line-height: 1.05;
+  font-size: clamp(2.25rem, 4.4vw, 3.75rem);
+  line-height: 1.04;
   color: var(--navy);
   letter-spacing: -0.055em;
+}
+
+.home-hero-eapa h1 {
+  max-width: 8.4ch;
 }
 
 .home-hero-eapa h1 span,
@@ -1797,6 +1817,13 @@ img {
   color: var(--text-gray);
   line-height: 1.65;
   font-size: 0.93rem;
+}
+
+.home-copy-eapa > p {
+  max-width: 31rem;
+  margin-top: 1.2rem;
+  font-size: 1rem;
+  line-height: 1.75;
 }
 
 .pill-badge-eapa {
@@ -1819,7 +1846,7 @@ img {
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
-  margin-top: 1.8rem;
+  margin-top: 1.7rem;
 }
 
 .hero-art-eapa,
@@ -1830,6 +1857,88 @@ img {
   justify-content: center;
   position: relative;
   min-height: 320px;
+}
+
+.home-mascot-stage-eapa {
+  min-height: clamp(330px, 39vw, 455px);
+}
+
+.home-blob-eapa {
+  position: absolute;
+  inset: 5% 0 2% 4%;
+  border-radius: 42% 58% 51% 49% / 48% 42% 58% 52%;
+  background:
+    radial-gradient(circle at 12% 20%, rgba(169, 199, 232, 0.42), transparent 18%),
+    radial-gradient(circle at 88% 30%, rgba(169, 199, 232, 0.38), transparent 25%),
+    linear-gradient(135deg, rgba(169, 199, 232, 0.22), rgba(248, 251, 255, 0.88));
+}
+
+.home-mascot-card-eapa {
+  position: relative;
+  z-index: 2;
+  width: min(88%, 415px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.home-mascot-card-eapa .hero-brain-icon {
+  width: min(100%, 385px);
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 18px 22px rgba(13, 43, 94, 0.08));
+}
+
+.home-plus-eapa,
+.home-soft-icon {
+  position: absolute;
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--blue);
+  font-weight: 900;
+  opacity: 0.72;
+}
+
+.home-plus-eapa {
+  font-size: 1.25rem;
+}
+
+.home-plus-one {
+  left: 13%;
+  top: 34%;
+}
+
+.home-plus-two {
+  right: 10%;
+  top: 37%;
+}
+
+.home-plus-three {
+  left: 28%;
+  bottom: 21%;
+}
+
+.home-soft-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 18px;
+  background: rgba(169, 199, 232, 0.58);
+  color: white;
+  box-shadow: 0 12px 24px rgba(13, 43, 94, 0.06);
+}
+
+.home-soft-heart {
+  left: 12%;
+  bottom: 25%;
+  font-size: 1.55rem;
+}
+
+.home-soft-check {
+  right: 7%;
+  bottom: 27%;
+  font-size: 1.3rem;
 }
 
 .hero-art-glow {
@@ -1860,7 +1969,7 @@ img {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1rem;
-  margin-top: 2rem;
+  margin-top: 2.1rem;
 }
 
 .dashboard-stats-eapa {
@@ -1883,6 +1992,12 @@ img {
   padding: 1.1rem;
 }
 
+.feature-card-eapa {
+  min-height: 164px;
+  padding: 1.25rem 1.2rem;
+  text-align: left;
+}
+
 .feature-card-eapa h3,
 .method-card-eapa h3,
 .course-card-eapa h3,
@@ -1890,7 +2005,7 @@ img {
 .event-item-eapa h3,
 .device-item-eapa h3 {
   margin: 0;
-  font-size: 0.98rem;
+  font-size: 0.94rem;
   color: var(--navy);
 }
 
@@ -1915,10 +2030,20 @@ img {
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 16px;
+  border-radius: 999px;
   background: rgba(169, 199, 232, 0.22);
   color: var(--blue);
   font-size: 1rem;
+}
+
+.feature-icon-eapa svg {
+  width: 24px;
+  height: 24px;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 .method-card-head-eapa {

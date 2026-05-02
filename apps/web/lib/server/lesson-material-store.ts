@@ -1,6 +1,7 @@
 import { promises as fs } from "node:fs";
 import os from "node:os";
 import path from "node:path";
+import { getStudyDatabase, type StudyDatabase } from "./cloudflare-db";
 
 export type LessonMaterial = {
   lessonId: string;
@@ -13,6 +14,13 @@ type UpsertLessonMaterialInput = {
   lessonId: string;
   sourceTitle: string;
   content: string;
+};
+
+type LessonMaterialRow = {
+  lesson_id: string;
+  source_title: string;
+  content: string;
+  updated_at: string;
 };
 
 function getPreferredDataFilePath() {
@@ -78,6 +86,25 @@ async function resolveWritableDataFile() {
 }
 
 async function readMaterials() {
+  const db = getStudyDatabase();
+
+  if (db) {
+    const { results = [] } = await db
+      .prepare(
+        `SELECT lesson_id, source_title, content, updated_at
+        FROM lesson_materials
+        ORDER BY updated_at DESC`,
+      )
+      .all<LessonMaterialRow>();
+
+    return results.map((row) => ({
+      lessonId: row.lesson_id,
+      sourceTitle: row.source_title,
+      content: row.content,
+      updatedAt: row.updated_at,
+    }));
+  }
+
   const dataFile = await resolveWritableDataFile();
   const raw = await fs.readFile(dataFile, "utf8");
 
@@ -88,7 +115,36 @@ async function readMaterials() {
   }
 }
 
+async function upsertD1Material(db: StudyDatabase, material: LessonMaterial) {
+  await db
+    .prepare(
+      `INSERT INTO lesson_materials (lesson_id, source_title, content, updated_at)
+      VALUES (?, ?, ?, ?)
+      ON CONFLICT(lesson_id) DO UPDATE SET
+        source_title = excluded.source_title,
+        content = excluded.content,
+        updated_at = excluded.updated_at`,
+    )
+    .bind(
+      material.lessonId,
+      material.sourceTitle,
+      material.content,
+      material.updatedAt,
+    )
+    .run();
+}
+
 async function writeMaterials(materials: LessonMaterial[]) {
+  const db = getStudyDatabase();
+
+  if (db) {
+    for (const material of materials) {
+      await upsertD1Material(db, material);
+    }
+
+    return;
+  }
+
   const dataFile = await resolveWritableDataFile();
   await fs.writeFile(dataFile, JSON.stringify(materials, null, 2), "utf8");
 }

@@ -8,6 +8,13 @@
     "directory": ".open-next/assets",
     "binding": "ASSETS"
   },
+  "d1_databases": [
+    {
+      "binding": "STUDY_DB",
+      "database_name": "study-by-eapa-db",
+      "database_id": "73000361-467b-47d0-b436-b3398a244c59"
+    }
+  ],
   "observability": {
     "enabled": true
   }
