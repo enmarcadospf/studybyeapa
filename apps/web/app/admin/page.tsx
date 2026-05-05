@@ -32,8 +32,12 @@ export default async function AdminPage() {
     return {
       lessonId: lesson.id,
       lessonTitle: lesson.title,
+      courseSlug: lesson.courseSlug,
+      moduleId: lesson.moduleId,
       courseTitle: course?.title ?? lesson.courseSlug,
       moduleTitle: module?.title ?? "Modulo sin titulo",
+      lessonOrder: lesson.order,
+      contentType: lesson.contentType,
       sourceTitle: material?.sourceTitle ?? "",
       content: material?.content ?? "",
       updatedAt: material?.updatedAt ?? null,

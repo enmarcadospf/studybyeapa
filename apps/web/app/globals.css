@@ -4406,6 +4406,113 @@ img {
   margin-top: 1.2rem;
 }
 
+.material-manager-pro-eapa {
+  gap: 1.2rem;
+}
+
+.material-overview-eapa {
+  display: grid;
+  grid-template-columns: 1fr 0.75fr 1.1fr;
+  gap: 0.85rem;
+}
+
+.material-overview-eapa article {
+  display: grid;
+  gap: 0.35rem;
+  padding: 1rem;
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(248, 251, 255, 0.94));
+  box-shadow: var(--shadow-card);
+}
+
+.material-overview-eapa span,
+.material-overview-eapa small {
+  color: var(--text-gray);
+  font-size: 0.82rem;
+}
+
+.material-overview-eapa strong {
+  color: var(--navy);
+  font-size: 1.08rem;
+}
+
+.material-progress-eapa {
+  height: 8px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(169, 199, 232, 0.28);
+}
+
+.material-progress-eapa i {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--blue);
+}
+
+.material-manager-grid-eapa {
+  display: grid;
+  grid-template-columns: minmax(250px, 0.34fr) minmax(0, 0.66fr);
+  gap: 1rem;
+  align-items: start;
+}
+
+.material-library-eapa,
+.material-editor-eapa {
+  display: grid;
+  gap: 1rem;
+}
+
+.material-filter-stack-eapa {
+  display: grid;
+  gap: 0.85rem;
+  padding: 1rem;
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  background: rgba(248, 251, 255, 0.82);
+}
+
+.material-lesson-list-eapa {
+  max-height: 620px;
+  overflow: auto;
+  display: grid;
+  gap: 0.65rem;
+  padding-right: 0.25rem;
+}
+
+.material-lesson-list-eapa button {
+  display: grid;
+  gap: 0.25rem;
+  width: 100%;
+  padding: 0.95rem;
+  text-align: left;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: white;
+  color: var(--navy);
+  cursor: pointer;
+  transition: transform 160ms ease, border-color 160ms ease, background-color 160ms ease;
+}
+
+.material-lesson-list-eapa button:hover,
+.material-lesson-list-eapa button.is-active {
+  transform: translateY(-1px);
+  border-color: rgba(45, 108, 196, 0.35);
+  background: rgba(169, 199, 232, 0.14);
+}
+
+.material-lesson-list-eapa button span,
+.material-lesson-list-eapa button small {
+  color: var(--text-gray);
+  font-size: 0.78rem;
+}
+
+.material-lesson-list-eapa button strong {
+  line-height: 1.35;
+}
+
 .material-manager-toolbar {
   display: grid;
   grid-template-columns: 1fr 280px;
@@ -4466,11 +4573,88 @@ img {
   color: var(--navy);
 }
 
+.material-editor-head-eapa {
+  grid-template-columns: 1fr auto;
+  align-items: center;
+}
+
+.material-editor-head-eapa b {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.45rem 0.75rem;
+  border-radius: 999px;
+  background: rgba(45, 108, 196, 0.1);
+  color: var(--blue);
+  font-size: 0.78rem;
+}
+
+.material-textarea-large-eapa {
+  min-height: 420px;
+}
+
 .material-actions {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: 1rem;
+}
+
+.material-actions-between-eapa {
+  justify-content: space-between;
+}
+
+.material-import-eapa {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.material-import-eapa label {
+  display: inline-flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  padding: 0.74rem 1rem;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: white;
+  color: var(--blue);
+  font-size: 0.88rem;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.material-import-eapa input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.material-ai-readiness-eapa {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+}
+
+.material-ai-readiness-eapa span {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.48rem 0.75rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgba(248, 251, 255, 0.92);
+  color: var(--text-gray);
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
+.material-ai-readiness-eapa span.is-ready {
+  border-color: #bfe2ca;
+  background: #f0fcf4;
+  color: #1f8b4c;
 }
 
 .material-actions button:disabled {
@@ -4488,7 +4672,8 @@ img {
   .profile-tab-grid-eapa,
   .settings-two-column-eapa,
   .settings-security-grid-eapa,
-  .settings-billing-grid-eapa {
+  .settings-billing-grid-eapa,
+  .material-overview-eapa {
     grid-template-columns: 1fr 1fr;
   }
 
@@ -4533,6 +4718,8 @@ img {
   .settings-two-column-eapa,
   .settings-security-grid-eapa,
   .settings-billing-grid-eapa,
+  .material-manager-grid-eapa,
+  .material-overview-eapa,
   .billing-course-grid-eapa,
   .profile-form-grid-eapa {
     grid-template-columns: 1fr;
@@ -4550,6 +4737,10 @@ img {
 
   .material-manager-toolbar {
     grid-template-columns: 1fr;
+  }
+
+  .material-lesson-list-eapa {
+    max-height: 360px;
   }
 
   .flashcards-grid {
