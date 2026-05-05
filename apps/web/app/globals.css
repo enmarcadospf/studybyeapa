@@ -2590,19 +2590,24 @@ img {
 }
 
 .dashboard-grid-eapa {
-  grid-template-columns: 260px 1fr;
+  grid-template-columns: 248px 1fr;
+  align-items: stretch;
+  gap: 1.1rem;
 }
 
 .student-sidebar-eapa {
   min-height: 760px;
-  padding: 0.95rem;
+  padding: 0.85rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  border-radius: 28px;
-  background: var(--navy);
+  border: 1px solid rgba(13, 43, 94, 0.12);
+  border-radius: 22px;
+  background:
+    radial-gradient(circle at 10% 0%, rgba(45, 108, 196, 0.34), transparent 32%),
+    linear-gradient(180deg, #0d2b5e 0%, #102a55 100%);
   color: white;
-  box-shadow: var(--shadow-soft);
+  box-shadow: 0 18px 42px rgba(13, 43, 94, 0.16);
 }
 
 .student-sidebar-nav-eapa {
@@ -2611,7 +2616,9 @@ img {
 }
 
 .student-sidebar-logo {
-  margin-bottom: 2rem;
+  margin-bottom: 1.6rem;
+  padding: 0.35rem 0.35rem 0.8rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
 }
 
 .student-sidebar-link-eapa,
@@ -2620,19 +2627,30 @@ img {
   align-items: center;
   gap: 0.75rem;
   width: 100%;
-  padding: 0.78rem 0.85rem;
+  min-height: 42px;
+  padding: 0.7rem 0.78rem;
   border: none;
-  border-radius: 18px;
+  border-radius: 13px;
   background: transparent;
   color: rgba(255, 255, 255, 0.8);
-  font-weight: 600;
+  font-size: 0.86rem;
+  font-weight: 750;
   text-align: left;
   cursor: pointer;
+  transition: background-color 160ms ease, color 160ms ease, transform 160ms ease;
+}
+
+.student-sidebar-link-eapa:hover,
+.student-sidebar-logout:hover {
+  transform: translateX(2px);
+  background: rgba(255, 255, 255, 0.09);
+  color: white;
 }
 
 .student-sidebar-link-eapa.is-active {
   background: var(--blue);
   color: white;
+  box-shadow: 0 10px 18px rgba(45, 108, 196, 0.22);
 }
 
 .student-sidebar-icon {
@@ -2646,7 +2664,21 @@ img {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  gap: 1rem;
+  gap: 1.05rem;
+  position: relative;
+  padding-bottom: 1.35rem;
+  border-bottom: 1px solid rgba(230, 235, 241, 0.86);
+}
+
+.dashboard-eyebrow-eapa {
+  display: inline-flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+  color: var(--blue);
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 .dashboard-actions-eapa {
@@ -2661,14 +2693,25 @@ img {
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  padding: 0.85rem 1rem;
+  min-width: 130px;
+  padding: 0.75rem 0.92rem;
   border: 1px solid rgba(255, 177, 115, 0.4);
-  border-radius: 24px;
+  border-radius: 18px;
   background: rgba(255, 177, 115, 0.16);
 }
 
 .streak-box-eapa span {
-  font-size: 1.5rem;
+  width: 42px;
+  height: 42px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  color: #dd7a22;
+  background: white;
+  font-size: 1.05rem;
+  font-weight: 900;
+  box-shadow: 0 10px 20px rgba(13, 43, 94, 0.05);
 }
 
 .streak-box-eapa p,
@@ -2678,14 +2721,38 @@ img {
 
 .stat-card-eapa h3 {
   margin: 0.3rem 0 0;
-  font-size: 1.7rem;
+  color: var(--navy);
+  font-size: 1.85rem;
+  line-height: 1;
 }
 
 .stat-card-eapa {
   border: 1px solid rgba(214, 226, 243, 0.86);
-  border-radius: 22px;
+  border-radius: 18px;
   background: white;
   box-shadow: 0 10px 24px rgba(13, 43, 94, 0.04);
+  transition: transform 160ms ease, box-shadow 160ms ease;
+}
+
+.stat-card-eapa:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 30px rgba(13, 43, 94, 0.07);
+}
+
+.stat-card-eapa .stat-icon-eapa {
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+}
+
+.stat-icon-eapa svg {
+  width: 23px;
+  height: 23px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 .dashboard-panels-eapa,
@@ -2695,10 +2762,57 @@ img {
   margin-top: 2rem;
 }
 
+.dashboard-bottom-grid-eapa {
+  display: grid;
+  grid-template-columns: 1fr 0.85fr;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.dashboard-panel-head-eapa {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.dashboard-panel-head-eapa p {
+  margin: 0.35rem 0 0;
+  color: var(--text-gray);
+  font-size: 0.86rem;
+}
+
+.mini-link-eapa {
+  flex: 0 0 auto;
+  padding: 0.45rem 0.75rem;
+  border: 1px solid rgba(169, 199, 232, 0.45);
+  border-radius: 999px;
+  color: var(--blue);
+  background: rgba(248, 251, 255, 0.86);
+  font-size: 0.78rem;
+  font-weight: 900;
+}
+
 .progress-list-eapa {
   display: grid;
-  gap: 1.2rem;
+  gap: 0.9rem;
   margin: 1.5rem 0;
+}
+
+.progress-row-eapa {
+  display: block;
+  padding: 0.82rem;
+  border: 1px solid rgba(230, 235, 241, 0.9);
+  border-radius: 16px;
+  background: rgba(248, 251, 255, 0.68);
+  transition: transform 160ms ease, border-color 160ms ease, background-color 160ms ease;
+}
+
+.progress-row-eapa:hover {
+  transform: translateY(-1px);
+  border-color: rgba(45, 108, 196, 0.26);
+  background: white;
 }
 
 .progress-row-head-eapa {
@@ -2713,6 +2827,13 @@ img {
 
 .progress-row-head-eapa small {
   color: var(--text-gray);
+}
+
+.progress-row-head-eapa p {
+  margin: 0.25rem 0 0;
+  color: var(--text-gray);
+  font-size: 0.78rem;
+  font-weight: 600;
 }
 
 .progress-track-eapa {
@@ -2769,6 +2890,59 @@ img {
 .calendar-mini-day-eapa.is-active {
   background: var(--blue);
   color: white;
+}
+
+.subscription-mini-list-eapa,
+.recommended-course-list-eapa {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.subscription-mini-item-eapa,
+.recommended-course-eapa,
+.subscription-mini-empty-eapa {
+  padding: 0.9rem;
+  border: 1px solid rgba(230, 235, 241, 0.9);
+  border-radius: 16px;
+  background: rgba(248, 251, 255, 0.72);
+}
+
+.subscription-mini-item-eapa {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.subscription-mini-item-eapa strong,
+.recommended-course-eapa span,
+.subscription-mini-empty-eapa strong {
+  display: block;
+  color: var(--navy);
+  font-size: 0.92rem;
+}
+
+.subscription-mini-item-eapa span,
+.recommended-course-eapa small,
+.subscription-mini-empty-eapa p {
+  display: block;
+  margin-top: 0.28rem;
+  color: var(--text-gray);
+  font-size: 0.78rem;
+}
+
+.subscription-mini-item-eapa b {
+  color: var(--blue);
+  font-size: 0.9rem;
+}
+
+.recommended-course-eapa {
+  transition: transform 160ms ease, border-color 160ms ease;
+}
+
+.recommended-course-eapa:hover {
+  transform: translateX(2px);
+  border-color: rgba(45, 108, 196, 0.26);
 }
 
 .secondary-btn-full {
@@ -3300,6 +3474,7 @@ img {
   .courses-topbar-eapa,
   .dashboard-grid-eapa,
   .dashboard-panels-eapa,
+  .dashboard-bottom-grid-eapa,
   .simulacros-grid-eapa,
   .calendar-grid-eapa,
   .feature-grid-eapa,
