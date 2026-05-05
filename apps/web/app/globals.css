@@ -3987,23 +3987,284 @@ img {
 .profile-tabs-eapa {
   display: flex;
   flex-wrap: wrap;
-  gap: 1rem;
+  gap: 0.55rem;
   margin-bottom: 1.25rem;
-  padding-bottom: 0.8rem;
+  padding: 0 0 0.8rem;
   border-bottom: 1px solid var(--soft-gray);
   color: var(--text-gray);
   font-size: 0.9rem;
   font-weight: 600;
 }
 
-.profile-tabs-eapa span {
-  padding-bottom: 0.3rem;
+.profile-tabs-eapa button {
+  padding: 0.6rem 0.9rem;
+  border: 0;
   border-bottom: 2px solid transparent;
+  border-radius: 14px 14px 0 0;
+  background: transparent;
+  color: var(--text-gray);
+  font-weight: 800;
+  cursor: pointer;
+  transition: color 160ms ease, background-color 160ms ease, border-color 160ms ease;
 }
 
-.profile-tabs-eapa .is-active {
+.profile-tabs-eapa button:hover,
+.profile-tabs-eapa button.is-active {
+  background: rgba(169, 199, 232, 0.13);
   color: var(--blue);
   border-color: var(--blue);
+}
+
+.settings-panel-eapa {
+  display: grid;
+  gap: 1.2rem;
+}
+
+.profile-tab-grid-eapa {
+  display: grid;
+  grid-template-columns: 240px minmax(0, 1fr) 280px;
+  gap: 1rem;
+  align-items: start;
+}
+
+.settings-two-column-eapa,
+.settings-security-grid-eapa,
+.settings-billing-grid-eapa {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(280px, 0.65fr);
+  gap: 1rem;
+  align-items: start;
+}
+
+.settings-panel-eapa .profile-wide-card-eapa {
+  grid-column: auto;
+}
+
+.settings-full-row-eapa {
+  grid-column: 1 / -1 !important;
+}
+
+.profile-card-head-eapa {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.profile-card-head-eapa span,
+.device-policy-card-eapa span,
+.email-preview-eapa span {
+  color: var(--blue);
+  font-size: 0.76rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.profile-card-head-eapa b {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.42rem 0.72rem;
+  border-radius: 999px;
+  background: #effaf3;
+  color: #1f8b4c;
+  font-size: 0.78rem;
+}
+
+.profile-avatar-eapa {
+  position: relative;
+  overflow: hidden;
+}
+
+.profile-avatar-eapa svg {
+  width: 100%;
+  height: 100%;
+}
+
+.profile-avatar-eapa span {
+  position: absolute;
+  right: 0.45rem;
+  bottom: 0.45rem;
+  display: inline-flex;
+  width: 2.1rem;
+  height: 2.1rem;
+  align-items: center;
+  justify-content: center;
+  border: 3px solid white;
+  border-radius: 999px;
+  background: var(--blue);
+  color: white;
+  font-size: 0.78rem;
+  font-weight: 900;
+}
+
+.profile-mini-progress-eapa {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-top: 1.25rem;
+  padding: 0.82rem 1rem;
+  border: 1px solid var(--soft-gray);
+  border-radius: 18px;
+  background: rgba(248, 251, 255, 0.9);
+}
+
+.profile-mini-progress-eapa span {
+  color: var(--text-gray);
+  font-size: 0.84rem;
+  font-weight: 700;
+}
+
+.profile-mini-progress-eapa strong {
+  color: var(--blue);
+  font-size: 1.25rem;
+}
+
+.preference-list-eapa {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.preference-list-eapa label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem;
+  border: 1px solid var(--soft-gray);
+  border-radius: 20px;
+  background: white;
+}
+
+.preference-list-eapa b,
+.preference-list-eapa small {
+  display: block;
+}
+
+.preference-list-eapa b {
+  color: var(--navy);
+}
+
+.preference-list-eapa small,
+.settings-note-eapa,
+.device-item-eapa small {
+  color: var(--text-gray);
+  line-height: 1.55;
+}
+
+.preference-list-eapa input[type="checkbox"] {
+  width: 44px;
+  height: 24px;
+  flex: 0 0 auto;
+  accent-color: var(--blue);
+}
+
+.settings-choice-grid-eapa,
+.billing-course-grid-eapa {
+  display: grid;
+  gap: 0.8rem;
+}
+
+.settings-choice-grid-eapa {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.settings-choice-grid-eapa button {
+  min-height: 46px;
+  border: 1px solid var(--soft-gray);
+  border-radius: 16px;
+  background: white;
+  color: var(--navy);
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.settings-choice-grid-eapa button.is-active {
+  border-color: var(--blue);
+  background: rgba(45, 108, 196, 0.1);
+  color: var(--blue);
+}
+
+.device-policy-card-eapa,
+.email-preview-eapa,
+.empty-billing-eapa {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.device-policy-card-eapa h2,
+.email-preview-eapa h2 {
+  margin: 0;
+  color: var(--navy);
+}
+
+.status-warning-eapa {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.45rem 0.85rem;
+  border-radius: 999px;
+  background: #fff7ed;
+  color: #b45309;
+  font-size: 0.85rem;
+  font-weight: 800;
+}
+
+.empty-billing-eapa {
+  padding: 1.2rem;
+  border: 1px dashed rgba(45, 108, 196, 0.28);
+  border-radius: 22px;
+  background: rgba(169, 199, 232, 0.13);
+}
+
+.empty-billing-eapa strong {
+  color: var(--navy);
+}
+
+.empty-billing-eapa .primary-btn {
+  width: fit-content;
+}
+
+.billing-course-grid-eapa {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.billing-course-card-eapa {
+  display: grid;
+  gap: 0.35rem;
+  padding: 1rem;
+  border: 1px solid var(--soft-gray);
+  border-radius: 20px;
+  background: white;
+  color: inherit;
+  text-decoration: none;
+  transition: transform 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
+}
+
+.billing-course-card-eapa:hover {
+  transform: translateY(-2px);
+  border-color: rgba(45, 108, 196, 0.28);
+  box-shadow: var(--shadow-card);
+}
+
+.billing-course-card-eapa span {
+  color: var(--blue);
+  font-size: 0.76rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.billing-course-card-eapa strong {
+  color: var(--navy);
+}
+
+.billing-course-card-eapa small {
+  color: var(--text-gray);
+}
+
+.billing-course-card-eapa b {
+  color: var(--blue);
 }
 
 .assistant-answer-block {
@@ -4216,7 +4477,11 @@ img {
   .method-cards-eapa,
   .courses-grid-eapa,
   .dashboard-stats-eapa,
-  .profile-layout-eapa {
+  .profile-layout-eapa,
+  .profile-tab-grid-eapa,
+  .settings-two-column-eapa,
+  .settings-security-grid-eapa,
+  .settings-billing-grid-eapa {
     grid-template-columns: 1fr 1fr;
   }
 
@@ -4257,6 +4522,11 @@ img {
   .courses-grid-eapa,
   .dashboard-stats-eapa,
   .profile-layout-eapa,
+  .profile-tab-grid-eapa,
+  .settings-two-column-eapa,
+  .settings-security-grid-eapa,
+  .settings-billing-grid-eapa,
+  .billing-course-grid-eapa,
   .profile-form-grid-eapa {
     grid-template-columns: 1fr;
   }
@@ -4305,6 +4575,16 @@ img {
   .courses-grid-eapa.is-compact {
     grid-template-columns: 1fr;
   }
+
+  .profile-tabs-eapa {
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    padding-bottom: 0.65rem;
+  }
+
+  .profile-tabs-eapa button {
+    white-space: nowrap;
+  }
 }
 
 @media (max-width: 680px) {
@@ -4332,5 +4612,16 @@ img {
   .courses-filters-eapa .input-eapa,
   .grid-button-eapa {
     width: 100%;
+  }
+
+  .profile-card-head-eapa,
+  .preference-list-eapa label,
+  .device-actions-eapa {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .settings-choice-grid-eapa {
+    grid-template-columns: 1fr;
   }
 }
