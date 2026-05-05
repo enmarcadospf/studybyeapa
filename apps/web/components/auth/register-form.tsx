@@ -30,7 +30,10 @@ export function RegisterForm() {
       body: JSON.stringify(payload),
     });
 
-    const result = (await response.json()) as { message?: string };
+    const result = (await response.json()) as {
+      message?: string;
+      redirectTo?: string;
+    };
 
     if (!response.ok) {
       setError(result.message ?? "No se pudo crear la cuenta.");
@@ -38,7 +41,7 @@ export function RegisterForm() {
       return;
     }
 
-    router.push("/student");
+    router.push(result.redirectTo ?? "/student");
     router.refresh();
   }
 

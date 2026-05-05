@@ -4,6 +4,7 @@ import {
   listLessonMaterials,
   upsertLessonMaterial,
 } from "../../../../lib/server/lesson-material-store";
+import { getCurrentAdminSession } from "../../../../lib/server/session";
 
 type MaterialRequest = {
   lessonId?: string;
@@ -14,12 +15,24 @@ type MaterialRequest = {
 export const dynamic = "force-dynamic";
 
 export async function GET() {
+  const admin = await getCurrentAdminSession();
+
+  if (!admin) {
+    return NextResponse.json({ message: "Debes entrar como editor." }, { status: 401 });
+  }
+
   const materials = await listLessonMaterials();
 
   return NextResponse.json({ materials });
 }
 
 export async function POST(request: Request) {
+  const admin = await getCurrentAdminSession();
+
+  if (!admin) {
+    return NextResponse.json({ message: "Debes entrar como editor." }, { status: 401 });
+  }
+
   try {
     const body = (await request.json()) as MaterialRequest;
     const lessonId = body.lessonId?.trim() ?? "";

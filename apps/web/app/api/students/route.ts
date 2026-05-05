@@ -4,6 +4,7 @@ import {
   listStudents,
   registerStudentDevice,
 } from "../../../lib/server/student-store";
+import { getAdminAccessByEmail } from "../../../lib/server/admin-store";
 import { sendWelcomeEmail } from "../../../lib/server/email";
 import {
   createSessionCookieValue,
@@ -76,7 +77,15 @@ export async function POST(request: Request) {
       console.error("Welcome email failed", emailError);
     }
 
-    const response = NextResponse.json({ student: updatedStudent }, { status: 201 });
+    const adminAccess = await getAdminAccessByEmail(updatedStudent.email);
+    const response = NextResponse.json(
+      {
+        student: updatedStudent,
+        isAdmin: adminAccess.isAdmin,
+        redirectTo: adminAccess.isAdmin ? "/admin" : "/student",
+      },
+      { status: 201 },
+    );
 
     response.cookies.set({
       name: getSessionCookieName(),

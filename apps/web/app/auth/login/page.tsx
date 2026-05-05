@@ -1,13 +1,19 @@
 import { redirect } from "next/navigation";
 import { LoginForm } from "../../../components/auth/login-form";
-import { getCurrentStudentSession } from "../../../lib/server/session";
+import {
+  getCurrentAdminSession,
+  getCurrentStudentSession,
+} from "../../../lib/server/session";
 import { BrainBookIcon } from "../../../components/ui/logo";
 
 export default async function LoginPage() {
-  const student = await getCurrentStudentSession();
+  const [student, admin] = await Promise.all([
+    getCurrentStudentSession(),
+    getCurrentAdminSession(),
+  ]);
 
   if (student) {
-    redirect("/student");
+    redirect(admin ? "/admin" : "/student");
   }
 
   return (

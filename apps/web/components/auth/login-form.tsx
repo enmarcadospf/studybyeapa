@@ -28,7 +28,10 @@ export function LoginForm() {
       body: JSON.stringify(payload),
     });
 
-    const result = (await response.json()) as { message?: string };
+    const result = (await response.json()) as {
+      message?: string;
+      redirectTo?: string;
+    };
 
     if (!response.ok) {
       setError(result.message ?? "No se pudo iniciar sesion.");
@@ -36,7 +39,7 @@ export function LoginForm() {
       return;
     }
 
-    router.push("/student");
+    router.push(result.redirectTo ?? "/student");
     router.refresh();
   }
 

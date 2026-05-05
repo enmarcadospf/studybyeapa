@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { getAdminAccessByEmail } from "../../../../lib/server/admin-store";
 import { authenticateStudent, registerStudentDevice } from "../../../../lib/server/student-store";
 import {
   createSessionCookieValue,
@@ -46,7 +47,12 @@ export async function POST(request: Request) {
       userAgent: request.headers.get("user-agent") ?? "Navegador web",
     })) ?? student;
 
-  const response = NextResponse.json({ student: updatedStudent });
+  const adminAccess = await getAdminAccessByEmail(updatedStudent.email);
+  const response = NextResponse.json({
+    student: updatedStudent,
+    isAdmin: adminAccess.isAdmin,
+    redirectTo: adminAccess.isAdmin ? "/admin" : "/student",
+  });
 
   response.cookies.set({
     name: getSessionCookieName(),

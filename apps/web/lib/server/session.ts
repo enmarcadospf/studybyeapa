@@ -1,5 +1,6 @@
 import { randomUUID, createHmac, timingSafeEqual } from "node:crypto";
 import { cookies } from "next/headers";
+import { getAdminAccessByEmail } from "./admin-store";
 import { getStudentById } from "./student-store";
 
 const SESSION_COOKIE = "studybyeapa_session";
@@ -15,7 +16,7 @@ export function createSessionCookieValue(studentId: string) {
   return `${studentId}.${signValue(studentId)}`;
 }
 
-function verifySessionCookieValue(value: string) {
+function verifySignedCookieValue(value: string) {
   const [studentId, signature] = value.split(".");
 
   if (!studentId || !signature) {
@@ -45,13 +46,35 @@ export async function getCurrentStudentSession() {
     return null;
   }
 
-  const studentId = verifySessionCookieValue(rawSession);
+  const studentId = verifySignedCookieValue(rawSession);
 
   if (!studentId) {
     return null;
   }
 
   return getStudentById(studentId);
+}
+
+export async function getCurrentAdminSession() {
+  const student = await getCurrentStudentSession();
+
+  if (!student) {
+    return null;
+  }
+
+  const access = await getAdminAccessByEmail(student.email);
+
+  if (!access.isAdmin) {
+    return null;
+  }
+
+  return {
+    id: student.id,
+    email: student.email,
+    fullName: student.fullName,
+    role: "admin" as const,
+    isOwner: access.isOwner,
+  };
 }
 
 export function getSessionCookieName() {

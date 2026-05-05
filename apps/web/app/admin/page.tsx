@@ -1,16 +1,27 @@
 import { courses, lessons, modules } from "@academia/shared";
+import { redirect } from "next/navigation";
+import { AdminUserManager } from "../../components/admin/admin-user-manager";
 import { MaterialManager } from "../../components/admin/material-manager";
 import { getAdminAlerts } from "../../lib/api";
+import { listAdminUsers } from "../../lib/server/admin-store";
+import { getCurrentAdminSession } from "../../lib/server/session";
 import { listLessonMaterials } from "../../lib/server/lesson-material-store";
 import { listStudents } from "../../lib/server/student-store";
 
 export const dynamic = "force-dynamic";
 
 export default async function AdminPage() {
-  const [alerts, students, lessonMaterials] = await Promise.all([
+  const admin = await getCurrentAdminSession();
+
+  if (!admin) {
+    redirect("/admin/login");
+  }
+
+  const [alerts, students, lessonMaterials, adminUsers] = await Promise.all([
     getAdminAlerts(),
     listStudents(),
     listLessonMaterials(),
+    listAdminUsers(),
   ]);
 
   const materialRows = lessons.map((lesson) => {
@@ -32,11 +43,19 @@ export default async function AdminPage() {
   return (
     <main className="management-shell">
       <section className="dashboard-hero">
-        <p className="eyebrow">Configuracion interna</p>
-        <h1>Configura estudiantes, contenido y operacion</h1>
+        <div className="admin-hero-top-eapa">
+          <p className="eyebrow">Configuracion interna</p>
+          <form action="/api/auth/logout" method="post">
+            <button className="secondary-btn" type="submit">
+              Salir del editor
+            </button>
+          </form>
+        </div>
+        <h1>Configura estudiantes, contenido y operación</h1>
         <p className="auth-copy">
           Esta vista ya te deja ver cuentas creadas de verdad dentro de la
-          plataforma, ademas de alertas internas para seguir construyendo.
+          plataforma, además de cargar material real para que la IA estudie tu
+          contenido antes de generar flashcards, quiz y modo residente.
         </p>
         <div className="account-summary-row">
           <article className="dashboard-card">
@@ -56,6 +75,14 @@ export default async function AdminPage() {
             </strong>
           </article>
         </div>
+      </section>
+
+      <section className="detail-card admin-material-section">
+        <AdminUserManager
+          admins={adminUsers}
+          currentAdminEmail={admin.email}
+          isOwner={admin.isOwner}
+        />
       </section>
 
       <section className="detail-card admin-material-section">

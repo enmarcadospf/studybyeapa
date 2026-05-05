@@ -8,7 +8,7 @@ type D1PreparedStatementLike = {
   bind: (...values: unknown[]) => D1PreparedStatementLike;
   all: <T = unknown>() => Promise<D1Result<T>>;
   first: <T = unknown>() => Promise<T | null>;
-  run: () => Promise<unknown>;
+  run: <T = unknown>() => Promise<T>;
 };
 
 export type StudyDatabase = {

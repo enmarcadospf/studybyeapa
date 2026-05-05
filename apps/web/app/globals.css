@@ -4267,6 +4267,13 @@ img {
   color: var(--blue);
 }
 
+.admin-hero-top-eapa {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
 .assistant-answer-block {
   padding: 1rem 1.1rem;
   border-radius: 22px;
@@ -4615,6 +4622,7 @@ img {
   }
 
   .profile-card-head-eapa,
+  .admin-hero-top-eapa,
   .preference-list-eapa label,
   .device-actions-eapa {
     flex-direction: column;
