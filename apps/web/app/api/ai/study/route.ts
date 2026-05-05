@@ -7,6 +7,7 @@ import {
 } from "@academia/shared";
 import { NextResponse } from "next/server";
 import { getLessonMaterialByLessonId } from "../../../../lib/server/lesson-material-store";
+import { getCurrentStudentSession } from "../../../../lib/server/session";
 
 type StudyAction = "ask" | "flashcards" | "quiz" | "exam";
 
@@ -310,6 +311,29 @@ export async function POST(request: Request) {
       return NextResponse.json(
         { message: "No encontramos el curso solicitado." },
         { status: 404 },
+      );
+    }
+
+    const student = await getCurrentStudentSession();
+
+    if (!student) {
+      return NextResponse.json(
+        { message: "Inicia sesión para usar la IA del curso." },
+        { status: 401 },
+      );
+    }
+
+    const hasCourseAccess =
+      student.enrolledCourseSlugs.includes(courseSlug) ||
+      student.subscriptions.some(
+        (subscription) =>
+          subscription.courseSlug === courseSlug && subscription.status === "active",
+      );
+
+    if (!hasCourseAccess) {
+      return NextResponse.json(
+        { message: "Necesitas una suscripción activa para usar la IA de este curso." },
+        { status: 403 },
       );
     }
 

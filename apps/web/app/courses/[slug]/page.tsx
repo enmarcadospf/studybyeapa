@@ -1,6 +1,7 @@
 import Link from "next/link";
 import {
   courseFocusAreas,
+  type Lesson,
   modules,
   paymentMethodCards,
   studyToolCards,
@@ -9,25 +10,76 @@ import { notFound } from "next/navigation";
 import { StudyAssistant } from "../../../components/course/study-assistant";
 import {
   getCourseBySlug,
-  getCourses,
   getLessonsByCourseSlug,
 } from "../../../lib/api";
+import { getCurrentStudentSession } from "../../../lib/server/session";
 
 type CourseDetailPageProps = {
   params: Promise<{
     slug: string;
   }>;
+  searchParams?: Promise<{
+    lesson?: string;
+  }>;
 };
 
 export const dynamic = "force-dynamic";
 
+function LessonVisual({ courseSlug }: { courseSlug: string }) {
+  if (courseSlug === "anatomia") {
+    return (
+      <svg viewBox="0 0 260 260" aria-hidden="true">
+        <path className="bone-soft" d="M130 27v196" />
+        <path className="bone-line" d="M130 44c-37 20-58 54-58 91 0 26 12 49 33 67" />
+        <path className="bone-line" d="M130 44c37 20 58 54 58 91 0 26-12 49-33 67" />
+        <path className="bone-line" d="M82 91c26-12 70-12 96 0" />
+        <path className="bone-line" d="M74 123c34-16 78-16 112 0" />
+        <path className="bone-line" d="M78 154c31-13 73-13 104 0" />
+        <path className="bone-line" d="M93 184c24-8 50-8 74 0" />
+        <circle className="bone-dot" cx="130" cy="44" r="18" />
+      </svg>
+    );
+  }
+
+  if (courseSlug === "infectologia" || courseSlug === "microbiologia") {
+    return (
+      <svg viewBox="0 0 260 260" aria-hidden="true">
+        <circle className="bone-soft-fill" cx="130" cy="130" r="58" />
+        <circle className="bone-line-fill" cx="130" cy="130" r="46" />
+        <path className="bone-line" d="M130 34v36" />
+        <path className="bone-line" d="M130 190v36" />
+        <path className="bone-line" d="m47 82 32 18" />
+        <path className="bone-line" d="m181 160 32 18" />
+        <path className="bone-line" d="m213 82-32 18" />
+        <path className="bone-line" d="m79 160-32 18" />
+        <circle className="bone-dot" cx="111" cy="119" r="8" />
+        <circle className="bone-dot" cx="148" cy="143" r="8" />
+      </svg>
+    );
+  }
+
+  return (
+    <svg viewBox="0 0 260 260" aria-hidden="true">
+      <path className="bone-line-fill" d="M130 210s-78-51-95-105C24 68 46 39 80 39c23 0 39 11 50 29 11-18 27-29 50-29 34 0 56 29 45 66-17 54-95 105-95 105Z" />
+      <path className="bone-line" d="M54 132h42l18-38 31 76 23-52h38" />
+    </svg>
+  );
+}
+
+function lessonTypeLabel(lesson: Lesson) {
+  return lesson.contentType === "video" ? "Video guiado" : "Lectura";
+}
+
 export default async function CourseDetailPage({
   params,
+  searchParams,
 }: CourseDetailPageProps) {
   const { slug } = await params;
-  const [course, courseLessons] = await Promise.all([
+  const resolvedSearchParams = await searchParams;
+  const [course, courseLessons, student] = await Promise.all([
     getCourseBySlug(slug),
     getLessonsByCourseSlug(slug),
+    getCurrentStudentSession(),
   ]);
 
   if (!course) {
@@ -35,59 +87,159 @@ export default async function CourseDetailPage({
   }
 
   const courseModules = modules.filter((item) => item.courseSlug === slug);
+  const selectedLesson =
+    courseLessons.find((lesson) => lesson.id === resolvedSearchParams?.lesson) ??
+    courseLessons[0] ??
+    null;
+  const selectedModule = selectedLesson
+    ? courseModules.find((module) => module.id === selectedLesson.moduleId) ?? courseModules[0]
+    : courseModules[0];
+  const selectedLessonIndex = selectedLesson
+    ? courseLessons.findIndex((lesson) => lesson.id === selectedLesson.id)
+    : -1;
+  const previousLesson = selectedLessonIndex > 0 ? courseLessons[selectedLessonIndex - 1] : null;
+  const nextLesson =
+    selectedLessonIndex >= 0 && selectedLessonIndex < courseLessons.length - 1
+      ? courseLessons[selectedLessonIndex + 1]
+      : null;
+  const hasCourseAccess =
+    Boolean(student?.enrolledCourseSlugs.includes(slug)) ||
+    Boolean(
+      student?.subscriptions.some(
+        (subscription) => subscription.courseSlug === slug && subscription.status === "active",
+      ),
+    );
+  const canUseStudyTools = hasCourseAccess && Boolean(selectedLesson);
+  const focusAreas = courseFocusAreas[slug] ?? [
+    course.category,
+    "Repaso activo",
+    "Preguntas clínicas",
+  ];
 
   return (
     <main className="course-detail-shell">
-      <section className="mock-course-layout">
-        <aside className="mock-course-sidebar">
-          <div className="mock-course-sidebar-head">
+      <section className="course-lesson-layout-eapa">
+        <aside className="course-lesson-sidebar-eapa">
+          <div className="course-lesson-sidebar-head-eapa">
             <strong>{course.title}</strong>
-            <span>{courseModules.length} módulos</span>
+            <span>{courseModules.length} módulos · {course.lessons} lecciones</span>
           </div>
-          <div className="progress-bar" aria-hidden="true">
-            <span style={{ width: "70%" }} />
+          <div className="course-lesson-sidebar-progress-eapa">
+            <div>
+              <span>Progreso del curso</span>
+              <strong>{hasCourseAccess ? "12%" : "Vista previa"}</strong>
+            </div>
+            <div className="progress-track-eapa" aria-hidden="true">
+              <span style={{ width: hasCourseAccess ? "12%" : "6%" }} />
+            </div>
           </div>
-          <div className="mock-course-module-list">
-            {courseModules.map((module, index) => (
-              <a
-                className={index === 1 ? "mock-course-module is-active" : "mock-course-module"}
-                href={`#${module.id}`}
-                key={module.id}
-              >
-                {index + 1}. {module.title}
-              </a>
-            ))}
+          <div className="course-lesson-module-list-eapa">
+            {courseModules.map((module, moduleIndex) => {
+              const moduleLessons = courseLessons.filter(
+                (lesson) => lesson.moduleId === module.id,
+              );
+
+              return (
+                <div className="course-lesson-module-group-eapa" id={module.id} key={module.id}>
+                  <p>{moduleIndex + 1}. {module.title}</p>
+                  {moduleLessons.map((lesson) => {
+                    const isActive = selectedLesson?.id === lesson.id;
+                    const isLocked = !hasCourseAccess && !lesson.open;
+
+                    return (
+                      <Link
+                        className={
+                          isActive
+                            ? "course-lesson-link-eapa is-active"
+                            : isLocked
+                              ? "course-lesson-link-eapa is-locked"
+                              : "course-lesson-link-eapa"
+                        }
+                        href={`/courses/${slug}?lesson=${lesson.id}`}
+                        key={lesson.id}
+                      >
+                        <span>{lesson.order}</span>
+                        <strong>{lesson.title}</strong>
+                      </Link>
+                    );
+                  })}
+                </div>
+              );
+            })}
           </div>
         </aside>
 
-        <section className="mock-course-main">
-          <p className="course-category">2. {courseModules[1]?.title ?? "Sistema oseo"}</p>
-          <h1>{courseModules[1]?.title ?? course.title}</h1>
-          <p className="course-detail-summary">
-            Aprende sobre el tema con contenido humano, claro, estructurado y enfocado en comprensión real.
-          </p>
-          <div className="mock-course-body">
-            <div className="mock-course-figure">🦴</div>
-            <div className="mock-course-points">
+        <section className="course-lesson-main-eapa">
+          <div className="course-lesson-main-head-eapa">
+            <div>
+              <p className="course-category">{selectedModule?.title ?? course.category}</p>
+              <h1>{selectedLesson?.title ?? course.title}</h1>
+              <p className="course-detail-summary">
+                {selectedLesson?.summary ?? course.summary}
+              </p>
+            </div>
+            <span className={hasCourseAccess ? "course-access-pill-eapa is-active" : "course-access-pill-eapa"}>
+              {hasCourseAccess ? "Acceso activo" : "Vista previa"}
+            </span>
+          </div>
+
+          <div className="course-lesson-tabs-eapa">
+            <a href="#lesson-content" className="is-active">Lección</a>
+            <a href="#study-tools">Recursos</a>
+            <a href="#ai-study">IA</a>
+          </div>
+
+          <div className="course-lesson-body-eapa" id="lesson-content">
+            <div className="course-lesson-figure-eapa">
+              <LessonVisual courseSlug={slug} />
+            </div>
+            <div className="course-lesson-points-eapa">
               <strong>Puntos clave</strong>
               <ul>
-                <li>Soporte del cuerpo</li>
-                <li>Protección de órganos</li>
-                <li>Movimiento</li>
-                <li>Producción de células sanguíneas</li>
-                <li>Almacenamiento de minerales</li>
+                {focusAreas.slice(0, 5).map((area) => (
+                  <li key={area}>{area}</li>
+                ))}
+                <li>{selectedLesson ? lessonTypeLabel(selectedLesson) : "Lección guiada"}</li>
               </ul>
             </div>
           </div>
-          <div className="mock-course-footer">
-            <button className="ghost-action" type="button">Anterior</button>
-            <span>2 / {courseModules.length || 12}</span>
-            <button className="primary-action" type="button">Siguiente</button>
+
+          <div className="course-tool-strip-eapa" id="study-tools">
+            {studyToolCards.map((tool) => (
+              <article key={tool.id}>
+                <span>{canUseStudyTools ? "Disponible" : "Bloqueado"}</span>
+                <h3>{tool.title}</h3>
+                <p>{tool.description}</p>
+              </article>
+            ))}
+          </div>
+
+          <div className="course-lesson-footer-eapa">
+            {previousLesson ? (
+              <Link className="ghost-action" href={`/courses/${slug}?lesson=${previousLesson.id}`}>
+                ← Anterior
+              </Link>
+            ) : (
+              <span />
+            )}
+            <span>
+              {selectedLessonIndex + 1 || 1} / {courseLessons.length || 1}
+            </span>
+            {nextLesson ? (
+              <Link className="primary-action" href={`/courses/${slug}?lesson=${nextLesson.id}`}>
+                Siguiente →
+              </Link>
+            ) : (
+              <Link className="primary-action" href="#ai-study">
+                Repasar con IA
+              </Link>
+            )}
           </div>
         </section>
       </section>
 
-      <section className="subscription-panel">
+      {!hasCourseAccess ? (
+      <section className="course-access-panel-eapa">
         <div className="subscription-copy">
           <p className="eyebrow">Acceso al curso</p>
           <h2>Tienes que suscribirte para poder tener acceso completo</h2>
@@ -97,12 +249,12 @@ export default async function CourseDetailPage({
             el estudiante debe pagar la suscripción o compra del curso.
           </p>
           <div className="hero-actions">
-            <a className="primary-action" href="/auth/register">
-              Suscribirme ahora
-            </a>
-            <a className="secondary-action" href="/auth/login">
-              Ya tengo cuenta
-            </a>
+            <Link className="primary-action" href={student ? "/settings" : "/auth/register"}>
+              {student ? "Gestionar suscripción" : "Crear cuenta"}
+            </Link>
+            <Link className="secondary-action" href={student ? "/courses" : "/auth/login"}>
+              {student ? "Ver más cursos" : "Ya tengo cuenta"}
+            </Link>
           </div>
         </div>
         <div className="payment-grid">
@@ -115,6 +267,7 @@ export default async function CourseDetailPage({
           ))}
         </div>
       </section>
+      ) : null}
 
       <section className="content-section">
         <div className="section-heading">
@@ -151,18 +304,20 @@ export default async function CourseDetailPage({
                         <span>{lesson.durationMinutes} min</span>
                         <div className="lesson-actions">
                           {lesson.supportsFlashcards ? (
-                            <button className="ghost-action" type="button">
+                            <a className="ghost-action" href={hasCourseAccess ? "#ai-study" : "#study-tools"}>
                               Flashcards
-                            </button>
+                            </a>
                           ) : null}
                           {lesson.supportsQuiz ? (
-                            <button className="ghost-action" type="button">
+                            <a className="ghost-action" href={hasCourseAccess ? "#ai-study" : "#study-tools"}>
                               Quiz IA
-                            </button>
+                            </a>
                           ) : null}
-                          <button className="ghost-action" type="button">
-                            Bloqueado hasta suscripción
-                          </button>
+                          {!hasCourseAccess ? (
+                            <span className="lesson-lock-pill-eapa">
+                              Bloqueado hasta suscripción
+                            </span>
+                          ) : null}
                         </div>
                       </div>
                     </article>
@@ -202,7 +357,23 @@ export default async function CourseDetailPage({
             </p>
           </article>
         </div>
-        <StudyAssistant courseSlug={course.slug} lessons={courseLessons} />
+        <div id="ai-study">
+          {hasCourseAccess ? (
+            <StudyAssistant courseSlug={course.slug} lessons={courseLessons} />
+          ) : (
+            <section className="study-assistant-card assistant-locked-eapa">
+              <p className="course-category">IA bloqueada</p>
+              <h3>Suscríbete para generar flashcards, quiz y modo residente.</h3>
+              <p>
+                Protegemos esta función para que el uso de OpenAI quede reservado
+                a estudiantes con acceso activo al curso.
+              </p>
+              <Link className="primary-action" href={student ? "/settings" : "/auth/register"}>
+                {student ? "Gestionar acceso" : "Inscribirme"}
+              </Link>
+            </section>
+          )}
+        </div>
       </section>
     </main>
   );

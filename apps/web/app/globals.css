@@ -2849,6 +2849,387 @@ img {
   background: var(--blue);
 }
 
+.progress-track-eapa > span {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+  background: var(--blue);
+}
+
+.course-lesson-layout-eapa {
+  display: grid;
+  grid-template-columns: 250px minmax(0, 1fr);
+  gap: 1rem;
+  align-items: stretch;
+}
+
+.course-lesson-sidebar-eapa,
+.course-lesson-main-eapa {
+  border: 1px solid rgba(214, 226, 243, 0.9);
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: var(--shadow-card);
+}
+
+.course-lesson-sidebar-eapa {
+  padding: 1rem;
+}
+
+.course-lesson-sidebar-head-eapa {
+  display: grid;
+  gap: 0.35rem;
+  padding: 0.35rem 0.25rem 1rem;
+  border-bottom: 1px solid rgba(230, 235, 241, 0.9);
+}
+
+.course-lesson-sidebar-head-eapa strong {
+  color: var(--navy);
+  font-size: 1rem;
+  line-height: 1.25;
+}
+
+.course-lesson-sidebar-head-eapa span {
+  color: var(--text-gray);
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.course-lesson-sidebar-progress-eapa {
+  display: grid;
+  gap: 0.55rem;
+  padding: 1rem 0.25rem;
+}
+
+.course-lesson-sidebar-progress-eapa > div:first-child {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  color: var(--text-gray);
+  font-size: 0.74rem;
+  font-weight: 900;
+}
+
+.course-lesson-sidebar-progress-eapa strong {
+  color: var(--blue);
+}
+
+.course-lesson-module-list-eapa {
+  display: grid;
+  gap: 0.95rem;
+}
+
+.course-lesson-module-group-eapa {
+  display: grid;
+  gap: 0.42rem;
+}
+
+.course-lesson-module-group-eapa > p {
+  margin: 0;
+  color: var(--navy);
+  font-size: 0.78rem;
+  font-weight: 900;
+}
+
+.course-lesson-link-eapa {
+  display: grid;
+  grid-template-columns: 26px 1fr;
+  gap: 0.55rem;
+  align-items: center;
+  padding: 0.62rem;
+  border: 1px solid transparent;
+  border-radius: 13px;
+  color: var(--text-gray);
+  background: transparent;
+  transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease;
+}
+
+.course-lesson-link-eapa span {
+  width: 26px;
+  height: 26px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: rgba(169, 199, 232, 0.22);
+  color: var(--blue);
+  font-size: 0.74rem;
+  font-weight: 900;
+}
+
+.course-lesson-link-eapa strong {
+  color: inherit;
+  font-size: 0.78rem;
+  line-height: 1.25;
+}
+
+.course-lesson-link-eapa:hover,
+.course-lesson-link-eapa.is-active {
+  border-color: rgba(45, 108, 196, 0.18);
+  background: rgba(169, 199, 232, 0.22);
+  color: var(--navy);
+}
+
+.course-lesson-link-eapa.is-active span {
+  background: var(--blue);
+  color: white;
+}
+
+.course-lesson-link-eapa.is-locked {
+  opacity: 0.62;
+}
+
+.course-lesson-main-eapa {
+  padding: clamp(1rem, 2vw, 1.5rem);
+}
+
+.course-lesson-main-head-eapa {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.course-lesson-main-head-eapa h1 {
+  margin: 0.25rem 0 0;
+  color: var(--navy);
+  font-size: clamp(1.8rem, 3.2vw, 2.65rem);
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+}
+
+.course-access-pill-eapa {
+  flex: 0 0 auto;
+  padding: 0.48rem 0.75rem;
+  border: 1px solid rgba(169, 199, 232, 0.48);
+  border-radius: 999px;
+  color: var(--blue);
+  background: rgba(248, 251, 255, 0.94);
+  font-size: 0.75rem;
+  font-weight: 900;
+}
+
+.course-access-pill-eapa.is-active {
+  color: #168049;
+  border-color: rgba(34, 197, 94, 0.22);
+  background: #f0fdf4;
+}
+
+.course-lesson-tabs-eapa {
+  display: flex;
+  gap: 1.3rem;
+  margin-top: 1.2rem;
+  border-bottom: 1px solid rgba(230, 235, 241, 0.9);
+}
+
+.course-lesson-tabs-eapa a {
+  padding: 0.75rem 0 0.7rem;
+  color: var(--text-gray);
+  font-size: 0.82rem;
+  font-weight: 900;
+  border-bottom: 2px solid transparent;
+}
+
+.course-lesson-tabs-eapa a.is-active,
+.course-lesson-tabs-eapa a:hover {
+  color: var(--blue);
+  border-bottom-color: var(--blue);
+}
+
+.course-lesson-body-eapa {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 230px;
+  gap: 1.2rem;
+  align-items: center;
+  margin-top: 1.35rem;
+}
+
+.course-lesson-figure-eapa {
+  min-height: 310px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(230, 235, 241, 0.9);
+  border-radius: 24px;
+  background:
+    radial-gradient(circle at 50% 50%, rgba(169, 199, 232, 0.2), transparent 58%),
+    linear-gradient(180deg, rgba(248, 251, 255, 0.96), white);
+}
+
+.course-lesson-figure-eapa svg {
+  width: min(82%, 280px);
+  height: auto;
+}
+
+.bone-line,
+.bone-soft {
+  fill: none;
+  stroke: var(--blue);
+  stroke-width: 8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.bone-soft {
+  stroke: var(--light-blue);
+  stroke-width: 10;
+}
+
+.bone-line-fill {
+  fill: rgba(169, 199, 232, 0.2);
+  stroke: var(--blue);
+  stroke-width: 7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.bone-soft-fill {
+  fill: rgba(169, 199, 232, 0.16);
+}
+
+.bone-dot {
+  fill: white;
+  stroke: var(--blue);
+  stroke-width: 7;
+}
+
+.course-lesson-points-eapa {
+  padding: 1.1rem;
+  border: 1px solid rgba(214, 226, 243, 0.9);
+  border-radius: 20px;
+  background: white;
+}
+
+.course-lesson-points-eapa strong {
+  display: block;
+  color: var(--navy);
+  font-size: 0.95rem;
+}
+
+.course-lesson-points-eapa ul {
+  display: grid;
+  gap: 0.72rem;
+  margin: 1rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.course-lesson-points-eapa li {
+  position: relative;
+  padding-left: 1.6rem;
+  color: var(--text-gray);
+  font-size: 0.84rem;
+  font-weight: 700;
+  line-height: 1.45;
+}
+
+.course-lesson-points-eapa li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 18px;
+  height: 18px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  color: white;
+  background: var(--blue);
+  font-size: 0.68rem;
+}
+
+.course-tool-strip-eapa {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.8rem;
+  margin-top: 1.2rem;
+}
+
+.course-tool-strip-eapa article {
+  padding: 0.95rem;
+  border: 1px solid rgba(230, 235, 241, 0.9);
+  border-radius: 18px;
+  background: rgba(248, 251, 255, 0.72);
+}
+
+.course-tool-strip-eapa span {
+  color: var(--blue);
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.course-tool-strip-eapa h3 {
+  margin: 0.45rem 0 0;
+  color: var(--navy);
+  font-size: 0.9rem;
+}
+
+.course-tool-strip-eapa p {
+  margin: 0.45rem 0 0;
+  color: var(--text-gray);
+  font-size: 0.76rem;
+  line-height: 1.55;
+}
+
+.course-lesson-footer-eapa {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1.25rem;
+}
+
+.course-lesson-footer-eapa > span {
+  color: var(--blue);
+  font-size: 0.84rem;
+  font-weight: 900;
+}
+
+.course-lesson-footer-eapa .primary-action {
+  justify-self: end;
+}
+
+.course-access-panel-eapa {
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: 1.2rem;
+  margin-top: 1.2rem;
+  padding: clamp(1rem, 2vw, 1.5rem);
+  border: 1px solid rgba(214, 226, 243, 0.9);
+  border-radius: 24px;
+  background: white;
+  box-shadow: var(--shadow-card);
+}
+
+.lesson-lock-pill-eapa {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 34px;
+  padding: 0.45rem 0.72rem;
+  border-radius: 999px;
+  border: 1px solid rgba(169, 199, 232, 0.46);
+  color: var(--text-gray);
+  background: rgba(248, 251, 255, 0.96);
+  font-size: 0.72rem;
+  font-weight: 900;
+}
+
+.assistant-locked-eapa {
+  display: grid;
+  gap: 0.75rem;
+  padding: 1.25rem;
+}
+
+.assistant-locked-eapa h3 {
+  margin: 0;
+  color: var(--navy);
+  font-size: 1.35rem;
+}
+
 .calendar-panel-head-eapa,
 .calendar-box-head-eapa,
 .agenda-head-eapa {
@@ -3473,6 +3854,10 @@ img {
   .auth-grid-eapa,
   .courses-topbar-eapa,
   .dashboard-grid-eapa,
+  .course-lesson-layout-eapa,
+  .course-lesson-body-eapa,
+  .course-tool-strip-eapa,
+  .course-access-panel-eapa,
   .dashboard-panels-eapa,
   .dashboard-bottom-grid-eapa,
   .simulacros-grid-eapa,
