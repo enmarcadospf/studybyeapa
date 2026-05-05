@@ -3679,6 +3679,174 @@ img {
   gap: 0.5rem;
 }
 
+.calendar-shell-eapa {
+  position: relative;
+  overflow: hidden;
+  border-radius: 26px;
+}
+
+.calendar-shell-eapa::before {
+  content: "";
+  position: absolute;
+  right: -10%;
+  top: -18%;
+  width: 380px;
+  height: 380px;
+  border-radius: 999px;
+  background: radial-gradient(circle, rgba(169, 199, 232, 0.3), transparent 64%);
+  pointer-events: none;
+}
+
+.calendar-hero-eapa {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 220px;
+  gap: 1.5rem;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.calendar-hero-eapa h1 {
+  max-width: 10ch;
+}
+
+.calendar-hero-art-eapa {
+  min-height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.calendar-mascot-eapa {
+  position: relative;
+  width: 118px;
+  height: 126px;
+  border: 5px solid var(--blue);
+  border-radius: 22px;
+  background: white;
+  box-shadow: 0 18px 32px rgba(13, 43, 94, 0.08);
+}
+
+.calendar-mascot-eapa::before {
+  content: "";
+  position: absolute;
+  inset: 24px 18px auto;
+  height: 5px;
+  border-radius: 999px;
+  background: rgba(169, 199, 232, 0.9);
+  box-shadow:
+    0 22px 0 rgba(169, 199, 232, 0.62),
+    0 44px 0 rgba(169, 199, 232, 0.42);
+}
+
+.calendar-mascot-eapa span,
+.calendar-mascot-eapa strong {
+  position: absolute;
+  top: -14px;
+  width: 16px;
+  height: 32px;
+  border-radius: 999px;
+  background: var(--blue);
+}
+
+.calendar-mascot-eapa span {
+  left: 28px;
+}
+
+.calendar-mascot-eapa strong {
+  right: 28px;
+}
+
+.calendar-month-card-eapa,
+.calendar-agenda-card-eapa {
+  position: relative;
+  z-index: 2;
+}
+
+.calendar-full-grid-eapa .calendar-mini-day-eapa {
+  border: none;
+  cursor: pointer;
+  background: transparent;
+  transition: background-color 160ms ease, color 160ms ease, transform 160ms ease;
+}
+
+.calendar-full-grid-eapa .calendar-mini-day-eapa:hover {
+  transform: translateY(-1px);
+  background: rgba(169, 199, 232, 0.18);
+}
+
+.calendar-mini-day-eapa.has-events {
+  position: relative;
+}
+
+.calendar-mini-day-eapa.has-events::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 0.28rem;
+  width: 5px;
+  height: 5px;
+  border-radius: 999px;
+  background: var(--blue);
+  transform: translateX(-50%);
+}
+
+.calendar-mini-day-eapa.is-active.has-events::after {
+  background: white;
+}
+
+.calendar-agenda-card-eapa .agenda-head-eapa p {
+  margin: 0.35rem 0 0;
+  color: var(--text-gray);
+  font-size: 0.88rem;
+}
+
+.event-item-eapa small {
+  display: block;
+  margin-top: 0.25rem;
+  color: var(--text-gray);
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.calendar-empty-eapa,
+.calendar-add-panel-eapa {
+  padding: 1rem;
+  border: 1px solid rgba(214, 226, 243, 0.9);
+  border-radius: 18px;
+  background: rgba(248, 251, 255, 0.82);
+}
+
+.calendar-empty-eapa strong,
+.calendar-add-panel-eapa strong {
+  display: block;
+  color: var(--navy);
+  font-size: 0.94rem;
+}
+
+.calendar-empty-eapa p,
+.calendar-add-panel-eapa p {
+  margin: 0.45rem 0 0;
+  color: var(--text-gray);
+  font-size: 0.84rem;
+}
+
+.calendar-add-panel-eapa {
+  margin-top: 1rem;
+}
+
+.calendar-add-panel-eapa span {
+  display: inline-flex;
+  margin-top: 0.7rem;
+  padding: 0.4rem 0.65rem;
+  border-radius: 999px;
+  color: var(--blue);
+  background: rgba(169, 199, 232, 0.22);
+  font-size: 0.78rem;
+  font-weight: 900;
+}
+
 .small-pill-eapa {
   padding: 0.7rem 1rem;
   font-size: 0.9rem;
@@ -4082,6 +4250,7 @@ img {
   .simulacros-grid-eapa,
   .simulacros-hero-eapa,
   .sim-result-detail-eapa,
+  .calendar-hero-eapa,
   .calendar-grid-eapa,
   .feature-grid-eapa,
   .method-cards-eapa,
