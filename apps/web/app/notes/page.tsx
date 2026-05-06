@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import { NotesBoard } from "../../components/student/notes-board";
 import { StudentSidebar } from "../../components/student/student-sidebar";
 import { getCurrentStudentSession } from "../../lib/server/session";
+import { listStudyNotes } from "../../lib/server/student-tool-store";
 
 export const dynamic = "force-dynamic";
 
@@ -11,6 +12,8 @@ export default async function NotesPage() {
   if (!student) {
     redirect("/auth/login");
   }
+
+  const notes = await listStudyNotes(student.id);
 
   return (
     <main className="dashboard-shell-eapa">
@@ -22,7 +25,7 @@ export default async function NotesPage() {
             <h1>Mis notas</h1>
             <p>Guarda apuntes rápidos por curso para repasar antes de flashcards, quiz o simulacros.</p>
           </div>
-          <NotesBoard />
+          <NotesBoard initialNotes={notes} />
         </section>
       </div>
     </main>

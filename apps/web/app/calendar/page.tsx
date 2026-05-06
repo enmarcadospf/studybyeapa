@@ -1,10 +1,12 @@
 import { CalendarPlanner } from "../../components/calendar/calendar-planner";
 import { getCurrentStudentSession } from "../../lib/server/session";
+import { listCalendarEvents } from "../../lib/server/student-tool-store";
 
 export const dynamic = "force-dynamic";
 
 export default async function CalendarPage() {
   const student = await getCurrentStudentSession();
+  const events = student ? await listCalendarEvents(student.id) : [];
 
   return (
     <main className="public-shell-eapa">
@@ -26,7 +28,7 @@ export default async function CalendarPage() {
           </div>
         </div>
 
-        <CalendarPlanner isLoggedIn={Boolean(student)} />
+        <CalendarPlanner initialEvents={events} isLoggedIn={Boolean(student)} />
       </section>
     </main>
   );

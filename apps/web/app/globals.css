@@ -3961,6 +3961,19 @@ img {
   text-decoration: none;
 }
 
+.event-delete-eapa {
+  display: inline-flex;
+  width: fit-content;
+  margin-top: 0.45rem;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #b45309;
+  font-size: 0.78rem;
+  font-weight: 900;
+  cursor: pointer;
+}
+
 .secondary-btn-center {
   display: inline-flex;
   margin: 1.5rem auto 0;

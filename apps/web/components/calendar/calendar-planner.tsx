@@ -13,9 +13,11 @@ type StudyEvent = {
   title: string;
   subtitle: string;
   tone: EventTone;
+  createdAt?: string;
 };
 
 type CalendarPlannerProps = {
+  initialEvents: StudyEvent[];
   isLoggedIn: boolean;
 };
 
@@ -133,14 +135,17 @@ function getGoogleCalendarUrl(event: StudyEvent) {
   return `https://calendar.google.com/calendar/render?${params.toString()}`;
 }
 
-export function CalendarPlanner({ isLoggedIn }: CalendarPlannerProps) {
+export function CalendarPlanner({ initialEvents, isLoggedIn }: CalendarPlannerProps) {
   const today = useMemo(() => new Date(), []);
   const [monthDate, setMonthDate] = useState(() => new Date(today.getFullYear(), today.getMonth(), 1));
   const [selectedDate, setSelectedDate] = useState(() => today);
   const [view, setView] = useState<CalendarView>("day");
   const [showAddPanel, setShowAddPanel] = useState(false);
   const [googleReminders, setGoogleReminders] = useState(false);
-  const [events, setEvents] = useState<StudyEvent[]>(() => getInitialEvents(today));
+  const [events, setEvents] = useState<StudyEvent[]>(() =>
+    isLoggedIn ? initialEvents : getInitialEvents(today),
+  );
+  const [calendarMessage, setCalendarMessage] = useState("");
 
   const selectedDateKey = toDateKey(selectedDate);
   const currentMonthKey = `${monthDate.getFullYear()}-${String(monthDate.getMonth() + 1).padStart(2, "0")}`;
@@ -176,8 +181,9 @@ export function CalendarPlanner({ isLoggedIn }: CalendarPlannerProps) {
     setView("day");
   }
 
-  function handleAddActivity(event: FormEvent<HTMLFormElement>) {
+  async function handleAddActivity(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    setCalendarMessage("");
 
     const formData = new FormData(event.currentTarget);
     const title = String(formData.get("title") ?? "").trim();
@@ -189,20 +195,74 @@ export function CalendarPlanner({ isLoggedIn }: CalendarPlannerProps) {
       return;
     }
 
-    setEvents((current) => [
-      ...current,
-      {
-        id: `custom-${Date.now()}`,
-        date: selectedDateKey,
-        startTime,
-        endTime,
-        title,
-        subtitle: subtitle || "Actividad personalizada",
-        tone: "medium",
-      },
-    ]);
+    if (isLoggedIn) {
+      const response = await fetch("/api/student/calendar-events", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          date: selectedDateKey,
+          startTime,
+          endTime,
+          title,
+          subtitle: subtitle || "Actividad personalizada",
+        }),
+      });
+      const payload = (await response.json()) as {
+        event?: StudyEvent;
+        message?: string;
+      };
+
+      if (!response.ok || !payload.event) {
+        setCalendarMessage(payload.message ?? "No se pudo guardar la actividad.");
+        return;
+      }
+
+      setEvents((current) => [...current, payload.event as StudyEvent]);
+      setCalendarMessage("Actividad guardada en tu cuenta.");
+    } else {
+      setEvents((current) => [
+        ...current,
+        {
+          id: `custom-${Date.now()}`,
+          date: selectedDateKey,
+          startTime,
+          endTime,
+          title,
+          subtitle: subtitle || "Actividad personalizada",
+          tone: "medium",
+        },
+      ]);
+      setCalendarMessage("Actividad temporal creada. Inicia sesión para guardarla.");
+    }
+
     event.currentTarget.reset();
     setShowAddPanel(false);
+  }
+
+  async function handleDeleteActivity(eventId: string) {
+    setCalendarMessage("");
+
+    if (isLoggedIn) {
+      const response = await fetch("/api/student/calendar-events", {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ eventId }),
+      });
+
+      if (!response.ok) {
+        const payload = (await response.json()) as { message?: string };
+        setCalendarMessage(payload.message ?? "No se pudo eliminar la actividad.");
+        return;
+      }
+
+      setCalendarMessage("Actividad eliminada.");
+    }
+
+    setEvents((current) => current.filter((event) => event.id !== eventId));
   }
 
   return (
@@ -338,6 +398,13 @@ export function CalendarPlanner({ isLoggedIn }: CalendarPlannerProps) {
                     Agregar a Google Calendar
                   </a>
                 ) : null}
+                <button
+                  className="event-delete-eapa"
+                  onClick={() => void handleDeleteActivity(event.id)}
+                  type="button"
+                >
+                  Quitar
+                </button>
               </div>
             </article>
           ))}
@@ -376,6 +443,10 @@ export function CalendarPlanner({ isLoggedIn }: CalendarPlannerProps) {
               Guardar actividad
             </button>
           </form>
+        ) : null}
+
+        {calendarMessage ? (
+          <p className="form-message form-message-success">{calendarMessage}</p>
         ) : null}
 
         <button
