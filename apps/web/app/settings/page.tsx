@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import { AccountHub } from "../../components/student/account-hub";
 import { StudentSidebar } from "../../components/student/student-sidebar";
 import { getCourses } from "../../lib/api";
+import { getAdminAccessByEmail } from "../../lib/server/admin-store";
 import { getCurrentStudentSession } from "../../lib/server/session";
 
 export const dynamic = "force-dynamic";
@@ -13,7 +14,10 @@ export default async function SettingsPage() {
     redirect("/auth/login");
   }
 
-  const courses = await getCourses();
+  const [courses, adminAccess] = await Promise.all([
+    getCourses(),
+    getAdminAccessByEmail(student.email),
+  ]);
 
   return (
     <main className="dashboard-shell-eapa">
@@ -25,7 +29,12 @@ export default async function SettingsPage() {
             <h1>Mi perfil</h1>
             <p>Gestiona tu información personal, contraseña, dispositivos y suscripción.</p>
           </div>
-          <AccountHub courses={courses} student={student} />
+          <AccountHub
+            courses={courses}
+            isAdmin={adminAccess.isAdmin}
+            isOwnerAdmin={adminAccess.isOwner}
+            student={student}
+          />
         </main>
       </div>
     </main>

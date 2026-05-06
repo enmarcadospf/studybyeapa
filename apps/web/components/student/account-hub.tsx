@@ -8,6 +8,8 @@ import { type FormEvent, useMemo, useState } from "react";
 type AccountHubProps = {
   student: StudentAccount;
   courses: Course[];
+  isAdmin: boolean;
+  isOwnerAdmin: boolean;
 };
 
 type MessageState = {
@@ -73,7 +75,12 @@ function StudentAvatar({ name }: { name: string }) {
   );
 }
 
-export function AccountHub({ student, courses }: AccountHubProps) {
+export function AccountHub({
+  student,
+  courses,
+  isAdmin,
+  isOwnerAdmin,
+}: AccountHubProps) {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState<SettingsTab>("profile");
   const [profileMessage, setProfileMessage] = useState<MessageState>(null);
@@ -206,7 +213,14 @@ export function AccountHub({ student, courses }: AccountHubProps) {
             <StudentAvatar name={student.fullName} />
             <h2>{student.fullName}</h2>
             <p>{student.email}</p>
-            <span className="profile-badge-eapa">Estudiante</span>
+            <div className="profile-role-row-eapa">
+              <span className="profile-badge-eapa">Estudiante</span>
+              {isAdmin ? (
+                <span className="profile-badge-eapa profile-badge-admin-eapa">
+                  {isOwnerAdmin ? "Admin propietario" : "Admin"}
+                </span>
+              ) : null}
+            </div>
             <div className="profile-mini-progress-eapa">
               <span>Cursos activos</span>
               <strong>{activeSubscriptions.length}</strong>

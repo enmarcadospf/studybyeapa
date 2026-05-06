@@ -4866,6 +4866,297 @@ img {
   transform: none;
 }
 
+/* Ajuste de escala: más área útil, cards compactas y mejor separación. */
+.public-shell-eapa,
+.auth-shell-eapa,
+.dashboard-shell-eapa {
+  max-width: 1380px;
+  padding-inline: 1.25rem;
+}
+
+.dashboard-grid-eapa {
+  grid-template-columns: 220px minmax(0, 1fr);
+  gap: 1.4rem;
+}
+
+.dashboard-main-eapa,
+.calendar-shell-eapa,
+.simulacros-shell-eapa,
+.courses-shell-eapa,
+.method-shell-eapa {
+  padding: clamp(1rem, 1.55vw, 1.55rem);
+}
+
+.student-sidebar-eapa {
+  min-height: 690px;
+  padding: 0.72rem;
+}
+
+.student-sidebar-logo {
+  margin-bottom: 1.15rem;
+}
+
+.student-sidebar-link-eapa,
+.student-sidebar-logout {
+  min-height: 40px;
+  padding: 0.62rem 0.72rem;
+  font-size: 0.84rem;
+}
+
+.dashboard-stats-eapa,
+.dashboard-panels-eapa,
+.dashboard-bottom-grid-eapa,
+.calendar-grid-eapa,
+.simulacros-grid-eapa,
+.student-tool-grid-eapa,
+.settings-panel-eapa,
+.profile-tab-grid-eapa,
+.settings-two-column-eapa,
+.settings-security-grid-eapa,
+.settings-billing-grid-eapa {
+  gap: 1.35rem;
+}
+
+.calendar-grid-eapa {
+  grid-template-columns: minmax(280px, 0.82fr) minmax(0, 1.18fr);
+}
+
+.simulacros-grid-eapa {
+  grid-template-columns: minmax(270px, 0.78fr) minmax(0, 1.22fr);
+}
+
+.calendar-hero-eapa,
+.simulacros-hero-eapa {
+  grid-template-columns: minmax(0, 1fr) 150px;
+  margin-bottom: 1.1rem;
+}
+
+.calendar-hero-art-eapa,
+.simulacros-hero-art-eapa {
+  min-height: 110px;
+}
+
+.calendar-mascot-eapa {
+  width: 92px;
+  height: 100px;
+  border-width: 4px;
+}
+
+.sim-clipboard-eapa {
+  width: 92px;
+  height: 116px;
+  border-width: 4px;
+}
+
+.sim-clipboard-eapa::before {
+  left: 22px;
+  top: -15px;
+  width: 46px;
+  height: 26px;
+  border-width: 4px;
+}
+
+.score-ring-eapa {
+  width: 148px;
+  height: 148px;
+  margin: 1rem auto;
+}
+
+.score-ring-eapa p {
+  font-size: 1.78rem;
+}
+
+.score-ring-eapa span {
+  font-size: 0.76rem;
+}
+
+.calendar-full-grid-eapa {
+  gap: 0.38rem;
+  margin-top: 0.9rem;
+}
+
+.calendar-mini-day-eapa {
+  padding: 0.52rem 0;
+  font-size: 0.86rem;
+}
+
+.calendar-month-card-eapa,
+.calendar-agenda-card-eapa,
+.sim-summary-card-eapa,
+.sim-content-card-eapa,
+.profile-summary-eapa,
+.profile-form-card-eapa,
+.profile-side-info-eapa,
+.profile-wide-card-eapa,
+.student-tool-list-eapa,
+.student-tool-detail-eapa,
+.student-tool-form-eapa,
+.achievement-card-eapa {
+  padding: 0.95rem;
+}
+
+.profile-page-head-eapa {
+  margin-bottom: 1rem;
+}
+
+.profile-page-head-eapa h1 {
+  font-size: clamp(1.75rem, 2.2vw, 2.45rem);
+}
+
+.profile-page-head-eapa p {
+  max-width: 760px;
+}
+
+.profile-tabs-eapa {
+  margin-bottom: 0.95rem;
+  gap: 0.42rem;
+}
+
+.profile-tabs-eapa button {
+  padding: 0.5rem 0.75rem;
+  font-size: 0.82rem;
+}
+
+.profile-tab-grid-eapa {
+  grid-template-columns: 205px minmax(0, 1fr) 240px;
+}
+
+.settings-two-column-eapa,
+.settings-security-grid-eapa,
+.settings-billing-grid-eapa {
+  grid-template-columns: minmax(0, 1fr) minmax(300px, 0.72fr);
+}
+
+.profile-avatar-eapa {
+  width: 94px;
+  height: 94px;
+}
+
+.profile-avatar-eapa span {
+  width: 1.75rem;
+  height: 1.75rem;
+  font-size: 0.66rem;
+}
+
+.profile-role-row-eapa {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.45rem;
+  margin-top: 0.85rem;
+}
+
+.profile-badge-eapa {
+  background: #effaf3;
+  color: #1f8b4c;
+}
+
+.profile-badge-admin-eapa {
+  border: 1px solid rgba(180, 83, 9, 0.22);
+  background: linear-gradient(135deg, #fff7d6, #f8d77c);
+  color: #8a5a00;
+  box-shadow: 0 10px 20px rgba(180, 83, 9, 0.12);
+}
+
+.profile-summary-eapa h2,
+.profile-form-card-eapa h2,
+.profile-side-info-eapa h2,
+.profile-wide-card-eapa h2,
+.student-tool-list-eapa h2,
+.student-tool-detail-eapa h2,
+.student-tool-form-eapa h2,
+.achievement-card-eapa h2 {
+  font-size: 1.08rem;
+}
+
+.profile-summary-eapa h2 {
+  margin-top: 0.8rem;
+}
+
+.profile-summary-eapa p,
+.profile-side-info-eapa,
+.profile-wide-card-eapa,
+.student-tool-detail-eapa p,
+.student-tool-form-eapa label,
+.student-note-list-eapa button {
+  font-size: 0.84rem;
+}
+
+.profile-mini-progress-eapa {
+  margin-top: 0.8rem;
+  padding: 0.62rem 0.72rem;
+}
+
+.side-stats-eapa,
+.device-list-eapa,
+.preference-list-eapa {
+  gap: 0.65rem;
+  margin-top: 0.75rem;
+}
+
+.preference-list-eapa label,
+.device-item-eapa,
+.sim-item-eapa,
+.event-item-eapa {
+  padding: 0.82rem;
+  border-radius: 16px;
+}
+
+.profile-form-grid-eapa {
+  gap: 0.8rem;
+}
+
+.profile-textarea-eapa {
+  min-height: 96px;
+}
+
+.input-eapa {
+  min-height: 42px;
+  padding: 0.64rem 0.82rem;
+  font-size: 0.86rem;
+}
+
+.student-tool-grid-eapa {
+  grid-template-columns: 245px minmax(0, 1fr) 310px;
+  align-items: start;
+}
+
+.student-tool-form-eapa {
+  grid-column: auto;
+}
+
+.student-note-list-eapa {
+  max-height: 430px;
+  overflow-y: auto;
+  padding-right: 0.1rem;
+}
+
+.student-note-list-eapa button {
+  padding: 0.72rem;
+  border-radius: 15px;
+}
+
+.student-tool-detail-eapa {
+  min-height: 260px;
+}
+
+.student-tool-form-eapa input,
+.student-tool-form-eapa textarea,
+.calendar-add-panel-eapa input {
+  padding: 0.66rem 0.78rem;
+  border-radius: 14px;
+  font-size: 0.84rem;
+}
+
+.student-tool-form-eapa textarea {
+  min-height: 112px;
+}
+
+.achievements-grid-eapa {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1rem;
+}
+
 @media (max-width: 1180px) {
   .feature-grid-eapa,
   .method-cards-eapa,
