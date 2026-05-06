@@ -6,9 +6,9 @@ const studentLinks = [
   { href: "/courses", label: "Mis cursos", icon: "▤" },
   { href: "/calendar", label: "Calendario", icon: "◫" },
   { href: "/simulacros", label: "Simulacros", icon: "☑" },
-  { href: "#", label: "Mensajes", icon: "✉" },
-  { href: "#", label: "Logros", icon: "★" },
-  { href: "#", label: "Notas", icon: "✎" },
+  { href: "/messages", label: "Mensajes", icon: "✉" },
+  { href: "/logros", label: "Logros", icon: "★" },
+  { href: "/notes", label: "Notas", icon: "✎" },
   { href: "/settings", label: "Configuración", icon: "⚙" },
 ];
 

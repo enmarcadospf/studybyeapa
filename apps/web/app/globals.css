@@ -3776,6 +3776,14 @@ img {
   background: rgba(169, 199, 232, 0.18);
 }
 
+.calendar-mini-day-eapa.is-empty {
+  pointer-events: none;
+}
+
+.calendar-mini-day-eapa.is-today {
+  box-shadow: inset 0 0 0 1px rgba(45, 108, 196, 0.32);
+}
+
 .calendar-mini-day-eapa.has-events {
   position: relative;
 }
@@ -3833,7 +3841,41 @@ img {
 }
 
 .calendar-add-panel-eapa {
+  display: grid;
+  gap: 0.8rem;
   margin-top: 1rem;
+}
+
+.calendar-add-panel-eapa label,
+.student-tool-form-eapa label {
+  display: grid;
+  gap: 0.42rem;
+  color: var(--navy);
+  font-size: 0.88rem;
+  font-weight: 800;
+}
+
+.calendar-add-panel-eapa input,
+.student-tool-form-eapa input,
+.student-tool-form-eapa textarea {
+  width: 100%;
+  padding: 0.78rem 0.95rem;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: white;
+  color: var(--navy);
+  outline: none;
+}
+
+.student-tool-form-eapa textarea {
+  min-height: 140px;
+  resize: vertical;
+}
+
+.calendar-time-grid-eapa {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.8rem;
 }
 
 .calendar-add-panel-eapa span {
@@ -3876,9 +3918,157 @@ img {
   background: var(--navy);
 }
 
+.google-calendar-card-eapa {
+  display: grid;
+  gap: 0.8rem;
+  margin-top: 1rem;
+  padding: 1rem;
+  border: 1px solid rgba(214, 226, 243, 0.9);
+  border-radius: 20px;
+  background: rgba(169, 199, 232, 0.14);
+}
+
+.google-calendar-card-eapa strong {
+  color: var(--navy);
+}
+
+.google-calendar-card-eapa p {
+  margin: 0.25rem 0 0;
+  color: var(--text-gray);
+  font-size: 0.84rem;
+}
+
+.google-calendar-card-eapa label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  color: var(--blue);
+  font-size: 0.86rem;
+  font-weight: 900;
+}
+
+.google-calendar-card-eapa input {
+  accent-color: var(--blue);
+}
+
+.google-event-link-eapa {
+  display: inline-flex;
+  width: fit-content;
+  margin-top: 0.65rem;
+  color: var(--blue);
+  font-size: 0.8rem;
+  font-weight: 900;
+  text-decoration: none;
+}
+
 .secondary-btn-center {
   display: inline-flex;
   margin: 1.5rem auto 0;
+}
+
+.student-tool-grid-eapa {
+  display: grid;
+  grid-template-columns: 280px minmax(0, 1fr);
+  gap: 1rem;
+}
+
+.student-tool-list-eapa,
+.student-tool-detail-eapa,
+.student-tool-form-eapa {
+  display: grid;
+  gap: 1rem;
+  align-content: start;
+}
+
+.student-tool-form-eapa {
+  grid-column: 1 / -1;
+}
+
+.student-tool-list-eapa h2,
+.student-tool-detail-eapa h2,
+.student-tool-form-eapa h2,
+.achievement-card-eapa h2 {
+  margin: 0;
+  color: var(--navy);
+}
+
+.student-note-list-eapa {
+  display: grid;
+  gap: 0.7rem;
+}
+
+.student-note-list-eapa button {
+  display: grid;
+  gap: 0.22rem;
+  width: 100%;
+  padding: 0.95rem;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: white;
+  color: var(--navy);
+  text-align: left;
+  cursor: pointer;
+}
+
+.student-note-list-eapa button.is-active,
+.student-note-list-eapa button:hover {
+  border-color: rgba(45, 108, 196, 0.34);
+  background: rgba(169, 199, 232, 0.15);
+}
+
+.student-note-list-eapa span,
+.student-note-list-eapa i,
+.student-tool-detail-eapa p,
+.achievement-card-eapa p,
+.achievement-card-eapa small {
+  color: var(--text-gray);
+}
+
+.student-note-list-eapa i {
+  width: fit-content;
+  padding: 0.25rem 0.55rem;
+  border-radius: 999px;
+  background: rgba(45, 108, 196, 0.1);
+  color: var(--blue);
+  font-size: 0.74rem;
+  font-style: normal;
+  font-weight: 900;
+}
+
+.achievements-grid-eapa {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.achievement-card-eapa {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.achievement-card-eapa span {
+  color: var(--blue);
+  font-size: 0.78rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.achievement-card-eapa.is-unlocked {
+  border-color: rgba(45, 108, 196, 0.28);
+  background: linear-gradient(180deg, white, rgba(169, 199, 232, 0.12));
+}
+
+.achievement-medal-eapa {
+  display: inline-flex;
+  width: 48px;
+  height: 48px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 16px;
+  background: rgba(169, 199, 232, 0.24);
+  color: var(--blue);
+  font-size: 1.4rem;
+  font-weight: 900;
 }
 
 .auth-grid-eapa {
@@ -4720,6 +4910,8 @@ img {
   .settings-billing-grid-eapa,
   .material-manager-grid-eapa,
   .material-overview-eapa,
+  .student-tool-grid-eapa,
+  .achievements-grid-eapa,
   .billing-course-grid-eapa,
   .profile-form-grid-eapa {
     grid-template-columns: 1fr;
@@ -4821,6 +5013,10 @@ img {
   }
 
   .settings-choice-grid-eapa {
+    grid-template-columns: 1fr;
+  }
+
+  .calendar-time-grid-eapa {
     grid-template-columns: 1fr;
   }
 }
